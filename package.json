@@ -30,6 +30,9 @@
     "winston": "^3.10.0",
     "xahau": "^4.0.0"
   },
+  "peerDependencies": {
+    "xahau": "^4.0.0"
+  },
   "devDependencies": {
     "@tsconfig/node16": "^16.1.0",
     "@types/crypto-js": "^4.1.1",

@@ -57,7 +57,7 @@ const hook = createHookPayload({
 
 await setHooksV3({
   client: testContext.client,
-  seed: testContext.hook1.seed,
+  wallet: testContext.hook1,
   hooks: [{ Hook: hook }],
 } as SetHookParams)
 ```
@@ -112,7 +112,7 @@ const clearHook = createHookPayload({
 })
 await setHooksV3({
   client: testContext.client,
-  seed: testContext.hook1.seed,
+  wallet: testContext.hook1,
   hooks: [{Hook: {}}, { Hook: clearHook }],
 } as SetHookParams)
 ```
@@ -524,7 +524,7 @@ const hook = createHookPayload({
 
 await setHooksV3({
   client: testContext.client,
-  seed: testContext.alice.seed,
+  wallet: testContext.alice,
   hooks: [{ Hook: hook }],
 } as SetHookParams)
 

@@ -5,6 +5,12 @@
 
 #define MODEL_SIZE 72U
 
+typedef struct {
+    uint64_t updatedTime;
+    uint8_t updatedBy[32];
+    uint8_t message[32];
+} model_buffer;
+
 int64_t hook(uint32_t reserved) {
     TRACESTR("state_advanced: Start.");
 
@@ -20,23 +26,25 @@ int64_t hook(uint32_t reserved) {
     if (!BUFFER_EQUAL_20(hook_acc, otx_acc))
         DONE("state_advanced: incoming tx on `Account`.");
 
-    uint8_t model_buffer[MODEL_SIZE];
+    // uint8_t model_buffer[MODEL_SIZE];
     uint8_t m_key[4] = {'T', 'E', 'S', 'T'};
     int64_t model_size = otxn_param(SBUF(model_buffer), SBUF(m_key));
-    TRACEHEX(model_size);
+    TRACEVAR(model_size);
+    TRACEHEX(model_buffer);
 
-    uint8_t model[MODEL_SIZE];
-    state(SBUF(model), hook_acc, 20);
+    // uint8_t model[MODEL_SIZE];
+    // state(SBUF(model), hook_acc, 20);
 
-    state_set(SBUF(model_buffer), hook_acc, 20);
+    // state_set(SBUF(model_buffer), hook_acc, 20);
 
-    TRACEVAR(model) // <- value
+    // TRACEVAR(model) // <- value
 
     // Your code here...
 
-    TRACESTR("state_advanced: End.");
-    accept(SBUF(model), __LINE__);
+    // TRACESTR("state_advanced: End.");
+    // accept(SBUF(model), __LINE__);
     _g(1,1);   // every hook needs to import guard function and use it at least once
+    accept(SBUF("HERE"), __LINE__);
     // unreachable
     return 0;
 }

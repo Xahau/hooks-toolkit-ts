@@ -34,14 +34,14 @@ describe('compareCondition', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
     } as SetHookParams)
     await teardownClient(testContext)
   })

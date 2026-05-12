@@ -60,11 +60,11 @@ describe('stateForeignBasic', () => {
   afterAll(async () => {
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
     } as SetHookParams)
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
     } as SetHookParams)
     await teardownClient(testContext)
   })
@@ -84,7 +84,7 @@ describe('stateForeignBasic', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -115,7 +115,7 @@ describe('stateForeignBasic', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 
@@ -151,7 +151,7 @@ describe('stateForeignBasic', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -182,7 +182,7 @@ describe('stateForeignBasic', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 
@@ -247,7 +247,7 @@ describe('stateForeignBasic', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -276,7 +276,7 @@ describe('stateForeignBasic', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 
@@ -340,7 +340,7 @@ describe('stateForeignBasic', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -370,7 +370,7 @@ describe('stateForeignBasic', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 

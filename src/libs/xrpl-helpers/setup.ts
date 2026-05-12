@@ -85,7 +85,7 @@ export async function teardownHook(
   const promises = accounts.map(async (acct: Wallet) => {
     await clearAllHooksV3({
       client: context.client,
-      seed: acct.seed,
+      wallet: acct,
     } as SetHookParams)
   })
   await Promise.all(promises)

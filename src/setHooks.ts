@@ -1,10 +1,8 @@
 import {
-  Wallet,
   calculateHookOn,
   hexHookParameters,
   SetHook,
   SetHookFlags,
-  ECDSA,
 } from 'xahau'
 import { SetHookParams, iHook } from './types'
 import { HookGrant, HookParameter } from 'xahau/dist/npm/models/common/xahau'
@@ -68,11 +66,11 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   return hook
 }
 
-export async function setHooksV3({ client, seed, hooks }: SetHookParams) {
-  const HOOK_ACCOUNT = Wallet.fromSeed(seed, { algorithm: ECDSA.secp256k1 })
+
+export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
-    Account: HOOK_ACCOUNT.address,
+    Account: wallet.address,
     Hooks: hooks,
   }
 
@@ -80,7 +78,7 @@ export async function setHooksV3({ client, seed, hooks }: SetHookParams) {
   appLogger.debug(JSON.stringify(tx, null, 2))
   appLogger.debug(`\n2. Submitting transaction...`)
 
-  await appTransaction(client, tx, HOOK_ACCOUNT, {
+  await appTransaction(client, tx, wallet, {
     hardFail: true,
     count: 2,
     delayMs: 1000,
@@ -89,15 +87,15 @@ export async function setHooksV3({ client, seed, hooks }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearAllHooksV3({ client, seed }: SetHookParams) {
-  const HOOK_ACCOUNT = Wallet.fromSeed(seed, { algorithm: ECDSA.secp256k1 })
+
+export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
   const hook = {
     CreateCode: '',
     Flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete,
   } as iHook
   const tx: SetHook = {
     TransactionType: `SetHook`,
-    Account: HOOK_ACCOUNT.classicAddress,
+    Account: wallet.classicAddress,
     Hooks: [
       { Hook: hook },
       { Hook: hook },
@@ -116,7 +114,7 @@ export async function clearAllHooksV3({ client, seed }: SetHookParams) {
   appLogger.debug(JSON.stringify(tx, null, 2))
   appLogger.debug(`\n2. Submitting transaction...`)
 
-  await appTransaction(client, tx, HOOK_ACCOUNT, {
+  await appTransaction(client, tx, wallet, {
     hardFail: true,
     count: 2,
     delayMs: 1000,
@@ -125,11 +123,14 @@ export async function clearAllHooksV3({ client, seed }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearHookStateV3({ client, seed, hooks }: SetHookParams) {
-  const HOOK_ACCOUNT = Wallet.fromSeed(seed, { algorithm: ECDSA.secp256k1 })
+export async function clearHookStateV3({
+  client,
+  wallet,
+  hooks,
+}: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
-    Account: HOOK_ACCOUNT.classicAddress,
+    Account: wallet.classicAddress,
     Hooks: hooks,
   }
 
@@ -137,7 +138,7 @@ export async function clearHookStateV3({ client, seed, hooks }: SetHookParams) {
   appLogger.debug(JSON.stringify(tx, null, 2))
   appLogger.debug(`\n2. Submitting transaction...`)
 
-  await appTransaction(client, tx, HOOK_ACCOUNT, {
+  await appTransaction(client, tx, wallet, {
     hardFail: true,
     count: 2,
     delayMs: 1000,

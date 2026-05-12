@@ -39,14 +39,14 @@ describe('accountSet', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
     // await clearAllHooksV3({
     //   client: testContext.client,
-    //   seed: testContext.alice.seed,
+    //   wallet: testContext.alice,
     // } as SetHookParams)
     await teardownClient(testContext)
   })

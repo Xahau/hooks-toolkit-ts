@@ -50,7 +50,7 @@ describe('SetHook - End to End', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
 
@@ -106,13 +106,13 @@ describe('SetHook - End to End', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],
     } as SetHookParams)
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
     } as SetHookParams)
   })
 })
@@ -140,7 +140,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
     const hookReq: LedgerEntryRequest = {
@@ -166,7 +166,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
     } as SetHookParams)
   })
 
@@ -181,7 +181,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -207,7 +207,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 
@@ -231,11 +231,11 @@ describe('SetHook - (noop|create|install', () => {
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
     } as SetHookParams)
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.hook2.seed,
+      wallet: testContext.hook2,
     } as SetHookParams)
   })
 
@@ -251,7 +251,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -260,7 +260,7 @@ describe('SetHook - (noop|create|install', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
     } as SetHookParams)
 
@@ -294,7 +294,7 @@ describe('SetHook - (noop|create|install', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
     } as SetHookParams)
 
@@ -304,7 +304,7 @@ describe('SetHook - (noop|create|install', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
     try {
@@ -334,7 +334,7 @@ describe('SetHook - (noop|create|install', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
 
@@ -368,7 +368,7 @@ describe('SetHook - (noop|create|install', () => {
     } as iHook
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],
     } as SetHookParams)
 

@@ -181,7 +181,7 @@ export async function setGovernTable(
   }
   await setHooksV3({
     client: client,
-    seed: table.seed,
+    wallet: table,
     hooks: [{ Hook: hook }],
   } as SetHookParams)
   const tx: Invoke = {

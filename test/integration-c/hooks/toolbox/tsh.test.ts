@@ -56,7 +56,7 @@ describe('tsh', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.gw.seed,
+      wallet: testContext.gw,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
 
@@ -83,12 +83,12 @@ describe('tsh', () => {
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.gw.seed,
+      wallet: testContext.gw,
     } as SetHookParams)
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.alice.seed,
+      wallet: testContext.alice,
     } as SetHookParams)
   })
 
@@ -102,7 +102,7 @@ describe('tsh', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
 
@@ -125,12 +125,12 @@ describe('tsh', () => {
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.gw.seed,
+      wallet: testContext.gw,
     } as SetHookParams)
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.alice.seed,
+      wallet: testContext.alice,
     } as SetHookParams)
   })
   it('tsh aaw', async () => {
@@ -143,7 +143,7 @@ describe('tsh', () => {
     })
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
 
@@ -172,12 +172,12 @@ describe('tsh', () => {
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.gw.seed,
+      wallet: testContext.gw,
     } as SetHookParams)
 
     await clearAllHooksV3({
       client: testContext.client,
-      seed: testContext.alice.seed,
+      wallet: testContext.alice,
     } as SetHookParams)
   })
 })

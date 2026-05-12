@@ -78,7 +78,7 @@ describe('stateNumbers', () => {
 
     await setHooksV3({
       client: testContext.client,
-      seed: testContext.hook1.seed,
+      wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })

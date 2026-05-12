@@ -19,7 +19,7 @@ export type iHook = {
 
 export type SetHookParams = {
   client: Client
-  seed: string
+  wallet: Wallet
   hooks: Hook[]
   flags: number | SetHookFlagsInterface
 }

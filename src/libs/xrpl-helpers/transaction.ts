@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { BaseResponse } from 'xahau/dist/npm/models/methods/baseMethod'
 // import { assert } from 'chai'
 import omit from 'lodash/omit'
