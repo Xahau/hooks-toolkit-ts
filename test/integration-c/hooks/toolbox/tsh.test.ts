@@ -18,7 +18,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
   iHookParamEntry,
   iHookParamName,
@@ -54,7 +54,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['TrustSet'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.gw,
       hooks: [{ Hook: hook }],
@@ -100,7 +100,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -141,7 +141,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

@@ -11,7 +11,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
   iHookParamEntry,
   iHookParamName,
@@ -74,7 +74,7 @@ describe('StateAdvanced', () => {
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

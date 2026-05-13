@@ -66,8 +66,10 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   return hook
 }
 
+/** @deprecated Use setHooks instead */
+export const setHooksV3 = setHooks
 
-export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
+export async function setHooks({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.address,
@@ -86,7 +88,6 @@ export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
 
   appLogger.debug(`\n3. SetHook Success...`)
 }
-
 
 export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
   const hook = {

@@ -13,7 +13,7 @@ import {
   teardownClient,
   Xrpld,
   SetHookParams,
-  setHooksV3,
+  setHooks,
   hexNamespace,
   iHook,
   readHookBinaryHexFromNS,
@@ -48,7 +48,7 @@ describe('SetHook - End to End', () => {
       HookNamespace: hexNamespace('state_basic'),
       HookApiVersion: 0,
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -104,7 +104,7 @@ describe('SetHook - End to End', () => {
       Flags: SetHookFlags.hsfNSDelete,
       HookNamespace: hexNamespace('state_basic'),
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],
@@ -138,7 +138,7 @@ describe('SetHook - (noop|create|install', () => {
       HookApiVersion: 0,
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -179,7 +179,7 @@ describe('SetHook - (noop|create|install', () => {
       HookApiVersion: 0,
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
@@ -205,7 +205,7 @@ describe('SetHook - (noop|create|install', () => {
       HookNamespace: hexNamespace('hook_on_tt'),
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
@@ -249,7 +249,7 @@ describe('SetHook - (noop|create|install', () => {
       HookApiVersion: 0,
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
@@ -258,7 +258,7 @@ describe('SetHook - (noop|create|install', () => {
     const hook2 = {
       HookNamespace: hexNamespace('hook_on_tts'),
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
@@ -292,7 +292,7 @@ describe('SetHook - (noop|create|install', () => {
       HookApiVersion: 0,
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
@@ -302,7 +302,7 @@ describe('SetHook - (noop|create|install', () => {
       CreateCode: '',
       Flags: SetHookFlags.hsfOverride,
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -332,7 +332,7 @@ describe('SetHook - (noop|create|install', () => {
       HookNamespace: hexNamespace('state_basic'),
       HookApiVersion: 0,
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -366,7 +366,7 @@ describe('SetHook - (noop|create|install', () => {
       Flags: SetHookFlags.hsfNSDelete,
       HookNamespace: hexNamespace('state_basic'),
     } as iHook
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],

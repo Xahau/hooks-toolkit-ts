@@ -21,7 +21,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
   ExecutionUtility,
 } from '../../../../dist/npm/src'
@@ -45,7 +45,7 @@ describe('callback', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -92,7 +92,7 @@ describe('callback', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

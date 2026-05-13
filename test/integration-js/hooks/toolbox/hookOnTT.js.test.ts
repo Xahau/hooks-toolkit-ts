@@ -12,7 +12,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
 } from '../../../../dist/npm/src'
 
@@ -42,7 +42,7 @@ describe('hookOnTT', () => {
       hookOnArray: ['Invoke'],
       fee: '1000000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -71,7 +71,7 @@ describe('hookOnTT', () => {
       hookOnArray: ['Invoke', 'Payment'],
       fee: '1000000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

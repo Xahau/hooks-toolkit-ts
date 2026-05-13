@@ -11,7 +11,7 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
   iHookParamEntry,
   iHookParamName,
@@ -31,7 +31,7 @@ describe('numbers', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],

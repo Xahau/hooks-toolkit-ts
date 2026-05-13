@@ -11,7 +11,7 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
 } from '../../../../dist/npm/src'
 
@@ -27,7 +27,7 @@ describe('floatSubtract', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

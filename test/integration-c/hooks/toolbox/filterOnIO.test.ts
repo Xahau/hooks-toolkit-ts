@@ -12,7 +12,7 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
 } from '../../../../dist/npm/src'
 
@@ -32,7 +32,7 @@ describe('filterOnIO', () => {
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

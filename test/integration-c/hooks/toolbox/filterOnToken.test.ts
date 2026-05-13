@@ -14,7 +14,7 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
 } from '../../../../dist/npm/src'
 
@@ -39,7 +39,7 @@ describe('filterOnToken', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

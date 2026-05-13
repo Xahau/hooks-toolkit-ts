@@ -12,7 +12,7 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   padHexString,
   // clearAllHooksV3,
 } from '../../../../dist/npm/src'
@@ -76,7 +76,7 @@ describe('base', () => {
       hookOnArray: ['Invoke', 'Payment'],
       fee: '100000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

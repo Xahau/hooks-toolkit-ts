@@ -12,7 +12,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   clearAllHooksV3,
   padHexString,
   StateUtility,
@@ -36,7 +36,7 @@ describe('stateBasic', () => {
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
