@@ -82,7 +82,7 @@ describe.each(['no', 'valid', 'invalid'] as const)(
         Destination: hookWallet.classicAddress,
         HookParameters: [tx1param1.toXrpl(), tx1param2.toXrpl()],
       }
-      if (hookCanEmit === 'no' || hookCanEmit === 'invalid') {
+      if (hookCanEmit === 'no' || hookCanEmit === 'valid') {
         const result = await Xrpld.submit(testContext.client, {
           wallet: aliceWallet,
           tx: builtTx,
