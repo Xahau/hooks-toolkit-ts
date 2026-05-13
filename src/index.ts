@@ -1,4 +1,3 @@
-import 'dotenv/config'
 export * from './keylet-utils'
 export * from './models'
 export * from './Xrpld'
