@@ -10,6 +10,7 @@ export type iHook = {
   CreateCode?: string
   Flags?: number
   HookOn?: string
+  HookCanEmit?: string
   HookNamespace?: string
   HookApiVersion?: number
   HookParameters?: HookParameter[]

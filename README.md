@@ -52,7 +52,8 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Invoke'] // HookOn Transactions
+  hookOnArray: ['Invoke'] // Transaction types to trigger on
+  hookCanEmitArray: ['Invoke'] // Transaction types to allow to be emitted from the hook
 })
 
 await setHooksV3({
@@ -141,7 +142,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -159,7 +160,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -177,7 +178,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -196,7 +197,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -214,11 +215,32 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
 To create a hook that triggers on multiple transaction types, the `hookOnArray` should be set to an array of those types, such as `['Payment', 'EscrowFinish']`.
+
+### Hook Can Emit Transaction Types
+
+The `hookCanEmitArray` parameter is used to specify which transaction types a hook should be allowed to emit. It is an optional parameter and should be passed as an array of strings. Here is an example of creating a hook payload with the `hookCanEmitArray` set to allow the `Payment` transaction type to be emitted from the hook:
+
+```ts
+import {
+  createHookPayload
+} from '@transia/hooks-toolkit'
+
+const hook = createHookPayload({
+  version: 2, // HookApiVersion
+  createFile: 'hook_on_tt', // filename in /build
+  namespace: 'hook_on_tt', // namespace (ascii)
+  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  hookOnArray: ['Payment'] // Transaction types to trigger on
+  hookCanEmitArray: ['Payment'] // Transaction types to allow to be emitted from the hook
+})
+```
+
+To create a hook that allows multiple transaction types to be emitted from the hook, the `hookCanEmitArray` should be set to an array of those types, such as `['Payment', 'EscrowFinish']`.
 
 ### Hook Parameters
 
@@ -243,7 +265,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
   hookParams: [param1.toXrpl()], // HookParameters
 })
 ```
@@ -270,7 +292,7 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  hookOnArray: ['Payment'] // Transaction types to trigger on
   hookGrants: [hook2Grant1.toXrpl()], // HookGrants
 })
 ```
@@ -519,7 +541,8 @@ const hook = createHookPayload({
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Invoke'] // HookOn Transactions
+  hookOnArray: ['Invoke'] // Transaction types to trigger on
+  hookCanEmitArray: ['Invoke'] // Transaction types to allow to be emitted from the hook
 })
 
 await setHooksV3({
