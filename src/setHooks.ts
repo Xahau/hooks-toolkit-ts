@@ -127,11 +127,10 @@ export async function clearAllHooks({ client, wallet }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearHookStateV3({
-  client,
-  wallet,
-  hooks,
-}: SetHookParams) {
+/** @deprecated Use clearHookState instead */
+export const clearHookStateV3 = clearHookState
+
+export async function clearHookState({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.classicAddress,
