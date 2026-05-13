@@ -19,7 +19,7 @@ import {
   SetHookParams,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -81,12 +81,12 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000001')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -123,12 +123,12 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -170,12 +170,12 @@ describe('tsh', () => {
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
     expect(executions[1].HookExecution.HookReturnString).toMatch('000002')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

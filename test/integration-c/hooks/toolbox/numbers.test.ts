@@ -12,7 +12,7 @@ import {
   ExecutionUtility,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -38,7 +38,7 @@ describe('numbers', () => {
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

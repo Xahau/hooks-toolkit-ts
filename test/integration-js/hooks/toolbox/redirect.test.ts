@@ -15,7 +15,7 @@ import {
   createHookPayload,
   setHooks,
   padHexString,
-  clearAllHooksV3,
+  clearAllHooks,
 } from '../../../../dist/npm/src'
 
 import { xrpAddressToHex } from '@transia/binary-models'
@@ -84,7 +84,7 @@ describe('base', () => {
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

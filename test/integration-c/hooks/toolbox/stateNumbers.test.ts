@@ -83,7 +83,7 @@ describe('stateNumbers', () => {
     } as SetHookParams)
   })
   afterAll(async () => {
-    // await clearAllHooksV3({
+    // await clearAllHooks({
     //   client: testContext.client,
     //   seed: testContext.hook1.seed,
     // } as SetHookParams)

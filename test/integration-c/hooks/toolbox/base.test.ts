@@ -12,7 +12,7 @@ import {
   ExecutionUtility,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
 } from '../../../../dist/npm/src'
 
 describe('base', () => {
@@ -34,7 +34,7 @@ describe('base', () => {
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

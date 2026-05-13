@@ -66,21 +66,21 @@ In the example above, we create a hook payload using the `createHookPayload` fun
 
 Note that the `setHooks` function is an asynchronous function and returns a Promise. You can use `await` to wait for the function to complete.
 
-### Deleting Hooks with clearAllHooksV3
+### Deleting Hooks with clearAllHooks
 
-To delete all hooks on Xahau using the `clearAllHooksV3` function, you need to provide the following parameters:
+To delete all hooks on Xahau using the `clearAllHooks` function, you need to provide the following parameters:
 
 - `client`: Xahau client object.
 - `seed`: The seed of the account that will remove the hook.
 
-Here is an example of deleting all hooks using the `clearAllHooksV3` function:
+Here is an example of deleting all hooks using the `clearAllHooks` function:
 
 ```ts
 import {
-  clearAllHooksV3,
+  clearAllHooks,
 } from '@transia/hooks-toolkit'
 
-await clearAllHooksV3({
+await clearAllHooks({
   client: testContext.client,
   seed: testContext.hook1.seed,
 } as SetHookParams)

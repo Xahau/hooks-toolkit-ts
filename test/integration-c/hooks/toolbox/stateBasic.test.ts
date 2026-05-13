@@ -13,7 +13,7 @@ import {
   SetHookParams,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
   padHexString,
   StateUtility,
   // Utils
@@ -43,7 +43,7 @@ describe('stateBasic', () => {
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

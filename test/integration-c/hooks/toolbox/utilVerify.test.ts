@@ -15,7 +15,7 @@ import {
   ExecutionUtility,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -31,7 +31,7 @@ describe('utilVerify', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

@@ -89,7 +89,10 @@ export async function setHooks({ client, wallet, hooks }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
+/** @deprecated Use clearAllHooks instead */
+export const clearAllHooksV3 = clearAllHooks
+
+export async function clearAllHooks({ client, wallet }: SetHookParams) {
   const hook = {
     CreateCode: '',
     Flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete,

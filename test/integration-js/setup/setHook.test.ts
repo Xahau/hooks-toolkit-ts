@@ -20,7 +20,7 @@ import {
   hexNamespace,
   iHook,
   readHookBinaryHexFromNS,
-  clearAllHooksV3,
+  clearAllHooks,
   // StateUtility,
   // padHexString,
 } from '../../../dist/npm/src'
@@ -109,7 +109,7 @@ import {
 //       hooks: [{ Hook: clearHook }],
 //     } as SetHookParams)
 
-//     await clearAllHooksV3({
+//     await clearAllHooks({
 //       client: testContext.client,
 //       wallet: testContext.hook1,
 //     } as SetHookParams)
@@ -164,7 +164,7 @@ describe('SetHook - (noop|create|install', () => {
       'CAE662172FD450BB0CD710A769079C05BFC5D8E35EFA6576EDC7D0377AFDD4A2'
     )
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)
@@ -229,11 +229,11 @@ describe('SetHook - (noop|create|install', () => {
   //     '326178559E63837BA3B83BC05E5DC323A7B52C782AC4D5B3B182B2E050565581'
   //   )
 
-  //   await clearAllHooksV3({
+  //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook1,
   //   } as SetHookParams)
-  //   await clearAllHooksV3({
+  //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook2,
   //   } as SetHookParams)

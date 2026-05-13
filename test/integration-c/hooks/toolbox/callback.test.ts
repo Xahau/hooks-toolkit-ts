@@ -22,7 +22,7 @@ import {
   SetHookParams,
   createHookPayload,
   setHooks,
-  clearAllHooksV3,
+  clearAllHooks,
   ExecutionUtility,
 } from '../../../../dist/npm/src'
 import { LedgerResponseExpanded } from 'xahau/src/models/methods/ledger'
@@ -74,12 +74,12 @@ describe('callback', () => {
 
     await close(testContext.client)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -139,12 +139,12 @@ describe('callback', () => {
       'tecDST_TAG_NEEDED'
     )
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
