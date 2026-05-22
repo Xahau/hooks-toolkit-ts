@@ -275,6 +275,26 @@ const hook = createHookPayload({
 })
 ```
 
+### Hook Name
+
+The `hookName` parameter is used to set the hook name. It is an optional parameter and can be set to a string. Here is an example of creating a hook payload with the hook name set to `'hook_on_tt'`:
+
+```ts
+import {
+  createHookPayload
+} from '@transia/hooks-toolkit'
+
+const hook = createHookPayload({
+  version: 0, // HookApiVersion
+  createFile: 'hook_on_tt', // filename in /build
+  namespace: 'hook_on_tt', // namespace (ascii)
+  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  hookOnArray: ['Payment'] // HookOn Transactions
+  hookGrants: [hook2Grant1.toXrpl()], // HookGrants
+  hookName: 'save_name', // HookName
+})
+```
+
 ### Reference
 
 ```ts
