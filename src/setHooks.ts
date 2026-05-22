@@ -64,8 +64,8 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   if (payload.hookGrants) {
     hook.HookGrants = payload.hookGrants
   }
-  if (payload.HookName) {
-    hook.HookName = convertStringToHex(payload.HookName)
+  if (payload.hookName) {
+    hook.HookName = convertStringToHex(payload.hookName)
   }
   // DA: validate
   return hook
