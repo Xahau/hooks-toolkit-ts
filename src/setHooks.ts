@@ -17,6 +17,8 @@ export interface SetHookPayload {
   namespace?: string | null
   flags?: number | 0
   hookOnArray?: string[] | null
+  hookOnIncomingArray?: string[] | null
+  hookOnOutgoingArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
   fee?: string | null
@@ -56,6 +58,12 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   if (payload.hookOnArray) {
     hook.HookOn = calculateHookOn(payload.hookOnArray)
   }
+  if (payload.hookOnIncomingArray) {
+    hook.HookOnIncoming = calculateHookOn(payload.hookOnIncomingArray)
+  }
+  if (payload.hookOnOutgoingArray) {
+    hook.HookOnOutgoing = calculateHookOn(payload.hookOnOutgoingArray)
+  }
   if (payload.hookParams) {
     hook.HookParameters = hexHookParameters(payload.hookParams)
   }
@@ -65,7 +73,6 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   // DA: validate
   return hook
 }
-
 
 export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
@@ -86,7 +93,6 @@ export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
 
   appLogger.debug(`\n3. SetHook Success...`)
 }
-
 
 export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
   const hook = {

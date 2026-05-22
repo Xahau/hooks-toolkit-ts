@@ -215,6 +215,9 @@ const hook = createHookPayload({
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: SetHookFlags.hsfOverride, // SetHookFlag
   hookOnArray: ['Payment'] // HookOn Transactions
+  // or you can use the following fields
+  // hookOnIncomingArray: ['Payment'] // HookOnIncoming Transactions
+  // hookOnOutgoingArray: ['Payment'] // HookOnOutgoing Transactions
 })
 ```
 
