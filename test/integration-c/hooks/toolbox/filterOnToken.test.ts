@@ -16,7 +16,7 @@ import {
   createHookPayload,
   setHooksV3,
   clearAllHooksV3,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // FilterOnToken: ACCEPT: success
 // FilterOnToken: ROLLBACK: failure

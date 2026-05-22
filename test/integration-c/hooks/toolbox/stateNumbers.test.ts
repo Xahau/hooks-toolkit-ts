@@ -19,7 +19,7 @@ import {
   iHookParamEntry,
   // Utils
   hexNamespace,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import {
   BaseModel,
   Metadata,
