@@ -13,7 +13,8 @@
     "test:integration-c": "LOG_LEVEL=error jest --config=jest.config.integration-c.js --runInBand",
     "test:integration-js": "LOG_LEVEL=error jest --config=jest.config.integration-js.js --runInBand",
     "lint": "eslint ./src/**/* --ext .ts",
-    "format": "npx prettier --write ./src"
+    "format": "npx prettier --write ./src",
+    "format:ci": "npx prettier --check ./src"
   },
   "author": {
     "name": "Denis Angell",
