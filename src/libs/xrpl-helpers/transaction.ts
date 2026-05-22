@@ -1,8 +1,7 @@
 import 'dotenv/config'
 import { BaseResponse } from 'xahau/dist/npm/models/methods/baseMethod'
 // import { assert } from 'chai'
-import omit from 'lodash/omit'
-import throttle from 'lodash/throttle'
+import { omit, throttle } from 'es-toolkit'
 import {
   Client,
   Wallet,
@@ -58,7 +57,7 @@ async function sendLedgerAccept(client: Client): Promise<unknown> {
  * By default throttle doesn't return a promise for async functions unless it's invoking them immediately.
  *
  * @param func - async function to throttle calls for.
- * @param wait - same function as lodash.throttle's wait parameter. Call this function at most this often.
+ * @param wait - same function as es-toolkit.throttle's wait parameter. Call this function at most this often.
  * @returns a promise which will be resolved/ rejected only if the function is executed, with the result of the underlying call.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Proper
@@ -350,7 +349,7 @@ export async function testTransaction(
   }
 
   // check that the transaction is on the ledger
-  const signedTx = omit(response.result.tx_json, 'hash')
+  const signedTx = omit(response.result.tx_json, ['hash'])
   await ledgerAccept(client)
   return await verifySubmittedTransaction(client, signedTx as Transaction)
   // return response
