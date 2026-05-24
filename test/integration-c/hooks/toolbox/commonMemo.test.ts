@@ -13,7 +13,7 @@ import {
   createHookPayload,
   setHooksV3,
   clearAllHooksV3,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 describe('commonMemo', () => {
   let testContext: XrplIntegrationTestContext

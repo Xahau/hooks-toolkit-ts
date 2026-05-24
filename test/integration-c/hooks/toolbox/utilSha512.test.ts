@@ -21,7 +21,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // UtilVerify: ROLLBACK: xrp hashes dont match
 // UtilVerify: ACCEPT: xrp hashes match

@@ -20,7 +20,7 @@ import {
   clearAllHooksV3,
   StateUtility,
   padHexString,
-} from '../../../dist/npm/src'
+} from '../../../src'
 import {
   HookDefinition as LeHookDefinition,
   Hook as LeHook,

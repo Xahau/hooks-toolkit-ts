@@ -23,7 +23,7 @@ import {
   clearAllHooksV3,
   // StateUtility,
   // padHexString,
-} from '../../../dist/npm/src'
+} from '../../../src'
 import { flipHex } from '@transia/binary-models'
 import {
   HookDefinition as LeHookDefinition,
