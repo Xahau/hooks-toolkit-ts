@@ -22,7 +22,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { uint64ToHex } from '@transia/binary-models'
 
 describe('accountSet', () => {

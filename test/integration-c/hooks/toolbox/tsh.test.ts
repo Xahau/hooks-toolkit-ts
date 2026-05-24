@@ -23,7 +23,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 
 describe('tsh', () => {
