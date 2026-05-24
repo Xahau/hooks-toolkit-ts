@@ -11,6 +11,7 @@
     "build": "tsc",
     "test:unit": "jest --config=jest.config.unit.js",
     "test:integration-c": "LOG_LEVEL=error jest --config=jest.config.integration-c.js --runInBand",
+    "test:integration-func": "LOG_LEVEL=error jest --config=jest.config.integration-func.js --runInBand",
     "test:integration-js": "LOG_LEVEL=error jest --config=jest.config.integration-js.js --runInBand",
     "lint": "eslint ./src/**/* --ext .ts",
     "format": "npx prettier --write ./src",
@@ -29,7 +30,8 @@
     "jshooks-api": "^1.0.5",
     "reconnecting-websocket": "^4.4.0",
     "winston": "^3.10.0",
-    "xahau": "^4.0.0"
+    "xahau": "npm:@tequ/xahau@4.0.0-beta.1",
+    "xahau-binary-codec": "npm:@tequ/xahau-binary-codec@2.1.0-beta.1"
   },
   "peerDependencies": {
     "xahau": "^4.0.0"

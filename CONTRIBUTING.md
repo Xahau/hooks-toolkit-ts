@@ -16,9 +16,15 @@ You can also build a single hook with;
 
 ## Compile JS Hooks
 
-You can ONLY build a single js hook at a time;
+## Compile C FHooks
 
-`$ hooks-cli compile-js contracts-js/toolbox/base.ts build`
+Run this command to locally compile an XAHL Hook source file (inside ./contracts) from .c to .wasm code:
+
+`$ hooks-cli compile-c contracts-cf build`
+
+You can also build a single hook with;
+
+`$ hooks-cli compile-c contracts-c/toolbox/base.c build`
 
 ## Test the Hook Library
 
@@ -47,3 +53,25 @@ Run JS Hooks Integration tests
 Run single JS Hooks Integration test
 
 `$ yarn run test:integration-js test/integration-js/toolbox/base.test.ts`
+
+## JS Hooks
+
+### Standalone
+
+`$ xrpld-netgen up:standalone --version=2025.2.24-HEAD+1366`
+
+### Compile
+
+You can ONLY build a single js hook at a time;
+
+`$ hooks-cli compile-js contracts-js/toolbox/base.ts build`
+
+## Functional Hooks
+
+### Standalone
+
+`$ xrpld-netgen up:standalone --version=2025.5.4-HEAD+1765`
+
+### Compile
+
+`$ hooks-cli compile-c contracts-func/toolbox/base.c build`
