@@ -16,7 +16,7 @@ import {
   setHooksV3,
   padHexString,
   clearAllHooksV3,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 import { xrpAddressToHex } from '@transia/binary-models'
 
