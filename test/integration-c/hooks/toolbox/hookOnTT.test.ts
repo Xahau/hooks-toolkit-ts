@@ -18,7 +18,7 @@ import {
 // HookOnTT: ACCEPT: success
 // HookOnTT: ROLLBACK: invalid
 
-describe('hookOnTT', () => {
+describe.only('hookOnTT', () => {
   let testContext: XrplIntegrationTestContext
 
   beforeAll(async () => {

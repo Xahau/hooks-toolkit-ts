@@ -142,7 +142,16 @@ jobs:
       - run: yarn run test:integration-c
         env:
           XAHAU_ENV: standalone
+          
+      - name: Debug logs
+        if: failure()
+        # | grep -a 'TRC Hook'
+        run: |
+          docker logs rippled-service --tail 100000  2>&1 
+          docker logs compiler-api --tail 100000  2>&1 
 
       - name: Stop docker container
         if: always()
-        run: docker stop rippled-service
+        run: |
+            docker stop rippled-service
+            docker stop compiler-api
