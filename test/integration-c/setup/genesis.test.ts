@@ -4,7 +4,7 @@ import {
   setupClient,
   teardownClient,
   hasGovernance,
-} from '../../../dist/npm/src'
+} from '../../../src'
 
 describe('SetHook - End to End', () => {
   let testContext: XrplIntegrationTestContext

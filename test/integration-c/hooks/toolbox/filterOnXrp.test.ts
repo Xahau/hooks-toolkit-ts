@@ -15,7 +15,7 @@ import {
   createHookPayload,
   setHooks,
   clearAllHooks,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // FilterOnXrp: ACCEPT: success
 // FilterOnXrp: ROLLBACK: failure

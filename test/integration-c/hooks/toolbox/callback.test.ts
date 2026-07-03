@@ -24,7 +24,7 @@ import {
   setHooks,
   clearAllHooks,
   ExecutionUtility,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { LedgerResponseExpanded } from 'xahau/src/models/methods/ledger'
 
 describe('callback', () => {

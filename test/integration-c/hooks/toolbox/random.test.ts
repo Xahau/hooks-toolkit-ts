@@ -13,7 +13,7 @@ import {
   createHookPayload,
   setHooks,
   clearAllHooks,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 describe('random', () => {
   let testContext: XrplIntegrationTestContext

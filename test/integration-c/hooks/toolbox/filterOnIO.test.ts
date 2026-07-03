@@ -14,7 +14,7 @@ import {
   createHookPayload,
   setHooks,
   clearAllHooks,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // FilterOnIO: ACCEPT: incoming
 // FilterOnIO: ACCEPT: outgoing

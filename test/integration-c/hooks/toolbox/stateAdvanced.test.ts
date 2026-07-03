@@ -20,7 +20,7 @@ import {
   StateUtility,
   // Utils
   hexNamespace,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import {
   BaseModel,
   decodeModel,

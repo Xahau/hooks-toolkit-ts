@@ -19,7 +19,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // UtilVerify: ACCEPT: invalid signature
 // UtilVerify: ACCEPT: valid signature

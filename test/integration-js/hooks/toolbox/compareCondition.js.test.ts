@@ -17,7 +17,7 @@ import {
   iHookParamName,
   iHookParamValue,
   generateHash,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 describe('compareCondition', () => {
   let testContext: XrplIntegrationTestContext

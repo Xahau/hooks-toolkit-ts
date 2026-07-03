@@ -14,7 +14,7 @@ import {
   createHookPayload,
   setHooks,
   clearAllHooks,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // HookOnTT: ACCEPT: success
 // HookOnTT: ROLLBACK: invalid

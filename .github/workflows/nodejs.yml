@@ -61,6 +61,7 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: yarn install
 
+      - run: yarn run format:ci
       - run: yarn run lint
 
   integration-c:

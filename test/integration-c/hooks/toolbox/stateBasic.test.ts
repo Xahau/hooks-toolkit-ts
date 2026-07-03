@@ -18,7 +18,7 @@ import {
   StateUtility,
   // Utils
   hexNamespace,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { flipHex } from '@transia/binary-models'
 
 // StateBasic: ACCEPT: success

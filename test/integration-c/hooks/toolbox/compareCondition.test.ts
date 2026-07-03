@@ -17,7 +17,7 @@ import {
   iHookParamName,
   iHookParamValue,
   generateHash,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { uint64ToHex } from '@transia/binary-models'
 
 describe('compareCondition', () => {

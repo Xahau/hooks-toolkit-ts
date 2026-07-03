@@ -16,7 +16,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 describe('operator', () => {
   let testContext: XrplIntegrationTestContext

@@ -16,7 +16,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { uint32ToHex, uint64ToHex, uint8ToHex } from '@transia/binary-models'
 
 describe('numbers', () => {
