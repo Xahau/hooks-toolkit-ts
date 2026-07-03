@@ -1,5 +1,6 @@
 import {
   Hook,
+  HookFunction,
   HookGrant,
   HookParameter,
 } from 'xahau/dist/npm/models/common/xahau'
@@ -14,6 +15,7 @@ export type iHook = {
   HookApiVersion?: number
   HookParameters?: HookParameter[]
   HookGrants?: HookGrant[]
+  HookFunctions?: HookFunction[]
   Fee?: string
 }
 

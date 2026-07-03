@@ -5,7 +5,11 @@ import {
   SetHookFlags,
 } from 'xahau'
 import { SetHookParams, iHook } from './types'
-import { HookGrant, HookParameter } from 'xahau/dist/npm/models/common/xahau'
+import {
+  HookFunction,
+  HookGrant,
+  HookParameter,
+} from 'xahau/dist/npm/models/common/xahau'
 import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'
 import { appLogger } from './libs/logger'
@@ -19,6 +23,7 @@ export interface SetHookPayload {
   hookOnArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
+  hookFunctions?: HookFunction[] | null
   fee?: string | null
 }
 
@@ -61,6 +66,9 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   }
   if (payload.hookGrants) {
     hook.HookGrants = payload.hookGrants
+  }
+  if (payload.hookFunctions) {
+    hook.HookFunctions = payload.hookFunctions
   }
   // DA: validate
   return hook
