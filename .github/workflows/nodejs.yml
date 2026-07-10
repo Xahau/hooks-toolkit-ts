@@ -111,6 +111,10 @@ jobs:
       - name: Login to GHCR # to access ghcr.io/xahau/xrpl-hooks-compiler
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
+      - name: Generate genesis.json
+        working-directory: .ci-config
+        run: node genesis.js
+
       - name: Run docker in background
         run: |
           docker run --detach --rm \
@@ -124,7 +128,7 @@ jobs:
             --health-timeout=2s \
             --env GITHUB_ACTIONS=true \
             --env CI=true \
-            ubuntu:latest /opt/xahau/bin/xahaud -a --conf /opt/xahau/etc/xahaud.cfg
+            ubuntu:latest /opt/xahau/bin/xahaud -a --conf /opt/xahau/etc/xahaud.cfg --ledgerfile /opt/xahau/etc/genesis.json
 
       - name: Run hooks copiler container in background
         run: |

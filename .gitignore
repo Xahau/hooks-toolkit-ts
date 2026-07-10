@@ -6,6 +6,8 @@ node_modules
 yarn-error.log
 debug.log
 
+.ci-config/genesis.json
+
 xrpl
 xahau
 
