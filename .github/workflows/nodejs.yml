@@ -3,6 +3,9 @@
 
 name: Node.js CI
 
+env:
+  XAHAUD_VERSION: 2026.6.21-release+3350
+
 on:
   push:
     branches: [main]
@@ -64,8 +67,26 @@ jobs:
       - run: yarn run format:ci
       - run: yarn run lint
 
+  download-binary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: cache binary
+        id: cache-binary
+        uses: actions/cache@v5
+        with:
+          path: xahaud
+          key: ${{ runner.os }}-xahaud-${{ env.XAHAUD_VERSION }}
+
+      - name: Download binary
+        if: steps.cache-binary.outputs.cache-hit != 'true'
+        run: |
+          wget https://build.xahau.tech/${{ env.XAHAUD_VERSION }} -q -O xahaud
+          chmod +x xahaud
+
   integration-c:
     runs-on: ubuntu-latest
+    needs: download-binary
     timeout-minutes: 10
 
     strategy:
@@ -77,6 +98,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      - name: Restore binary
+        uses: actions/cache/restore@v5
+        with:
+          path: xahaud
+          key: ${{ runner.os }}-xahaud-${{ env.XAHAUD_VERSION }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -85,18 +111,24 @@ jobs:
       - name: Login to GHCR # to access ghcr.io/xahau/xrpl-hooks-compiler
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
-      - name: Run xahaud container in background
+      - name: Generate genesis.json
+        working-directory: .ci-config
+        run: node genesis.js
+
+      - name: Run docker in background
         run: |
-          docker run \
-            --detach \
-            --rm \
-            --name rippled-service \
+          docker run --detach --rm \
+            --name xahaud-service \
             -p 6006:6006 \
+            --volume "${{ github.workspace }}/.ci-config/":"/opt/xahau/etc/" \
+            --volume "${{ github.workspace }}/xahaud":"/opt/xahau/bin/xahaud" \
             --health-cmd="wget localhost:6006 || exit 1" \
             --health-interval=5s \
             --health-retries=10 \
             --health-timeout=2s \
-            transia/xahaudjs:latest
+            --env GITHUB_ACTIONS=true \
+            --env CI=true \
+            ubuntu:latest /opt/xahau/bin/xahaud -a --conf /opt/xahau/etc/xahaud.cfg --ledgerfile /opt/xahau/etc/genesis.json
 
       - name: Run hooks copiler container in background
         run: |
@@ -147,11 +179,11 @@ jobs:
         if: failure()
         # | grep -a 'TRC Hook'
         run: |
-          docker logs rippled-service --tail 100000  2>&1 
+          docker logs xahaud-service --tail 100000  2>&1 
           docker logs compiler-api --tail 100000  2>&1 
 
       - name: Stop docker container
         if: always()
         run: |
-            docker stop rippled-service
+            docker stop xahaud-service
             docker stop compiler-api
