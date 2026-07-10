@@ -1,10 +1,6 @@
 // xrpl
-import {
-  Invoke,
-  SetHookFlags,
-  TransactionMetadata,
-  convertStringToHex,
-} from 'xahau'
+import { Invoke, TransactionMetadata, convertStringToHex } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // xrpl-helpers
 import {
   XrplIntegrationTestContext,
@@ -34,7 +30,7 @@ describe('uriTokenMint', () => {
       version: 0,
       createFile: 'txn_uritoken_mint',
       namespace: 'txn_uritoken_mint',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
