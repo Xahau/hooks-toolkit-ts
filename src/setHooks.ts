@@ -1,4 +1,9 @@
-import { calculateHookOn, hexHookParameters, SetHook } from 'xahau'
+import {
+  calculateHookOn,
+  convertStringToHex,
+  hexHookParameters,
+  SetHook,
+} from 'xahau'
 import { ClearHookParams, SetHookParams, iHook } from './types'
 import {
   HookFlags,
@@ -9,20 +14,44 @@ import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'
 import { appLogger } from './libs/logger'
 
-export interface SetHookPayload {
+export interface SetHookPayloadBase {
   version?: number | null
   hookHash?: string | null
   createFile?: string | null
   namespace?: string | null
   flags?: number | 0
-  hookOnArray?: string[] | null
+  hookCanEmitArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
+  hookName?: string | null
   fee?: string | null
 }
 
+interface SetHookPayloadWithHookOn extends SetHookPayloadBase {
+  hookOnArray: string[]
+  hookOnIncomingArray?: never
+  hookOnOutgoingArray?: never
+}
+
+interface SetHookPayloadWithIncomingOutgoing extends SetHookPayloadBase {
+  hookOnArray?: never
+  hookOnIncomingArray: string[]
+  hookOnOutgoingArray: string[]
+}
+
+interface SetHookPayloadWithoutHookOn extends SetHookPayloadBase {
+  hookOnArray?: null
+  hookOnIncomingArray?: null
+  hookOnOutgoingArray?: null
+}
+
+export type SetHookPayload =
+  | SetHookPayloadWithHookOn
+  | SetHookPayloadWithIncomingOutgoing
+  | SetHookPayloadWithoutHookOn
+
 export function createHookPayload(payload: SetHookPayload): iHook {
-  const hook = {} as iHook
+  const hook: iHook = {}
   if (typeof payload.version === 'number') {
     hook.HookApiVersion = payload.version
   }
@@ -55,11 +84,27 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   if (payload.hookOnArray) {
     hook.HookOn = calculateHookOn(payload.hookOnArray)
   }
+  if (payload.hookOnIncomingArray) {
+    hook.HookOnIncoming = calculateHookOn(
+      (payload as SetHookPayloadWithIncomingOutgoing).hookOnIncomingArray
+    )
+  }
+  if (payload.hookOnOutgoingArray) {
+    hook.HookOnOutgoing = calculateHookOn(
+      (payload as SetHookPayloadWithIncomingOutgoing).hookOnOutgoingArray
+    )
+  }
+  if (payload.hookCanEmitArray) {
+    hook.HookCanEmit = calculateHookOn(payload.hookCanEmitArray)
+  }
   if (payload.hookParams) {
     hook.HookParameters = hexHookParameters(payload.hookParams)
   }
   if (payload.hookGrants) {
     hook.HookGrants = payload.hookGrants
+  }
+  if (payload.hookName) {
+    hook.HookName = convertStringToHex(payload.hookName)
   }
   // DA: validate
   return hook

@@ -5,6 +5,7 @@ import {
   Client,
   SubmittableTransaction,
   TransactionMetadata,
+  TxResponse,
   validate,
 } from 'xahau'
 import { ExecutionUtility } from './keylet-utils'
@@ -21,7 +22,7 @@ export class Xrpld {
   static async submit(
     client: Client,
     params: SmartContractParams
-  ): Promise<any> {
+  ): Promise<TxResponse['result']> {
     if (!params.tx) {
       throw Error('Missing tx parameter')
     }
