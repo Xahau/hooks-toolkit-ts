@@ -1,11 +1,15 @@
 import {
   calculateHookOn,
+  convertStringToHex,
   hexHookParameters,
   SetHook,
-  SetHookFlags,
 } from 'xahau'
 import { SetHookParams, iHook } from './types'
-import { HookGrant, HookParameter } from 'xahau/dist/npm/models/common/xahau'
+import {
+  HookFlags,
+  HookGrant,
+  HookParameter,
+} from 'xahau/dist/npm/models/common/xahau'
 import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'
 import { appLogger } from './libs/logger'
@@ -21,11 +25,12 @@ export interface SetHookPayload {
   hookOnOutgoingArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
+  hookName?: string | null
   fee?: string | null
 }
 
 export function createHookPayload(payload: SetHookPayload): iHook {
-  const hook = {} as iHook
+  const hook: iHook = {}
   if (typeof payload.version === 'number') {
     hook.HookApiVersion = payload.version
   }
@@ -70,11 +75,17 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   if (payload.hookGrants) {
     hook.HookGrants = payload.hookGrants
   }
+  if (payload.hookName) {
+    hook.HookName = convertStringToHex(payload.hookName)
+  }
   // DA: validate
   return hook
 }
 
-export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
+/** @deprecated Use setHooks instead */
+export const setHooksV3 = setHooks
+
+export async function setHooks({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.address,
@@ -94,10 +105,13 @@ export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
+/** @deprecated Use clearAllHooks instead */
+export const clearAllHooksV3 = clearAllHooks
+
+export async function clearAllHooks({ client, wallet }: SetHookParams) {
   const hook = {
     CreateCode: '',
-    Flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete,
+    Flags: HookFlags.hsfOverride | HookFlags.hsfNSDelete,
   } as iHook
   const tx: SetHook = {
     TransactionType: `SetHook`,
@@ -129,11 +143,10 @@ export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearHookStateV3({
-  client,
-  wallet,
-  hooks,
-}: SetHookParams) {
+/** @deprecated Use clearHookState instead */
+export const clearHookStateV3 = clearHookState
+
+export async function clearHookState({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.classicAddress,

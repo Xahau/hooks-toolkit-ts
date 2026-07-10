@@ -3,7 +3,7 @@ import {
   HookGrant,
   HookParameter,
 } from 'xahau/dist/npm/models/common/xahau'
-import { Client, SetHookFlagsInterface, Transaction, Wallet } from 'xahau'
+import { Client, Transaction, Wallet } from 'xahau'
 
 export type iHook = {
   HookHash?: string
@@ -16,6 +16,7 @@ export type iHook = {
   HookApiVersion?: number
   HookParameters?: HookParameter[]
   HookGrants?: HookGrant[]
+  HookName?: string
   Fee?: string
 }
 
@@ -23,7 +24,6 @@ export type SetHookParams = {
   client: Client
   wallet: Wallet
   hooks: Hook[]
-  flags: number | SetHookFlagsInterface
 }
 
 export interface SmartContractParams {

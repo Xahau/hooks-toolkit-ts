@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID } from 'xahau-binary-codec/dist/types'
 import { sign } from 'xahau-keypairs'
 // src
@@ -14,12 +15,12 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // UtilVerify: ACCEPT: invalid signature
 // UtilVerify: ACCEPT: valid signature
@@ -31,7 +32,7 @@ describe('utilVerify', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -57,11 +58,11 @@ describe('utilVerify', () => {
       version: 0,
       createFile: 'util_verify',
       namespace: 'util_verify',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -110,11 +111,11 @@ describe('utilVerify', () => {
       version: 0,
       createFile: 'util_verify',
       namespace: 'util_verify',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],

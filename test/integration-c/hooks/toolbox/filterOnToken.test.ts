@@ -1,5 +1,7 @@
 // xrpl
-import { Payment, SetHookFlags, TransactionMetadata, xahToDrops } from 'xahau'
+import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
+
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 // src
 import {
@@ -14,9 +16,9 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  setHooks,
+  clearAllHooks,
+} from '../../../../src'
 
 // FilterOnToken: ACCEPT: success
 // FilterOnToken: ROLLBACK: failure
@@ -36,17 +38,17 @@ describe('filterOnToken', () => {
       version: 0,
       createFile: 'filter_on_token',
       namespace: 'filter_on_token',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

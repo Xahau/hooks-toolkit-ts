@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags } from 'xahau'
+import { Invoke } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
@@ -11,7 +12,7 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   padHexString,
   StateUtility,
   iHookParamName,
@@ -19,7 +20,7 @@ import {
   iHookParamEntry,
   // Utils
   hexNamespace,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import {
   BaseModel,
   Metadata,
@@ -72,18 +73,18 @@ describe('stateNumbers', () => {
       version: 0,
       createFile: 'state_numbers',
       namespace: 'state_numbers',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    // await clearAllHooksV3({
+    // await clearAllHooks({
     //   client: testContext.client,
     //   seed: testContext.hook1.seed,
     // } as SetHookParams)
