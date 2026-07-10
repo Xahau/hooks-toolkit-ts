@@ -11,9 +11,9 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  setHooks,
+  clearAllHooks,
+} from '../../../../src'
 
 // HookOnTT: ACCEPT: success
 // HookOnTT: ROLLBACK: invalid
@@ -25,7 +25,7 @@ describe('hookOnTT', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)
@@ -40,7 +40,7 @@ describe('hookOnTT', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -68,7 +68,7 @@ describe('hookOnTT', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke', 'Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],

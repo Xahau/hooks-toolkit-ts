@@ -11,13 +11,13 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
   generateHash,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 describe('compareCondition', () => {
   let testContext: XrplIntegrationTestContext
@@ -32,14 +32,14 @@ describe('compareCondition', () => {
       hookOnArray: ['Invoke'],
       fee: '1000000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

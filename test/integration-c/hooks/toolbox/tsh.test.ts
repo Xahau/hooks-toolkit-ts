@@ -18,12 +18,12 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 
 describe('tsh', () => {
@@ -54,7 +54,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['TrustSet'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.gw,
       hooks: [{ Hook: hook }],
@@ -81,12 +81,12 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000001')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -100,7 +100,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -123,12 +123,12 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -141,7 +141,7 @@ describe('tsh', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -170,12 +170,12 @@ describe('tsh', () => {
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
     expect(executions[1].HookExecution.HookReturnString).toMatch('000002')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

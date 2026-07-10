@@ -16,12 +16,12 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 
 // UtilVerify: ROLLBACK: xrp hashes dont match
 // UtilVerify: ACCEPT: xrp hashes match
@@ -54,14 +54,14 @@ describe('utilSha512', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

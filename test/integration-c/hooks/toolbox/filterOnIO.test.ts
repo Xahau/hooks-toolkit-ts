@@ -12,9 +12,9 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  setHooks,
+  clearAllHooks,
+} from '../../../../src'
 
 // FilterOnIO: ACCEPT: incoming
 // FilterOnIO: ACCEPT: outgoing
@@ -32,14 +32,14 @@ describe('filterOnIO', () => {
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)

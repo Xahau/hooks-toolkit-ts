@@ -71,7 +71,10 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   return hook
 }
 
-export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
+/** @deprecated Use setHooks instead */
+export const setHooksV3 = setHooks
+
+export async function setHooks({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.address,
@@ -91,7 +94,10 @@ export async function setHooksV3({ client, wallet, hooks }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
+/** @deprecated Use clearAllHooks instead */
+export const clearAllHooksV3 = clearAllHooks
+
+export async function clearAllHooks({ client, wallet }: SetHookParams) {
   const hook = {
     CreateCode: '',
     Flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete,
@@ -126,11 +132,10 @@ export async function clearAllHooksV3({ client, wallet }: SetHookParams) {
   appLogger.debug(`\n3. SetHook Success...`)
 }
 
-export async function clearHookStateV3({
-  client,
-  wallet,
-  hooks,
-}: SetHookParams) {
+/** @deprecated Use clearHookState instead */
+export const clearHookStateV3 = clearHookState
+
+export async function clearHookState({ client, wallet, hooks }: SetHookParams) {
   const tx: SetHook = {
     TransactionType: `SetHook`,
     Account: wallet.classicAddress,

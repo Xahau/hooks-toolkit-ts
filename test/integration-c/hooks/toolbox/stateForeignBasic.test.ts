@@ -19,8 +19,8 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -31,7 +31,7 @@ import {
   // Utils
   hexNamespace,
   padHexString,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { flipHex } from '@transia/binary-models'
 
 // StateForeignBasic: ROLLBACK: invalid account
@@ -58,11 +58,11 @@ describe('stateForeignBasic', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook2,
     } as SetHookParams)
@@ -82,7 +82,7 @@ describe('stateForeignBasic', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
@@ -113,7 +113,7 @@ describe('stateForeignBasic', () => {
         hook2param3.toXrpl(),
       ],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
@@ -149,7 +149,7 @@ describe('stateForeignBasic', () => {
       flags: SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
@@ -180,7 +180,7 @@ describe('stateForeignBasic', () => {
         hook2param3.toXrpl(),
       ],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
@@ -245,7 +245,7 @@ describe('stateForeignBasic', () => {
       ],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
@@ -274,7 +274,7 @@ describe('stateForeignBasic', () => {
       hookOnArray: ['Invoke'],
       hookGrants: [hook2Grant1.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
@@ -338,7 +338,7 @@ describe('stateForeignBasic', () => {
       ],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
@@ -368,7 +368,7 @@ describe('stateForeignBasic', () => {
       hookGrants: [hook2Grant1.toXrpl()],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],

@@ -5,9 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [main, 1.x]
+    branches: [main]
   pull_request:
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-lint:
@@ -16,12 +19,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x, 24.x, 26.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -58,6 +61,7 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: yarn install
 
+      - run: yarn run format:ci
       - run: yarn run lint
 
   integration-c:
@@ -66,18 +70,47 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x, 24.x, 26.x]
+
+    env:
+      HOOKS_COMPILE_HOST: http://localhost:9000
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Run docker in background
+      - name: Login to GHCR # to access ghcr.io/xahau/xrpl-hooks-compiler
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Run xahaud container in background
         run: |
-          docker run --detach --rm --name rippled-service -p 6006:6006 --health-cmd="wget localhost:6006 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s transia/xahaudjs:latest
+          docker run \
+            --detach \
+            --rm \
+            --name rippled-service \
+            -p 6006:6006 \
+            --health-cmd="wget localhost:6006 || exit 1" \
+            --health-interval=5s \
+            --health-retries=10 \
+            --health-timeout=2s \
+            transia/xahaudjs:latest
+
+      - name: Run hooks copiler container in background
+        run: |
+          docker run \
+            --detach \
+            --rm \
+            --name compiler-api \
+            -p 9000:9000 \
+            --health-cmd="wget localhost:9000 || exit 1" \
+            --health-interval=5s \
+            --health-retries=10 \
+            --health-timeout=2s \
+            --env BUILD_RATE_MAX=0 \
+            ghcr.io/xahau/xrpl-hooks-compiler:master
 
       - name: Setup npm version 7
         run: |
@@ -104,13 +137,21 @@ jobs:
 
       - run: npm i -g @xahau/hooks-cli
       - run: yarn run build
-      - run: hooks-cli compile-c contracts-c/toolbox build
-      - run: hooks-cli compile-c contracts-c/txns build
+      - run: hooks-cli compile-c contracts-c/toolbox build --headers contracts-c/utils/hook 
+      - run: hooks-cli compile-c contracts-c/txns build --headers contracts-c/utils/hook 
       - run: yarn run test:integration-c
         env:
-          HOOKS_COMPILE_HOST: https://hook-buildbox.xrpl.org
           XAHAU_ENV: standalone
+          
+      - name: Debug logs
+        if: failure()
+        # | grep -a 'TRC Hook'
+        run: |
+          docker logs rippled-service --tail 100000  2>&1 
+          docker logs compiler-api --tail 100000  2>&1 
 
       - name: Stop docker container
         if: always()
-        run: docker stop rippled-service
+        run: |
+            docker stop rippled-service
+            docker stop compiler-api

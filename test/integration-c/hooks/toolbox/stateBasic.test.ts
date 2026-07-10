@@ -12,13 +12,13 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   padHexString,
   StateUtility,
   // Utils
   hexNamespace,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { flipHex } from '@transia/binary-models'
 
 // StateBasic: ACCEPT: success
@@ -36,14 +36,14 @@ describe('stateBasic', () => {
       hookOnArray: ['Invoke'],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
     } as SetHookParams)
