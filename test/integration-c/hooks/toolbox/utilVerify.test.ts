@@ -14,8 +14,8 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -31,7 +31,7 @@ describe('utilVerify', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -61,7 +61,7 @@ describe('utilVerify', () => {
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -114,7 +114,7 @@ describe('utilVerify', () => {
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],

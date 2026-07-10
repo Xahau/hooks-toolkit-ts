@@ -21,8 +21,8 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   ExecutionUtility,
 } from '../../../../src'
 import { LedgerResponseExpanded } from 'xahau/src/models/methods/ledger'
@@ -45,7 +45,7 @@ describe('callback', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -74,12 +74,12 @@ describe('callback', () => {
 
     await close(testContext.client)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -92,7 +92,7 @@ describe('callback', () => {
       flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -139,12 +139,12 @@ describe('callback', () => {
       'tecDST_TAG_NEEDED'
     )
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

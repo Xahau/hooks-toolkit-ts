@@ -17,7 +17,7 @@ import { appLogger } from './libs/logger'
 import { addListeners, ISelect, removeListeners } from './libs/debug'
 
 export class Xrpld {
-  // TX V3
+  // TX
   static async submit(
     client: Client,
     params: SmartContractParams
@@ -61,7 +61,7 @@ export class Xrpld {
     }
     return txResponse?.result
   }
-  // TX V3
+  // TX
   static async submitBatch(
     client: Client,
     batches: SmartContractParams[]
