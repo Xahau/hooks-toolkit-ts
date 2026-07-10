@@ -212,7 +212,7 @@ const hook = createHookPayload({
   hookOnArray: ['Payment'] // HookOn Transactions
   // or you can use the following fields
   // hookOnIncomingArray: ['Payment'] // HookOnIncoming Transactions
-  // hookOnOutgoingArray: ['Payment'] // HookOnOutgoing Transactions
+  // hookOnOutgoingArray: ['Invoke']  // HookOnOutgoing Transactions, needs to be different from hookOnIncomingArray.
 })
 ```
 
