@@ -1,7 +1,6 @@
 import {
   Hook,
   HookGrant,
-  HookFlags,
   HookParameter,
 } from 'xahau/dist/npm/models/common/xahau'
 import { Client, Transaction, Wallet } from 'xahau'
@@ -22,7 +21,6 @@ export type SetHookParams = {
   client: Client
   wallet: Wallet
   hooks: Hook[]
-  flags: number | HookFlags
 }
 
 export interface SmartContractParams {
