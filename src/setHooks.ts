@@ -1,4 +1,9 @@
-import { calculateHookOn, hexHookParameters, SetHook } from 'xahau'
+import {
+  calculateHookOn,
+  convertStringToHex,
+  hexHookParameters,
+  SetHook,
+} from 'xahau'
 import { SetHookParams, iHook } from './types'
 import {
   HookFlags,
@@ -18,11 +23,12 @@ export interface SetHookPayload {
   hookOnArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
+  hookName?: string | null
   fee?: string | null
 }
 
 export function createHookPayload(payload: SetHookPayload): iHook {
-  const hook = {} as iHook
+  const hook: iHook = {}
   if (typeof payload.version === 'number') {
     hook.HookApiVersion = payload.version
   }
@@ -60,6 +66,9 @@ export function createHookPayload(payload: SetHookPayload): iHook {
   }
   if (payload.hookGrants) {
     hook.HookGrants = payload.hookGrants
+  }
+  if (payload.hookName) {
+    hook.HookName = convertStringToHex(payload.hookName)
   }
   // DA: validate
   return hook

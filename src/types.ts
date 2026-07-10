@@ -14,6 +14,7 @@ export type iHook = {
   HookApiVersion?: number
   HookParameters?: HookParameter[]
   HookGrants?: HookGrant[]
+  HookName?: string
   Fee?: string
 }
 
