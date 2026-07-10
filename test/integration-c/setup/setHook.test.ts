@@ -1,4 +1,10 @@
-import { Invoke, LedgerEntryRequest, calculateHookOn } from 'xahau'
+import {
+  Invoke,
+  LedgerEntryRequest,
+  TransactionMetadata,
+  calculateHookOn,
+  convertStringToHex,
+} from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
@@ -106,6 +112,104 @@ describe('SetHook - End to End', () => {
       hooks: [{ Hook: clearHook }],
     } as SetHookParams)
 
+    await clearAllHooks({
+      client: testContext.client,
+      wallet: testContext.hook1,
+    } as SetHookParams)
+  })
+})
+
+describe('SetHook - Fields', () => {
+  let testContext: XrplIntegrationTestContext
+  let Hook: iHook
+
+  beforeAll(async () => {
+    testContext = await setupClient(serverUrl)
+  })
+  beforeEach(async () => {
+    Hook = {
+      CreateCode: readHookBinaryHexFromNS('base', 'wasm'),
+      Flags: HookFlags.hsfOverride,
+      HookOn: calculateHookOn(['Invoke']),
+      HookNamespace: hexNamespace('base'),
+      HookApiVersion: 0,
+    } as iHook
+  })
+  afterAll(async () => teardownClient(testContext))
+
+  it('sethook - HookName', async () => {
+    const hookWallet = testContext.hook1
+    // SETHOOK IN
+    const hook = {
+      ...Hook,
+      HookName: convertStringToHex('test'),
+    } as iHook
+    await setHooks({
+      client: testContext.client,
+      wallet: hookWallet,
+      hooks: [{ Hook: hook }],
+    } as SetHookParams)
+
+    // VALIDATION
+    const hookReq: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook: {
+        account: hookWallet.classicAddress,
+      },
+    }
+    const hookRes = await testContext.client.request(hookReq)
+    const leHook = hookRes.result.node as LeHook
+    expect(leHook.Hooks.length).toBe(1)
+    expect(leHook.Hooks[0].Hook.HookName).toEqual(convertStringToHex('test'))
+    const hookDefRequest: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook_definition: leHook.Hooks[0].Hook.HookHash,
+    }
+    const hookDefRes = await testContext.client.request(hookDefRequest)
+    expect(
+      // @ts-expect-error -- test hook definition has no HookName
+      (hookDefRes.result.node as LeHookDefinition).HookName
+    ).toBeUndefined()
+
+    {
+      // INVOKE without HookName
+      const builtTx: Invoke = {
+        TransactionType: 'Invoke',
+        Account: hookWallet.classicAddress,
+      }
+      const response = await Xrpld.submit(testContext.client, {
+        wallet: hookWallet,
+        tx: builtTx,
+      })
+      expect(
+        (response.meta as TransactionMetadata).HookExecutions
+      ).toBeUndefined()
+    }
+    {
+      // INVOKE with HookName
+      const builtTx: Invoke = {
+        TransactionType: 'Invoke',
+        Account: hookWallet.classicAddress,
+        HookName: convertStringToHex('test'),
+      }
+      const response = await Xrpld.submit(testContext.client, {
+        wallet: hookWallet,
+        tx: builtTx,
+      })
+      expect(
+        (response.meta as TransactionMetadata).HookExecutions
+      ).toBeDefined()
+    }
+
+    const clearHook = {
+      Flags: HookFlags.hsfNSDelete,
+      HookNamespace: hexNamespace('base'),
+    } as iHook
+    await setHooks({
+      client: testContext.client,
+      wallet: hookWallet,
+      hooks: [{ Hook: clearHook }],
+    } as SetHookParams)
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
