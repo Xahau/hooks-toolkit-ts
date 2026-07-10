@@ -14,20 +14,40 @@ import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'
 import { appLogger } from './libs/logger'
 
-export interface SetHookPayload {
+export interface SetHookPayloadBase {
   version?: number | null
   hookHash?: string | null
   createFile?: string | null
   namespace?: string | null
   flags?: number | 0
-  hookOnArray?: string[] | null
-  hookOnIncomingArray?: string[] | null
-  hookOnOutgoingArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
   hookName?: string | null
   fee?: string | null
 }
+
+interface SetHookPayloadWithHookOn extends SetHookPayloadBase {
+  hookOnArray: string[]
+  hookOnIncomingArray?: never
+  hookOnOutgoingArray?: never
+}
+
+interface SetHookPayloadWithIncomingOutgoing extends SetHookPayloadBase {
+  hookOnArray?: never
+  hookOnIncomingArray: string[]
+  hookOnOutgoingArray: string[]
+}
+
+interface SetHookPayloadWithoutHookOn extends SetHookPayloadBase {
+  hookOnArray?: null
+  hookOnIncomingArray?: null
+  hookOnOutgoingArray?: null
+}
+
+export type SetHookPayload =
+  | SetHookPayloadWithHookOn
+  | SetHookPayloadWithIncomingOutgoing
+  | SetHookPayloadWithoutHookOn
 
 export function createHookPayload(payload: SetHookPayload): iHook {
   const hook: iHook = {}
@@ -64,10 +84,14 @@ export function createHookPayload(payload: SetHookPayload): iHook {
     hook.HookOn = calculateHookOn(payload.hookOnArray)
   }
   if (payload.hookOnIncomingArray) {
-    hook.HookOnIncoming = calculateHookOn(payload.hookOnIncomingArray)
+    hook.HookOnIncoming = calculateHookOn(
+      (payload as SetHookPayloadWithIncomingOutgoing).hookOnIncomingArray
+    )
   }
   if (payload.hookOnOutgoingArray) {
-    hook.HookOnOutgoing = calculateHookOn(payload.hookOnOutgoingArray)
+    hook.HookOnOutgoing = calculateHookOn(
+      (payload as SetHookPayloadWithIncomingOutgoing).hookOnOutgoingArray
+    )
   }
   if (payload.hookParams) {
     hook.HookParameters = hexHookParameters(payload.hookParams)

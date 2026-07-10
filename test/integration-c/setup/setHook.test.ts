@@ -22,6 +22,7 @@ import {
   clearAllHooks,
   StateUtility,
   padHexString,
+  createHookPayload,
 } from '../../../src'
 import {
   HookDefinition as LeHookDefinition,
@@ -121,29 +122,29 @@ describe('SetHook - End to End', () => {
 
 describe('SetHook - Fields', () => {
   let testContext: XrplIntegrationTestContext
-  let Hook: iHook
 
   beforeAll(async () => {
     testContext = await setupClient(serverUrl)
   })
-  beforeEach(async () => {
-    Hook = {
-      CreateCode: readHookBinaryHexFromNS('base', 'wasm'),
-      Flags: HookFlags.hsfOverride,
-      HookOn: calculateHookOn(['Invoke']),
-      HookNamespace: hexNamespace('base'),
-      HookApiVersion: 0,
-    } as iHook
+  afterEach(async () => {
+    await clearAllHooks({
+      client: testContext.client,
+      wallet: testContext.hook1,
+    } as SetHookParams)
   })
   afterAll(async () => teardownClient(testContext))
 
   it('sethook - HookName', async () => {
     const hookWallet = testContext.hook1
     // SETHOOK IN
-    const hook = {
-      ...Hook,
-      HookName: convertStringToHex('test'),
-    } as iHook
+    const hook = createHookPayload({
+      version: 0,
+      createFile: 'base',
+      namespace: 'base',
+      flags: HookFlags.hsfOverride,
+      hookOnArray: ['Invoke'],
+      hookName: 'test',
+    })
     await setHooks({
       client: testContext.client,
       wallet: hookWallet,
@@ -200,20 +201,53 @@ describe('SetHook - Fields', () => {
         (response.meta as TransactionMetadata).HookExecutions
       ).toBeDefined()
     }
+  })
 
-    const clearHook = {
-      Flags: HookFlags.hsfNSDelete,
-      HookNamespace: hexNamespace('base'),
-    } as iHook
+  it('sethook - HookOnIncoming/Outgoing', async () => {
+    const hookWallet = testContext.hook1
+    // SETHOOK IN
+    const hook = createHookPayload({
+      version: 0,
+      createFile: 'base',
+      namespace: 'base',
+      flags: HookFlags.hsfOverride,
+      hookOnIncomingArray: ['Invoke'],
+      hookOnOutgoingArray: ['Payment'],
+    })
     await setHooks({
       client: testContext.client,
       wallet: hookWallet,
-      hooks: [{ Hook: clearHook }],
+      hooks: [{ Hook: hook }],
     } as SetHookParams)
-    await clearAllHooks({
-      client: testContext.client,
-      wallet: testContext.hook1,
-    } as SetHookParams)
+
+    createHookPayload({
+      version: 0,
+      createFile: 'base',
+      namespace: 'base',
+      flags: HookFlags.hsfOverride,
+      hookOnIncomingArray: ['Invoke'],
+      hookOnOutgoingArray: ['Payment'],
+    })
+
+    // VALIDATION
+    const hookReq: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook: {
+        account: hookWallet.classicAddress,
+      },
+    }
+    const hookRes = await testContext.client.request(hookReq)
+    const leHook = hookRes.result.node as LeHook
+    expect(leHook.Hooks.length).toBe(1)
+    const hookObj = leHook.Hooks[0].Hook
+    const hookDefRequest: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook_definition: hookObj.HookHash,
+    }
+    const hookDefRes = await testContext.client.request(hookDefRequest)
+    const hookDefObj = hookDefRes.result.node as LeHookDefinition
+    expect(hookDefObj.HookOnIncoming).toBe(calculateHookOn(['Invoke']))
+    expect(hookDefObj.HookOnOutgoing).toBe(calculateHookOn(['Payment']))
   })
 })
 

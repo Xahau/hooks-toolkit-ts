@@ -5,13 +5,10 @@ import {
 } from 'xahau/dist/npm/models/common/xahau'
 import { Client, Transaction, Wallet } from 'xahau'
 
-export type iHook = {
+interface iHookBase {
   HookHash?: string
   CreateCode?: string
   Flags?: number
-  HookOn?: string
-  HookOnIncoming?: string
-  HookOnOutgoing?: string
   HookNamespace?: string
   HookApiVersion?: number
   HookParameters?: HookParameter[]
@@ -19,6 +16,29 @@ export type iHook = {
   HookName?: string
   Fee?: string
 }
+
+interface iHookWithHookOn extends iHookBase {
+  HookOn?: string
+  HookOnIncoming?: never
+  HookOnOutgoing?: never
+}
+
+interface iHookWithIncomingOutgoing extends iHookBase {
+  HookOn?: never
+  HookOnIncoming?: string
+  HookOnOutgoing?: string
+}
+
+interface iHookWithoutHookOn extends iHookBase {
+  HookOn?: undefined
+  HookOnIncoming?: undefined
+  HookOnOutgoing?: undefined
+}
+
+export type iHook =
+  | iHookWithHookOn
+  | iHookWithIncomingOutgoing
+  | iHookWithoutHookOn
 
 export type SetHookParams = {
   client: Client
