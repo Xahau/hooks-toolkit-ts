@@ -65,7 +65,7 @@ describe('SetHook - End to End', () => {
     const leHook = hookRes.result.node as LeHook
     expect(leHook.Hooks.length).toBe(1)
     expect(leHook.Hooks[0].Hook.HookHash).toEqual(
-      '955705F019B60A9E5C31D7E5963D2E45D2589F8A287EFEA6E5101912FC000E92'
+      '3AE6B612A6BF4308E3F1DA08C596E8CF48A7AD551A3AD71202D69EBD06F903DF'
     )
     const hookDefRequest: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -153,7 +153,7 @@ describe('SetHook - (noop|create|install', () => {
     const leHook = hookRes.result.node as LeHook
     expect(leHook.Hooks.length).toBe(1)
     expect(leHook.Hooks[0].Hook.HookHash).toEqual(
-      '2500852196A87009FA4FDA3723728CE5853458ABD8C5BE4E5AB1BC93149523F5'
+      '0DFC58B6B0B850693CCFCFE36655DAD79E0E0E4C17DA68940109FFDCF289046F'
     )
     const hookDefRequest: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -195,7 +195,7 @@ describe('SetHook - (noop|create|install', () => {
     const leHook1 = hook1Res.result.node as LeHook
     expect(leHook1.Hooks.length).toBe(1)
     expect(leHook1.Hooks[0].Hook.HookHash).toEqual(
-      '2500852196A87009FA4FDA3723728CE5853458ABD8C5BE4E5AB1BC93149523F5'
+      '0DFC58B6B0B850693CCFCFE36655DAD79E0E0E4C17DA68940109FFDCF289046F'
     )
 
     const hook2 = {
