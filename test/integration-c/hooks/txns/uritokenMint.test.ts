@@ -65,13 +65,11 @@ describe('uriTokenMint', () => {
       Account: hookWallet.classicAddress,
       HookParameters: [tx1param1.toXrpl(), tx1param2.toXrpl()],
     }
-    console.log(JSON.stringify(builtTx1))
 
     const result1 = await Xrpld.submit(testContext.client, {
       wallet: hookWallet,
       tx: builtTx1,
     })
-    console.log(result1)
 
     const hookExecutions = await ExecutionUtility.getHookExecutionsFromMeta(
       testContext.client,
