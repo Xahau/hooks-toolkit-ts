@@ -26,7 +26,7 @@ const amendmentName = [
   // # DID                         Supported::no
   'fixDisallowIncomingV1',
   // # XChainBridge                Supported::no
-  'AMM',
+  // # AMM                         Supported::no
   'fixReducedOffersV1',
   'HooksUpdate2',
   'HookOnV2',
