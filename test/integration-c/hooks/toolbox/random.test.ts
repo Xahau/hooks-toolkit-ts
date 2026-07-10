@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   // Testing
   XrplIntegrationTestContext,
@@ -11,9 +12,9 @@ import {
   SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  setHooks,
+  clearAllHooks,
+} from '../../../../src'
 
 describe('random', () => {
   let testContext: XrplIntegrationTestContext
@@ -24,17 +25,17 @@ describe('random', () => {
       version: 0,
       createFile: 'random',
       namespace: 'random',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],
     } as SetHookParams)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)

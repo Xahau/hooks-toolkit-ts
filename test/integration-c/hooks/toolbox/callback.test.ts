@@ -3,7 +3,6 @@ import {
   AccountSetAsfFlags,
   Invoke,
   LedgerRequest,
-  SetHookFlags,
   Transaction,
   TransactionMetadata,
 } from 'xahau'
@@ -21,11 +20,12 @@ import {
   Xrpld,
   SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   ExecutionUtility,
-} from '../../../../dist/npm/src'
-import { LedgerResponseExpanded } from 'xahau/src/models/methods/ledger'
+} from '../../../../src'
+import { LedgerResponseExpanded } from 'xahau/dist/npm/models/methods/ledger'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('callback', () => {
   let testContext: XrplIntegrationTestContext
@@ -42,10 +42,10 @@ describe('callback', () => {
       version: 0,
       createFile: 'callback',
       namespace: 'callback',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -74,12 +74,12 @@ describe('callback', () => {
 
     await close(testContext.client)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
@@ -89,10 +89,10 @@ describe('callback', () => {
       version: 0,
       createFile: 'callback',
       namespace: 'callback',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
@@ -139,12 +139,12 @@ describe('callback', () => {
       'tecDST_TAG_NEEDED'
     )
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
     } as SetHookParams)
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
     } as SetHookParams)
