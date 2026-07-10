@@ -1,5 +1,7 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
+
 // src
 import {
   // Testing
@@ -28,7 +30,7 @@ describe('filterOnIO', () => {
       version: 0,
       createFile: 'filter_on_io',
       namespace: 'filter_on_io',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
 

@@ -1,5 +1,5 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
 import {
   // Testing
   XrplIntegrationTestContext,
@@ -19,6 +19,7 @@ import {
   generateHash,
 } from '../../../../src'
 import { uint64ToHex } from '@transia/binary-models'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('compareCondition', () => {
   let testContext: XrplIntegrationTestContext
@@ -29,7 +30,7 @@ describe('compareCondition', () => {
       version: 0,
       createFile: 'compare_condition',
       namespace: 'compare_condition',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({

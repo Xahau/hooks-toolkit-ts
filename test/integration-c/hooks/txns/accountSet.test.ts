@@ -1,10 +1,6 @@
 // xrpl
-import {
-  Invoke,
-  SetHookFlags,
-  TransactionMetadata,
-  convertStringToHex,
-} from 'xahau'
+import { Invoke, TransactionMetadata, convertStringToHex } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   // Testing
   XrplIntegrationTestContext,
@@ -34,7 +30,7 @@ describe('accountSet', () => {
       version: 0,
       createFile: 'txn_account_set',
       namespace: 'txn_account_set',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({

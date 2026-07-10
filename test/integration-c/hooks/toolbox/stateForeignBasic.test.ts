@@ -1,10 +1,6 @@
 // xrpl
-import {
-  Invoke,
-  LedgerEntryRequest,
-  SetHookFlags,
-  TransactionMetadata,
-} from 'xahau'
+import { Invoke, LedgerEntryRequest, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { Hook as LeHook } from 'xahau/dist/npm/models/ledger'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
@@ -79,7 +75,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
@@ -105,7 +101,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook2param1.toXrpl(),
@@ -146,7 +142,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
@@ -172,7 +168,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook2param1.toXrpl(),
@@ -236,7 +232,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook1param1.toXrpl(),
@@ -270,7 +266,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookGrants: [hook2Grant1.toXrpl()],
     })
@@ -329,7 +325,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook1param1.toXrpl(),
@@ -363,7 +359,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookGrants: [hook2Grant1.toXrpl()],
     })
