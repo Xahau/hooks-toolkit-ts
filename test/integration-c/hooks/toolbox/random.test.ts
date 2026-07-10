@@ -9,7 +9,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -32,13 +31,13 @@ describe('random', () => {
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 

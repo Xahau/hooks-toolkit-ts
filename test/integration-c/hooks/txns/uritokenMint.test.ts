@@ -11,7 +11,6 @@ import {
 } from '../../../../src/libs/xrpl-helpers'
 import {
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -37,7 +36,7 @@ describe('uriTokenMint', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     await teardownClient(testContext)

@@ -10,7 +10,6 @@ import {
 } from '../../../../src/libs/xrpl-helpers'
 import {
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -81,13 +80,13 @@ describe('base', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     // await clearAllHooks({
     //   client: testContext.client,
     //   wallet: testContext.hook1,
-    // } as SetHookParams)
+    // })
     await teardownClient(testContext)
   })
 

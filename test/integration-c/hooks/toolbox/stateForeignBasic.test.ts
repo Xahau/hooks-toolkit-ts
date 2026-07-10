@@ -12,7 +12,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -57,11 +56,11 @@ describe('stateForeignBasic', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook2,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -82,7 +81,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     // FOREIGN HOOK
     const hook2param1 = new iHookParamEntry(
@@ -113,7 +112,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     try {
       // INVOKE IN NATIVE
@@ -149,7 +148,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     // FOREIGN HOOK
     const hook2param1 = new iHookParamEntry(
@@ -180,7 +179,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN NATIVE
     const builtTx1: Invoke = {
@@ -245,7 +244,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -274,7 +273,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN FOREIGN
     const builtTx1: Invoke = {
@@ -338,7 +337,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -368,7 +367,7 @@ describe('stateForeignBasic', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE OUT FOREIGN
     const builtTx1: Invoke = {

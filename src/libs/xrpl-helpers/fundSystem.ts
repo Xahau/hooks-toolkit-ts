@@ -14,7 +14,6 @@ import {
 import { appLogger } from '../logger'
 import { Xrpld } from '../../Xrpld'
 import { setHooks } from '../../setHooks'
-import { SetHookParams } from '../../types'
 import { StateUtility } from '../../keylet-utils'
 import { padHexString } from '../../utils'
 
@@ -183,7 +182,7 @@ export async function setGovernTable(
     client: client,
     wallet: table,
     hooks: [{ Hook: hook }],
-  } as SetHookParams)
+  })
   const tx: Invoke = {
     TransactionType: 'Invoke',
     Account: invoker.classicAddress,

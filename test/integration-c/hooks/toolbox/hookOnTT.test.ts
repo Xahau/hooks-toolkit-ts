@@ -11,7 +11,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
   setHooks,
   clearAllHooks,
@@ -30,7 +29,7 @@ describe('hookOnTT', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -46,7 +45,7 @@ describe('hookOnTT', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN
     const hookWallet = testContext.hook1
@@ -74,7 +73,7 @@ describe('hookOnTT', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     try {
       // PAYMENT IN
       const hookWallet = testContext.hook1

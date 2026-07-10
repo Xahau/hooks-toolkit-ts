@@ -1,5 +1,5 @@
 import { calculateHookOn, hexHookParameters, SetHook } from 'xahau'
-import { SetHookParams, iHook } from './types'
+import { ClearHookParams, SetHookParams, iHook } from './types'
 import {
   HookFlags,
   HookGrant,
@@ -91,7 +91,7 @@ export async function setHooks({ client, wallet, hooks }: SetHookParams) {
 /** @deprecated Use clearAllHooks instead */
 export const clearAllHooksV3 = clearAllHooks
 
-export async function clearAllHooks({ client, wallet }: SetHookParams) {
+export async function clearAllHooks({ client, wallet }: ClearHookParams) {
   const hook = {
     CreateCode: '',
     Flags: HookFlags.hsfOverride | HookFlags.hsfNSDelete,

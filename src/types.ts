@@ -23,6 +23,11 @@ export type SetHookParams = {
   hooks: Hook[]
 }
 
+export type ClearHookParams = {
+  client: Client
+  wallet: Wallet
+}
+
 export interface SmartContractParams {
   wallet: Wallet
   tx: Transaction
