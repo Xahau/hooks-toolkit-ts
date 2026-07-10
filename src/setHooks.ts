@@ -20,6 +20,7 @@ export interface SetHookPayloadBase {
   createFile?: string | null
   namespace?: string | null
   flags?: number | 0
+  hookCanEmitArray?: string[] | null
   hookParams?: HookParameter[] | null
   hookGrants?: HookGrant[] | null
   hookName?: string | null
@@ -92,6 +93,9 @@ export function createHookPayload(payload: SetHookPayload): iHook {
     hook.HookOnOutgoing = calculateHookOn(
       (payload as SetHookPayloadWithIncomingOutgoing).hookOnOutgoingArray
     )
+  }
+  if (payload.hookCanEmitArray) {
+    hook.HookCanEmit = calculateHookOn(payload.hookCanEmitArray)
   }
   if (payload.hookParams) {
     hook.HookParameters = hexHookParameters(payload.hookParams)

@@ -9,6 +9,7 @@ interface iHookBase {
   HookHash?: string
   CreateCode?: string
   Flags?: number
+  HookCanEmit?: string
   HookNamespace?: string
   HookApiVersion?: number
   HookParameters?: HookParameter[]

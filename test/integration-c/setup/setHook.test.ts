@@ -249,6 +249,53 @@ describe('SetHook - Fields', () => {
     expect(hookDefObj.HookOnIncoming).toBe(calculateHookOn(['Invoke']))
     expect(hookDefObj.HookOnOutgoing).toBe(calculateHookOn(['Payment']))
   })
+
+  it('sethook - HookCanEmit', async () => {
+    const hookWallet = testContext.hook1
+    // SETHOOK IN
+    const hook = createHookPayload({
+      version: 0,
+      createFile: 'base',
+      namespace: 'base',
+      flags: HookFlags.hsfOverride,
+      hookOnArray: ['Payment'],
+      hookCanEmitArray: ['Invoke'],
+    })
+    await setHooks({
+      client: testContext.client,
+      wallet: hookWallet,
+      hooks: [{ Hook: hook }],
+    } as SetHookParams)
+
+    createHookPayload({
+      version: 0,
+      createFile: 'base',
+      namespace: 'base',
+      flags: HookFlags.hsfOverride,
+      hookOnIncomingArray: ['Invoke'],
+      hookOnOutgoingArray: ['Payment'],
+    })
+
+    // VALIDATION
+    const hookReq: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook: {
+        account: hookWallet.classicAddress,
+      },
+    }
+    const hookRes = await testContext.client.request(hookReq)
+    const leHook = hookRes.result.node as LeHook
+    expect(leHook.Hooks.length).toBe(1)
+    const hookObj = leHook.Hooks[0].Hook
+    const hookDefRequest: LedgerEntryRequest = {
+      command: 'ledger_entry',
+      hook_definition: hookObj.HookHash,
+    }
+    const hookDefRes = await testContext.client.request(hookDefRequest)
+    const hookDefObj = hookDefRes.result.node as LeHookDefinition
+    // @ts-expect-error -- doesn't exist in xahau.js 4.1.1
+    expect(hookDefObj.HookCanEmit).toBe(calculateHookOn(['Invoke']))
+  })
 })
 
 describe('SetHook - (noop|create|install', () => {
