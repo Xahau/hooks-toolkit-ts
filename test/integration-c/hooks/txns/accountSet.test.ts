@@ -10,7 +10,6 @@ import {
   close,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -37,13 +36,13 @@ describe('accountSet', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     // await clearAllHooks({
     //   client: testContext.client,
     //   wallet: testContext.alice,
-    // } as SetHookParams)
+    // })
     await teardownClient(testContext)
   })
 

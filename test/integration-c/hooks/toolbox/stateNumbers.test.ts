@@ -10,7 +10,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
   setHooks,
   padHexString,
@@ -81,13 +80,13 @@ describe('stateNumbers', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     // await clearAllHooks({
     //   client: testContext.client,
     //   seed: testContext.hook1.seed,
-    // } as SetHookParams)
+    // })
     await teardownClient(testContext)
   })
 

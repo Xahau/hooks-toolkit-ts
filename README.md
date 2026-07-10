@@ -42,7 +42,6 @@ import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   setHooks,
   createHookPayload,
-  SetHookParams
 } from '@transia/hooks-toolkit'
 
 const hook = createHookPayload({
@@ -58,7 +57,7 @@ await setHooks({
   client: testContext.client,
   wallet: testContext.hook1,
   hooks: [{ Hook: hook }],
-} as SetHookParams)
+})
 ```
 
 In the example above, we create a hook payload using the `createHookPayload` function and set the `hook_on` field to trigger on the `Invoke` transaction type. We then pass the hook payload as an object in the `hooks` array to the `setHooks` function.
@@ -82,7 +81,7 @@ import {
 await clearAllHooks({
   client: testContext.client,
   seed: testContext.hook1.seed,
-} as SetHookParams)
+})
 ```
 
 ### Deleting a single hook with setHooks
@@ -98,7 +97,6 @@ Here is an example of deleting a single hook for the hook in position 2 using th
 ```ts
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
-  SetHookParams,
   createHookPayload,
   setHooks,
 } from '@transia/hooks-toolkit'
@@ -111,7 +109,7 @@ await setHooks({
   client: testContext.client,
   wallet: testContext.hook1,
   hooks: [{Hook: {}}, { Hook: clearHook }],
-} as SetHookParams)
+})
 ```
 
 export const metadata = {
@@ -567,7 +565,7 @@ await setHooks({
   client: testContext.client,
   wallet: testContext.alice,
   hooks: [{ Hook: hook }],
-} as SetHookParams)
+})
 
 const aliceWallet = testContext.alice
 const bobWallet = testContext.bob

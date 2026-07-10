@@ -15,7 +15,6 @@ import {
 // src
 import {
   // Xrpld,
-  SetHookParams,
   setHooks,
   hexNamespace,
   iHook,
@@ -24,7 +23,6 @@ import {
   // StateUtility,
   // padHexString,
 } from '../../../src'
-import { flipHex } from '@transia/binary-models'
 import {
   HookDefinition as LeHookDefinition,
   Hook as LeHook,
@@ -51,7 +49,7 @@ import {
 //       client: testContext.client,
 //       seed: testContext.hook1.seed,
 //       hooks: [{ Hook: hook }],
-//     } as SetHookParams)
+//     })
 
 //     // VALIDATION
 //     const hookReq: LedgerEntryRequest = {
@@ -107,12 +105,12 @@ import {
 //       client: testContext.client,
 //       wallet: testContext.hook1,
 //       hooks: [{ Hook: clearHook }],
-//     } as SetHookParams)
+//     })
 
 //     await clearAllHooks({
 //       client: testContext.client,
 //       wallet: testContext.hook1,
-//     } as SetHookParams)
+//     })
 //   })
 // })
 
@@ -142,7 +140,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
       hook: {
@@ -167,7 +165,7 @@ describe('SetHook - (noop|create|install', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
   })
 
   // it('sethook - install', async () => {
@@ -183,7 +181,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook1Req: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -209,7 +207,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook2.seed,
   //     hooks: [{ Hook: hook2 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hookReq: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -232,11 +230,11 @@ describe('SetHook - (noop|create|install', () => {
   //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook1,
-  //   } as SetHookParams)
+  //   })
   //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook2,
-  //   } as SetHookParams)
+  //   })
   // })
 
   // // TODO: Make sure that the namespace was changed: Do Params & Grant
@@ -253,7 +251,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook2 = {
   //     HookNamespace: hexNamespace('hook_on_tts'),
@@ -262,7 +260,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook2 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hookReq1: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -296,7 +294,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook = {
   //     CreateCode: '',
@@ -306,7 +304,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook }],
-  //   } as SetHookParams)
+  //   })
   //   try {
   //     const hookReq: LedgerEntryRequest = {
   //       command: 'ledger_entry',
@@ -336,7 +334,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook }],
-  //   } as SetHookParams)
+  //   })
 
   //   // INVOKE IN
   //   const hookWallet = testContext.hook1
@@ -370,7 +368,7 @@ describe('SetHook - (noop|create|install', () => {
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: clearHook }],
-  //   } as SetHookParams)
+  //   })
 
   //   try {
   //     await StateUtility.getHookState(

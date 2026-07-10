@@ -15,7 +15,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
   setHooks,
   clearAllHooks,
@@ -58,7 +57,7 @@ describe('tsh', () => {
       client: testContext.client,
       wallet: testContext.gw,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     // TRUST SET IN
@@ -84,12 +83,12 @@ describe('tsh', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
 
   it('tsh strong', async () => {
@@ -104,7 +103,7 @@ describe('tsh', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     const hookWallet = testContext.hook1
@@ -126,12 +125,12 @@ describe('tsh', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
   it('tsh aaw', async () => {
     const hook = createHookPayload({
@@ -145,7 +144,7 @@ describe('tsh', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     const hookWallet = testContext.hook1
@@ -173,11 +172,11 @@ describe('tsh', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
 })

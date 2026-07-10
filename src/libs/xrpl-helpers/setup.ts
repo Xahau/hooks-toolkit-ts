@@ -29,7 +29,6 @@ import {
 } from '../xrpl-helpers'
 import { IC, burn, balance } from './tools'
 import { clearAllHooks } from '../../setHooks'
-import { SetHookParams } from '../../types'
 
 export interface XrplIntegrationTestContext {
   client: Client
@@ -86,7 +85,7 @@ export async function teardownHook(
     await clearAllHooks({
       client: context.client,
       wallet: acct,
-    } as SetHookParams)
+    })
   })
   await Promise.all(promises)
 }

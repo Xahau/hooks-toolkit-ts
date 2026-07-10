@@ -12,7 +12,6 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
   setHooks,
@@ -35,7 +34,7 @@ describe('utilVerify', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -66,7 +65,7 @@ describe('utilVerify', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN
     const signature = sign(carolAccHex, aliceWallet.privateKey)
@@ -119,7 +118,7 @@ describe('utilVerify', () => {
       client: testContext.client,
       wallet: testContext.alice,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN
     const signature = sign(bobAccHex, aliceWallet.privateKey)

@@ -14,7 +14,6 @@ import {
   setupClient,
   teardownClient,
   Xrpld,
-  SetHookParams,
   setHooks,
   hexNamespace,
   iHook,
@@ -55,7 +54,7 @@ describe('SetHook - End to End', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // VALIDATION
     const hookReq: LedgerEntryRequest = {
@@ -111,12 +110,12 @@ describe('SetHook - End to End', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
   })
 })
 
@@ -130,7 +129,7 @@ describe('SetHook - Fields', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
   })
   afterAll(async () => teardownClient(testContext))
 
@@ -149,7 +148,7 @@ describe('SetHook - Fields', () => {
       client: testContext.client,
       wallet: hookWallet,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // VALIDATION
     const hookReq: LedgerEntryRequest = {
@@ -218,7 +217,7 @@ describe('SetHook - Fields', () => {
       client: testContext.client,
       wallet: hookWallet,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     createHookPayload({
       version: 0,
@@ -265,7 +264,7 @@ describe('SetHook - Fields', () => {
       client: testContext.client,
       wallet: hookWallet,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     createHookPayload({
       version: 0,
@@ -323,7 +322,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
       hook: {
@@ -348,7 +347,7 @@ describe('SetHook - (noop|create|install', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
   })
 
   it('sethook - install', async () => {
@@ -364,7 +363,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hook1Req: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -390,7 +389,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -413,11 +412,11 @@ describe('SetHook - (noop|create|install', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook2,
-    } as SetHookParams)
+    })
   })
 
   // TODO: Make sure that the namespace was changed: Do Params & Grant
@@ -434,7 +433,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hook2 = {
       HookNamespace: hexNamespace('hook_on_tts'),
@@ -443,7 +442,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     const hookReq1: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -477,7 +476,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hook = {
       CreateCode: '',
@@ -487,7 +486,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     try {
       const hookReq: LedgerEntryRequest = {
         command: 'ledger_entry',
@@ -517,7 +516,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN
     const hookWallet = testContext.hook1
@@ -551,7 +550,7 @@ describe('SetHook - (noop|create|install', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: clearHook }],
-    } as SetHookParams)
+    })
 
     try {
       await StateUtility.getHookState(

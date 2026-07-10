@@ -18,7 +18,6 @@ import {
   accountClear,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
   setHooks,
   clearAllHooks,
@@ -49,7 +48,7 @@ describe('callback', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     const hookWallet = testContext.hook1
@@ -77,12 +76,12 @@ describe('callback', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
   it('callback failure', async () => {
     const hook = createHookPayload({
@@ -96,7 +95,7 @@ describe('callback', () => {
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     await accountSet(
       testContext.client,
@@ -142,12 +141,12 @@ describe('callback', () => {
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
     await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
 
     await accountClear(
       testContext.client,
