@@ -1,5 +1,7 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
+
 import {
   // Testing
   XrplIntegrationTestContext,
@@ -24,7 +26,7 @@ describe('floatSubtract', () => {
       version: 0,
       createFile: 'float_subtract',
       namespace: 'float_subtract',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({

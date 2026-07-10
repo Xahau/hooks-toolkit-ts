@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags } from 'xahau'
+import { Invoke } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
 import {
@@ -32,7 +33,7 @@ describe('stateBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'state_basic',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
 

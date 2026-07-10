@@ -1,9 +1,5 @@
-import {
-  Invoke,
-  LedgerEntryRequest,
-  SetHookFlags,
-  calculateHookOn,
-} from 'xahau'
+import { Invoke, LedgerEntryRequest, calculateHookOn } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
 import {
@@ -43,7 +39,7 @@ describe('SetHook - End to End', () => {
     // SETHOOK IN
     const hook = {
       CreateCode: readHookBinaryHexFromNS('state_basic', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('state_basic'),
       HookApiVersion: 0,
@@ -101,7 +97,7 @@ describe('SetHook - End to End', () => {
     expect(stateCount).toBeGreaterThan(0)
 
     const clearHook = {
-      Flags: SetHookFlags.hsfNSDelete,
+      Flags: HookFlags.hsfNSDelete,
       HookNamespace: hexNamespace('state_basic'),
     } as iHook
     await setHooks({
@@ -132,7 +128,7 @@ describe('SetHook - (noop|create|install', () => {
   it('sethook - create', async () => {
     const hook = {
       CreateCode: readHookBinaryHexFromNS('hook_on_tt', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('hook_on_tt'),
       HookApiVersion: 0,
@@ -173,7 +169,7 @@ describe('SetHook - (noop|create|install', () => {
   it('sethook - install', async () => {
     const hook1 = {
       CreateCode: readHookBinaryHexFromNS('hook_on_tt', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('hook_on_tt'),
       HookApiVersion: 0,
@@ -200,7 +196,7 @@ describe('SetHook - (noop|create|install', () => {
 
     const hook2 = {
       HookHash: leHook1.Hooks[0].Hook.HookHash,
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('hook_on_tt'),
     } as iHook
@@ -243,7 +239,7 @@ describe('SetHook - (noop|create|install', () => {
   it('sethook - update: Namespace', async () => {
     const hook1 = {
       CreateCode: readHookBinaryHexFromNS('hook_on_tt', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('hook_on_tt'),
       HookApiVersion: 0,
@@ -286,7 +282,7 @@ describe('SetHook - (noop|create|install', () => {
   it('sethook - delete', async () => {
     const hook1 = {
       CreateCode: readHookBinaryHexFromNS('hook_on_tt', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('hook_on_tt'),
       HookApiVersion: 0,
@@ -300,7 +296,7 @@ describe('SetHook - (noop|create|install', () => {
 
     const hook = {
       CreateCode: '',
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
     } as iHook
     await setHooks({
       client: testContext.client,
@@ -327,7 +323,7 @@ describe('SetHook - (noop|create|install', () => {
     // SETHOOK IN
     const hook = {
       CreateCode: readHookBinaryHexFromNS('state_basic', 'wasm'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('state_basic'),
       HookApiVersion: 0,
@@ -363,7 +359,7 @@ describe('SetHook - (noop|create|install', () => {
     expect(stateCount).toBeGreaterThan(0)
 
     const clearHook = {
-      Flags: SetHookFlags.hsfNSDelete,
+      Flags: HookFlags.hsfNSDelete,
       HookNamespace: hexNamespace('state_basic'),
     } as iHook
     await setHooks({

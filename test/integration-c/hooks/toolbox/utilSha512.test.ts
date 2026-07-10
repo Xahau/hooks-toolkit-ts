@@ -1,7 +1,8 @@
 // xrpl
-import { Payment, SetHookFlags, TransactionMetadata, xahToDrops } from 'xahau'
+import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
 import { AccountID, Amount } from 'xahau-binary-codec/dist/types'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
@@ -51,7 +52,7 @@ describe('utilSha512', () => {
       version: 0,
       createFile: 'util_sha512',
       namespace: 'util_sha512',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
     await setHooks({

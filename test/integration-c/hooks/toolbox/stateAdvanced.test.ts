@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags } from 'xahau'
+import { Invoke } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
@@ -70,7 +71,7 @@ describe('StateAdvanced', () => {
       version: 0,
       createFile: 'state_advanced',
       namespace: 'state_advanced',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
 

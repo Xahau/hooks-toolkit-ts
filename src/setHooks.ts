@@ -1,11 +1,10 @@
-import {
-  calculateHookOn,
-  hexHookParameters,
-  SetHook,
-  SetHookFlags,
-} from 'xahau'
+import { calculateHookOn, hexHookParameters, SetHook } from 'xahau'
 import { SetHookParams, iHook } from './types'
-import { HookGrant, HookParameter } from 'xahau/dist/npm/models/common/xahau'
+import {
+  HookFlags,
+  HookGrant,
+  HookParameter,
+} from 'xahau/dist/npm/models/common/xahau'
 import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'
 import { appLogger } from './libs/logger'
@@ -95,7 +94,7 @@ export const clearAllHooksV3 = clearAllHooks
 export async function clearAllHooks({ client, wallet }: SetHookParams) {
   const hook = {
     CreateCode: '',
-    Flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete,
+    Flags: HookFlags.hsfOverride | HookFlags.hsfNSDelete,
   } as iHook
   const tx: SetHook = {
     TransactionType: `SetHook`,

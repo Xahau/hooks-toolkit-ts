@@ -1,5 +1,7 @@
 // xrpl
-import { Payment, SetHookFlags, TransactionMetadata, xahToDrops } from 'xahau'
+import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
+
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 // src
 import {
@@ -36,7 +38,7 @@ describe('filterOnToken', () => {
       version: 0,
       createFile: 'filter_on_token',
       namespace: 'filter_on_token',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
     await setHooks({

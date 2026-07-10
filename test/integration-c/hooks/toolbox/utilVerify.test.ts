@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID } from 'xahau-binary-codec/dist/types'
 import { sign } from 'xahau-keypairs'
 // src
@@ -57,7 +58,7 @@ describe('utilVerify', () => {
       version: 0,
       createFile: 'util_verify',
       namespace: 'util_verify',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })
@@ -110,7 +111,7 @@ describe('utilVerify', () => {
       version: 0,
       createFile: 'util_verify',
       namespace: 'util_verify',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [hookParam1.toXrpl(), hookParam2.toXrpl()],
     })

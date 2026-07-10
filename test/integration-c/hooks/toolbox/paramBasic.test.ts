@@ -1,5 +1,6 @@
 // xrpl
-import { Payment, SetHookFlags, TransactionMetadata, xahToDrops } from 'xahau'
+import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
@@ -31,7 +32,7 @@ describe('paramBasic', () => {
       version: 0,
       createFile: 'param_basic',
       namespace: 'param_basic',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
     await setHooks({

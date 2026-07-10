@@ -3,7 +3,6 @@ import {
   Invoke,
   TrustSet,
   AccountSet,
-  SetHookFlags,
   AccountSetAsfFlags,
   TransactionMetadata,
 } from 'xahau'
@@ -25,6 +24,7 @@ import {
   iHookParamValue,
 } from '../../../../src'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('tsh', () => {
   let testContext: XrplIntegrationTestContext
@@ -51,7 +51,7 @@ describe('tsh', () => {
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['TrustSet'],
     })
     await setHooks({
@@ -97,7 +97,7 @@ describe('tsh', () => {
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
@@ -138,7 +138,7 @@ describe('tsh', () => {
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({

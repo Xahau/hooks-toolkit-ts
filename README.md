@@ -38,9 +38,7 @@ Each hook object in the `hooks` array should have the following properties:
 Here is an example of setting a hook using the `setHooks` function:
 
 ```ts
-import {
-  SetHookFlags
-} from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   setHooks,
   createHookPayload,
@@ -51,7 +49,7 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Invoke'] // HookOn Transactions
 })
 
@@ -97,9 +95,7 @@ To delete a single hook and state on Xahau using the `setHooks` function, you ne
 Here is an example of deleting a single hook for the hook in position 2 using the `setHooks` function:
 
 ```ts
-import {
-  SetHookFlags
-} from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   SetHookParams,
   createHookPayload,
@@ -108,7 +104,7 @@ import {
 
 const clearHook = createHookPayload({
   namespace: 'mynamespace', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete, // SetHookFlag
+  flags: HookFlags.hsfOverride | HookFlags.hsfNSDelete, // HookFlags
 })
 await setHooks({
   client: testContext.client,
@@ -140,7 +136,7 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
@@ -158,7 +154,7 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
@@ -176,26 +172,25 @@ const hook = createHookPayload({
   version: 2, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
 
 ### Hook Flags
 
-The `flags` parameter is used to set the hook flags. It is an optional parameter and can be set to a number. Here is an example of creating a hook payload with the hook flags set to `SetHookFlags.hsfOverride`:
+The `flags` parameter is used to set the hook flags. It is an optional parameter and can be set to a number. Here is an example of creating a hook payload with the hook flags set to `HookFlags.hsfOverride`:
 
 ```ts
 import {
   createHookPayload,
-  SetHookFlags
 } from '@transia/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
@@ -213,7 +208,7 @@ const hook = createHookPayload({
   version: 2, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
@@ -242,7 +237,7 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
   hookParams: [param1.toXrpl()], // HookParameters
 })
@@ -269,7 +264,7 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
   hookGrants: [hook2Grant1.toXrpl()], // HookGrants
 })
@@ -511,14 +506,14 @@ import {
   Xrpld,
   createHookPayload,
   setHooks,
-  SetHookFlags
+  HookFlags
 } from '@transia/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // SetHookFlag
   hookOnArray: ['Invoke'] // HookOn Transactions
 })
 

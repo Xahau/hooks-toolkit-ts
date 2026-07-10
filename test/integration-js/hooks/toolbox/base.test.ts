@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, Payment, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, Payment, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // xrpl-helpers
 import {
   XrplIntegrationTestContext,
@@ -72,7 +73,7 @@ describe('base', () => {
       version: 1,
       createFile: 'base',
       namespace: 'base',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke', 'Payment'],
       fee: '100000',
     })

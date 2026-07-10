@@ -3,7 +3,6 @@ import {
   AccountSetAsfFlags,
   Invoke,
   LedgerRequest,
-  SetHookFlags,
   Transaction,
   TransactionMetadata,
 } from 'xahau'
@@ -25,7 +24,8 @@ import {
   clearAllHooks,
   ExecutionUtility,
 } from '../../../../src'
-import { LedgerResponseExpanded } from 'xahau/src/models/methods/ledger'
+import { LedgerResponseExpanded } from 'xahau/dist/npm/models/methods/ledger'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('callback', () => {
   let testContext: XrplIntegrationTestContext
@@ -42,7 +42,7 @@ describe('callback', () => {
       version: 0,
       createFile: 'callback',
       namespace: 'callback',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
@@ -89,7 +89,7 @@ describe('callback', () => {
       version: 0,
       createFile: 'callback',
       namespace: 'callback',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
     await setHooks({
