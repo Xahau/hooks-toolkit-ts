@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, Payment, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, Payment, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // xrpl-helpers
 import {
   XrplIntegrationTestContext,
@@ -9,13 +10,12 @@ import {
 } from '../../../../src/libs/xrpl-helpers'
 import {
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   padHexString,
-  // clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  // clearAllHooks,
+} from '../../../../src'
 
 import { xrpAddressToHex } from '@transia/binary-models'
 
@@ -72,21 +72,21 @@ describe('base', () => {
       version: 1,
       createFile: 'base',
       namespace: 'base',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke', 'Payment'],
       fee: '100000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
-    // await clearAllHooksV3({
+    // await clearAllHooks({
     //   client: testContext.client,
     //   wallet: testContext.hook1,
-    // } as SetHookParams)
+    // })
     await teardownClient(testContext)
   })
 

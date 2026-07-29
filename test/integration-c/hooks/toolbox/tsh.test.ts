@@ -3,7 +3,6 @@ import {
   Invoke,
   TrustSet,
   AccountSet,
-  SetHookFlags,
   AccountSetAsfFlags,
   TransactionMetadata,
 } from 'xahau'
@@ -16,15 +15,15 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('tsh', () => {
   let testContext: XrplIntegrationTestContext
@@ -51,14 +50,14 @@ describe('tsh', () => {
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['TrustSet'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.gw,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     // TRUST SET IN
@@ -81,15 +80,15 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000001')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
 
   it('tsh strong', async () => {
@@ -97,14 +96,14 @@ describe('tsh', () => {
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     const hookWallet = testContext.hook1
@@ -123,29 +122,29 @@ describe('tsh', () => {
     const executions = meta.HookExecutions as any[]
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
   it('tsh aaw', async () => {
     const hook = createHookPayload({
       version: 0,
       createFile: 'tsh',
       namespace: 'tsh',
-      flags: SetHookFlags.hsfCollect + SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfCollect + HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     const aliceWallet = testContext.alice
     const hookWallet = testContext.hook1
@@ -170,14 +169,14 @@ describe('tsh', () => {
     expect(executions[0].HookExecution.HookReturnString).toMatch('000000')
     expect(executions[1].HookExecution.HookReturnString).toMatch('000002')
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.gw,
-    } as SetHookParams)
+    })
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.alice,
-    } as SetHookParams)
+    })
   })
 })

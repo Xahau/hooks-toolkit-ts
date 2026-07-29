@@ -28,8 +28,7 @@ import {
   setGovernTable,
 } from '../xrpl-helpers'
 import { IC, burn, balance } from './tools'
-import { clearAllHooksV3 } from '../../setHooks'
-import { SetHookParams } from '../../types'
+import { clearAllHooks } from '../../setHooks'
 
 export interface XrplIntegrationTestContext {
   client: Client
@@ -83,10 +82,10 @@ export async function teardownHook(
   accounts?: Wallet[] | []
 ): Promise<void> {
   const promises = accounts.map(async (acct: Wallet) => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: context.client,
       wallet: acct,
-    } as SetHookParams)
+    })
   })
   await Promise.all(promises)
 }

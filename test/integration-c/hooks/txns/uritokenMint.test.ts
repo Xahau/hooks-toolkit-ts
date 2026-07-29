@@ -1,10 +1,6 @@
 // xrpl
-import {
-  Invoke,
-  SetHookFlags,
-  TransactionMetadata,
-  convertStringToHex,
-} from 'xahau'
+import { Invoke, TransactionMetadata, convertStringToHex } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // xrpl-helpers
 import {
   XrplIntegrationTestContext,
@@ -15,14 +11,13 @@ import {
 } from '../../../../src/libs/xrpl-helpers'
 import {
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
+  setHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '../../../../dist/npm/src'
+} from '../../../../src'
 import { uint32ToHex } from '@transia/binary-models'
 
 describe('uriTokenMint', () => {
@@ -34,14 +29,14 @@ describe('uriTokenMint', () => {
       version: 0,
       createFile: 'txn_uritoken_mint',
       namespace: 'txn_uritoken_mint',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
     await teardownClient(testContext)
@@ -65,13 +60,11 @@ describe('uriTokenMint', () => {
       Account: hookWallet.classicAddress,
       HookParameters: [tx1param1.toXrpl(), tx1param2.toXrpl()],
     }
-    console.log(JSON.stringify(builtTx1))
 
     const result1 = await Xrpld.submit(testContext.client, {
       wallet: hookWallet,
       tx: builtTx1,
     })
-    console.log(result1)
 
     const hookExecutions = await ExecutionUtility.getHookExecutionsFromMeta(
       testContext.client,

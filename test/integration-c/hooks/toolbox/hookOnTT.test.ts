@@ -1,5 +1,7 @@
 // xrpl
-import { Invoke, Payment, SetHookFlags, xahToDrops } from 'xahau'
+import { Invoke, Payment, xahToDrops } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
+
 // src
 import {
   // Testing
@@ -9,11 +11,10 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
-} from '../../../../dist/npm/src'
+  setHooks,
+  clearAllHooks,
+} from '../../../../src'
 
 // HookOnTT: ACCEPT: success
 // HookOnTT: ROLLBACK: invalid
@@ -25,10 +26,10 @@ describe('hookOnTT', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -37,14 +38,14 @@ describe('hookOnTT', () => {
       version: 0,
       createFile: 'hook_on_tt',
       namespace: 'hook_on_tt',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN
     const hookWallet = testContext.hook1
@@ -65,14 +66,14 @@ describe('hookOnTT', () => {
       version: 0,
       createFile: 'hook_on_tt',
       namespace: 'hook_on_tt',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke', 'Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     try {
       // PAYMENT IN
       const hookWallet = testContext.hook1
