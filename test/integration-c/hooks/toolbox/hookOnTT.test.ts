@@ -92,7 +92,7 @@ describe('hookOnTT', () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error.message).toEqual(
-          'f: hook_on_tt: HookOn field is incorrectly set.'
+          '15: hook_on_tt: HookOn field is incorrectly set.'
         )
       }
     }

@@ -8,7 +8,8 @@
 
 Run this command to locally compile an XAHL Hook source file (inside ./contracts) from .c to .wasm code:
 
-`$ hooks-cli compile-c contracts-c build`
+`$ hooks-cli compile-c contracts-c/toolbox build`
+`$ hooks-cli compile-c contracts-c/txns build`
 
 You can also build a single hook with;
 

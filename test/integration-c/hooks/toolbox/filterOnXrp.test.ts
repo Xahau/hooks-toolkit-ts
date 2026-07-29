@@ -93,7 +93,7 @@ describe('filterOnXrp', () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error.message).toEqual(
-          'e: filter_on_xrp: Ignoring non XAH Transaction'
+          '14: filter_on_xrp: Ignoring non XAH Transaction'
         )
       }
     }
