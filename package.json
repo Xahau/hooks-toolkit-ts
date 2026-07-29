@@ -1,7 +1,7 @@
 {
-  "name": "@transia/hooks-toolkit",
+  "name": "@xahau/hooks-toolkit",
   "version": "2.0.0",
-  "description": "A toolkit for interacting with smart contracts (hooks) on the Xahau Ledger.",
+  "description": "A toolkit for interacting with smart contracts (hooks) on the Xahau Network.",
   "main": "dist/npm/src/index.js",
   "files": [
     "dist/**/*",
@@ -19,6 +19,10 @@
   "author": {
     "name": "Denis Angell",
     "url": "https://github.com/dangell7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xahau/hooks-toolkit-ts.git"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {

@@ -16,7 +16,7 @@ The Hooks-Toolkit is a powerful library that allows developers to interact with 
 To use the binary-models repo, you can install the package via npm or yarn:
 
 ```bash
-yarn add @transia/hooks-toolkit
+yarn add @xahau/hooks-toolkit
 ```
 
 ## Set Hook
@@ -42,7 +42,7 @@ import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   setHooks,
   createHookPayload,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
@@ -76,7 +76,7 @@ Here is an example of deleting all hooks using the `clearAllHooks` function:
 ```ts
 import {
   clearAllHooks,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 await clearAllHooks({
   client: testContext.client,
@@ -99,7 +99,7 @@ import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   createHookPayload,
   setHooks,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const clearHook = createHookPayload({
   namespace: 'mynamespace', // namespace (ascii)
@@ -129,7 +129,7 @@ The `version` parameter is used to set the Hook API version. It is an optional p
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
@@ -147,7 +147,7 @@ The `createFile` parameter is used to set the create code for the hook. It is an
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
@@ -165,7 +165,7 @@ The `namespace` parameter is used to set the hook namespace. It is an optional p
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 2, // HookApiVersion
@@ -183,7 +183,7 @@ The `flags` parameter is used to set the hook flags. It is an optional parameter
 ```ts
 import {
   createHookPayload,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
@@ -201,7 +201,7 @@ The `hookOnArray` parameter is used to specify which transaction types a hook sh
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 2, // HookApiVersion
@@ -224,7 +224,7 @@ The `hookCanEmitArray` parameter is used to specify which transaction types a ho
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 2, // HookApiVersion
@@ -248,7 +248,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 import { floatToLEXfl } from '@transia/binary-models'
 
 const param1 = new iHookParamEntry(
@@ -276,7 +276,7 @@ import {
   iHookGrantEntry,
   iHookGrantHash,
   iHookGrantAuthorize
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook2Grant1 = new iHookGrantEntry(
   new iHookGrantHash(hookHash as string),
@@ -300,7 +300,7 @@ The `hookName` parameter is used to set the hook name. It is an optional paramet
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
@@ -364,7 +364,7 @@ import {
   setupClient,
   StateUtility,
   hexNamespace,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -394,7 +394,7 @@ import {
   serverUrl,
   setupClient,
   StateUtility
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -425,7 +425,7 @@ import {
   setupClient,
   StateUtility,
   hexNamespace
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -459,7 +459,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -487,7 +487,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -516,7 +516,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -550,7 +550,7 @@ import {
   createHookPayload,
   setHooks,
   HookFlags
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
