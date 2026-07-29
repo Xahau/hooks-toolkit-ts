@@ -747,9 +747,9 @@
   integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
 
 "@tsconfig/node16@^16.1.0":
-  version "16.1.1"
-  resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-16.1.1.tgz"
-  integrity sha512-+pio93ejHN4nINX4pXqfnR/fPLRtJBaT4ORaa5RH0Oc1zoYmo2B2koG+M328CQhHKn1Wj6FcOxCDFXAot9NhvA==
+  version "16.1.8"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-16.1.8.tgz#18e61a835d3436bddb8f330d3b83dbe40dd3afd1"
+  integrity sha512-T/CfdwFry660WjZor56z0F3pxeCllt8KOxWcHFW6ZEuULKUObTDEMdgtctyuJPxwqyWDsvHRfxHaJ4FIICyoqQ==
 
 "@types/babel__core@^7.1.14":
   version "7.20.1"
