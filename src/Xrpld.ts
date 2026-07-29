@@ -54,8 +54,13 @@ export class Xrpld {
         txResponse?.result?.meta as TransactionMetadata
       )
       if (hookExecutions.executions.length === 1) {
+        let returnCode = BigInt(
+          `0x${hookExecutions.executions[0].HookReturnCode}`
+        )
+        if (returnCode & 0x8000000000000000n)
+          returnCode = -(returnCode & ~0x8000000000000000n)
         throw Error(
-          `${hookExecutions.executions[0].HookReturnCode}: ${hookExecutions.executions[0].HookReturnString}`
+          `${returnCode}: ${hookExecutions.executions[0].HookReturnString}`
         )
       }
       throw Error(JSON.stringify(hookExecutions.executions))
