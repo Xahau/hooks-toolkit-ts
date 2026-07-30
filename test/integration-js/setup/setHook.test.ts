@@ -1,9 +1,9 @@
 import {
   // Invoke,
   LedgerEntryRequest,
-  SetHookFlags,
   calculateHookOn,
 } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // xrpl-helpers
 import {
@@ -15,16 +15,14 @@ import {
 // src
 import {
   // Xrpld,
-  SetHookParams,
-  setHooksV3,
+  setHooks,
   hexNamespace,
   iHook,
   readHookBinaryHexFromNS,
-  clearAllHooksV3,
+  clearAllHooks,
   // StateUtility,
   // padHexString,
 } from '../../../src'
-import { flipHex } from '@transia/binary-models'
 import {
   HookDefinition as LeHookDefinition,
   Hook as LeHook,
@@ -42,16 +40,16 @@ import {
 //     // SETHOOK IN
 //     const hook = {
 //       CreateCode: readHookBinaryHexFromNS('state_basic'),
-//       Flags: SetHookFlags.hsfOverride,
+//       Flags: HookFlags.hsfOverride,
 //       HookOn: calculateHookOn(['Invoke']),
 //       HookNamespace: hexNamespace('state_basic'),
 //       HookApiVersion: 1,
 //     } as iHook
-//     await setHooksV3({
+//     await setHooks({
 //       client: testContext.client,
 //       seed: testContext.hook1.seed,
 //       hooks: [{ Hook: hook }],
-//     } as SetHookParams)
+//     })
 
 //     // VALIDATION
 //     const hookReq: LedgerEntryRequest = {
@@ -100,19 +98,19 @@ import {
 //     expect(stateCount).toBeGreaterThan(0)
 
 //     const clearHook = {
-//       Flags: SetHookFlags.hsfNSDelete,
+//       Flags: HookFlags.hsfNSDelete,
 //       HookNamespace: hexNamespace('state_basic'),
 //     } as iHook
-//     await setHooksV3({
+//     await setHooks({
 //       client: testContext.client,
 //       wallet: testContext.hook1,
 //       hooks: [{ Hook: clearHook }],
-//     } as SetHookParams)
+//     })
 
-//     await clearAllHooksV3({
+//     await clearAllHooks({
 //       client: testContext.client,
 //       wallet: testContext.hook1,
-//     } as SetHookParams)
+//     })
 //   })
 // })
 
@@ -131,18 +129,18 @@ describe('SetHook - (noop|create|install', () => {
   it('sethook - create', async () => {
     const hook = {
       CreateCode: readHookBinaryHexFromNS('base', 'bc'),
-      Flags: SetHookFlags.hsfOverride,
+      Flags: HookFlags.hsfOverride,
       HookOn: calculateHookOn(['Invoke']),
       HookNamespace: hexNamespace('base'),
       HookApiVersion: 1,
       Fee: '1000000',
     } as iHook
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
       hook: {
@@ -164,26 +162,26 @@ describe('SetHook - (noop|create|install', () => {
       'CAE662172FD450BB0CD710A769079C05BFC5D8E35EFA6576EDC7D0377AFDD4A2'
     )
 
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
   })
 
   // it('sethook - install', async () => {
   //   const hook1 = {
   //     CreateCode: readHookBinaryHexFromNS('hook_on_tt'),
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //     HookOn: calculateHookOn(['Invoke']),
   //     HookNamespace: hexNamespace('hook_on_tt'),
   //     HookApiVersion: 0,
   //   } as iHook
 
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook1Req: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -200,16 +198,16 @@ describe('SetHook - (noop|create|install', () => {
 
   //   const hook2 = {
   //     HookHash: leHook1.Hooks[0].Hook.HookHash,
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //     HookOn: calculateHookOn(['Invoke']),
   //     HookNamespace: hexNamespace('hook_on_tt'),
   //   } as iHook
 
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook2.seed,
   //     hooks: [{ Hook: hook2 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hookReq: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -229,40 +227,40 @@ describe('SetHook - (noop|create|install', () => {
   //     '326178559E63837BA3B83BC05E5DC323A7B52C782AC4D5B3B182B2E050565581'
   //   )
 
-  //   await clearAllHooksV3({
+  //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook1,
-  //   } as SetHookParams)
-  //   await clearAllHooksV3({
+  //   })
+  //   await clearAllHooks({
   //     client: testContext.client,
   //     wallet: testContext.hook2,
-  //   } as SetHookParams)
+  //   })
   // })
 
   // // TODO: Make sure that the namespace was changed: Do Params & Grant
   // it('sethook - update: Namespace', async () => {
   //   const hook1 = {
   //     CreateCode: readHookBinaryHexFromNS('hook_on_tt'),
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //     HookOn: calculateHookOn(['Invoke']),
   //     HookNamespace: hexNamespace('hook_on_tt'),
   //     HookApiVersion: 0,
   //   } as iHook
 
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook2 = {
   //     HookNamespace: hexNamespace('hook_on_tts'),
   //   } as iHook
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook2 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hookReq1: LedgerEntryRequest = {
   //     command: 'ledger_entry',
@@ -286,27 +284,27 @@ describe('SetHook - (noop|create|install', () => {
   // it('sethook - delete', async () => {
   //   const hook1 = {
   //     CreateCode: readHookBinaryHexFromNS('hook_on_tt'),
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //     HookOn: calculateHookOn(['Invoke']),
   //     HookNamespace: hexNamespace('hook_on_tt'),
   //     HookApiVersion: 0,
   //   } as iHook
 
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook1 }],
-  //   } as SetHookParams)
+  //   })
 
   //   const hook = {
   //     CreateCode: '',
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //   } as iHook
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook }],
-  //   } as SetHookParams)
+  //   })
   //   try {
   //     const hookReq: LedgerEntryRequest = {
   //       command: 'ledger_entry',
@@ -327,16 +325,16 @@ describe('SetHook - (noop|create|install', () => {
   //   // SETHOOK IN
   //   const hook = {
   //     CreateCode: readHookBinaryHexFromNS('state_basic'),
-  //     Flags: SetHookFlags.hsfOverride,
+  //     Flags: HookFlags.hsfOverride,
   //     HookOn: calculateHookOn(['Invoke']),
   //     HookNamespace: hexNamespace('state_basic'),
   //     HookApiVersion: 0,
   //   } as iHook
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: hook }],
-  //   } as SetHookParams)
+  //   })
 
   //   // INVOKE IN
   //   const hookWallet = testContext.hook1
@@ -363,14 +361,14 @@ describe('SetHook - (noop|create|install', () => {
   //   expect(stateCount).toBeGreaterThan(0)
 
   //   const clearHook = {
-  //     Flags: SetHookFlags.hsfNSDelete,
+  //     Flags: HookFlags.hsfNSDelete,
   //     HookNamespace: hexNamespace('state_basic'),
   //   } as iHook
-  //   await setHooksV3({
+  //   await setHooks({
   //     client: testContext.client,
   //     seed: testContext.hook1.seed,
   //     hooks: [{ Hook: clearHook }],
-  //   } as SetHookParams)
+  //   })
 
   //   try {
   //     await StateUtility.getHookState(

@@ -1,10 +1,6 @@
 // xrpl
-import {
-  Invoke,
-  LedgerEntryRequest,
-  SetHookFlags,
-  TransactionMetadata,
-} from 'xahau'
+import { Invoke, LedgerEntryRequest, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { Hook as LeHook } from 'xahau/dist/npm/models/ledger'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
@@ -16,11 +12,10 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -58,14 +53,14 @@ describe('stateForeignBasic', () => {
     testContext = await setupClient(serverUrl)
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
-    await clearAllHooksV3({
+    })
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook2,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -79,14 +74,14 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     // FOREIGN HOOK
     const hook2param1 = new iHookParamEntry(
@@ -105,7 +100,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook2param1.toXrpl(),
@@ -113,11 +108,11 @@ describe('stateForeignBasic', () => {
         hook2param3.toXrpl(),
       ],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     try {
       // INVOKE IN NATIVE
@@ -131,7 +126,7 @@ describe('stateForeignBasic', () => {
       })
     } catch (error: any) {
       expect(error.message).toEqual(
-        '22: state_foreign_basic: Could not get foreign state'
+        '34: state_foreign_basic: Could not get foreign state'
       )
     }
   })
@@ -146,14 +141,14 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     // FOREIGN HOOK
     const hook2param1 = new iHookParamEntry(
@@ -172,7 +167,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook2param1.toXrpl(),
@@ -180,11 +175,11 @@ describe('stateForeignBasic', () => {
         hook2param3.toXrpl(),
       ],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN NATIVE
     const builtTx1: Invoke = {
@@ -208,7 +203,7 @@ describe('stateForeignBasic', () => {
       })
     } catch (error: any) {
       expect(error.message).toEqual(
-        '22: state_foreign_basic: Could not get foreign state'
+        '34: state_foreign_basic: Could not get foreign state'
       )
     }
   })
@@ -236,7 +231,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook1param1.toXrpl(),
@@ -245,11 +240,11 @@ describe('stateForeignBasic', () => {
       ],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -270,15 +265,15 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookGrants: [hook2Grant1.toXrpl()],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE IN FOREIGN
     const builtTx1: Invoke = {
@@ -302,7 +297,7 @@ describe('stateForeignBasic', () => {
       })
     } catch (error: any) {
       expect(error.message).toEqual(
-        '27: state_foreign_basic: Could not set foreign state'
+        '39: state_foreign_basic: Could not set foreign state'
       )
     }
   })
@@ -329,7 +324,7 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_foreign_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookParams: [
         hook1param1.toXrpl(),
@@ -338,11 +333,11 @@ describe('stateForeignBasic', () => {
       ],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook2,
       hooks: [{ Hook: hook1 }],
-    } as SetHookParams)
+    })
 
     const hookReq: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -363,16 +358,16 @@ describe('stateForeignBasic', () => {
       version: 0,
       createFile: 'state_basic',
       namespace: 'foreign',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       hookGrants: [hook2Grant1.toXrpl()],
     })
 
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook2 }],
-    } as SetHookParams)
+    })
 
     // INVOKE OUT FOREIGN
     const builtTx1: Invoke = {

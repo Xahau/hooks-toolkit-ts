@@ -13,8 +13,7 @@ import {
 } from '../xrpl-helpers'
 import { appLogger } from '../logger'
 import { Xrpld } from '../../Xrpld'
-import { setHooksV3 } from '../../setHooks'
-import { SetHookParams } from '../../types'
+import { setHooks } from '../../setHooks'
 import { StateUtility } from '../../keylet-utils'
 import { padHexString } from '../../utils'
 
@@ -179,11 +178,11 @@ export async function setGovernTable(
       },
     ],
   }
-  await setHooksV3({
+  await setHooks({
     client: client,
     wallet: table,
     hooks: [{ Hook: hook }],
-  } as SetHookParams)
+  })
   const tx: Invoke = {
     TransactionType: 'Invoke',
     Account: invoker.classicAddress,
