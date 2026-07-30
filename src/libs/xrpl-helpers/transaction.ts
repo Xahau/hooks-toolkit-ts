@@ -332,7 +332,7 @@ export async function testTransaction(
     // eslint-disable-next-line no-console -- See output
     appLogger.error('The transaction was: ', transaction)
     // eslint-disable-next-line no-console -- See output
-    appLogger.error('The response was: ', JSON.stringify(response))
+    appLogger.error('The response was: ', response)
   }
 
   if (
@@ -351,7 +351,15 @@ export async function testTransaction(
   // check that the transaction is on the ledger
   const signedTx = omit(response.result.tx_json, ['hash'])
   await ledgerAccept(client)
-  return await verifySubmittedTransaction(client, signedTx as Transaction)
+  const validatedResponse = await verifySubmittedTransaction(
+    client,
+    signedTx as Transaction
+  )
+  if (response.result.engine_result !== 'tesSUCCESS') {
+    // eslint-disable-next-line no-console -- See output
+    appLogger.error('The response meta was: ', validatedResponse.result.meta)
+  }
+  return validatedResponse
   // return response
 }
 

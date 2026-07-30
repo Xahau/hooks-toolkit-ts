@@ -16,16 +16,16 @@ The Hooks-Toolkit is a powerful library that allows developers to interact with 
 To use the binary-models repo, you can install the package via npm or yarn:
 
 ```bash
-yarn add @transia/hooks-toolkit
+yarn add @xahau/hooks-toolkit
 ```
 
 ## Set Hook
 
-The `setHooksV3` function in the SDK is used to set hooks on Xahau. It takes in a `SetHookParams` object as a parameter, which includes the client, seed, and hooks to be set.
+The `setHooks` function in the SDK is used to set hooks on Xahau. It takes in a `SetHookParams` object as a parameter, which includes the client, seed, and hooks to be set.
 
-### Setting Hooks with setHooksV3
+### Setting Hooks with setHooks
 
-To set a hook on Xahau using the `setHooksV3` function, you need to provide the following parameters:
+To set a hook on Xahau using the `setHooks` function, you need to provide the following parameters:
 
 - `client`: Xahau client object.
 - `seed`: The seed of the account that will set the hook.
@@ -35,86 +35,81 @@ Each hook object in the `hooks` array should have the following properties:
 
 - `Hook`: The hook payload object.
 
-Here is an example of setting a hook using the `setHooksV3` function:
+Here is an example of setting a hook using the `setHooks` function:
 
 ```ts
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
-  SetHookFlags
-} from 'xahau'
-import {
-  setHooksV3,
+  setHooks,
   createHookPayload,
-  SetHookParams
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Invoke'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Invoke'] // Transaction types to trigger on
+  hookCanEmitArray: ['Invoke'] // Transaction types to allow to be emitted from the hook
 })
 
-await setHooksV3({
+await setHooks({
   client: testContext.client,
   wallet: testContext.hook1,
   hooks: [{ Hook: hook }],
-} as SetHookParams)
+})
 ```
 
-In the example above, we create a hook payload using the `createHookPayload` function and set the `hook_on` field to trigger on the `Invoke` transaction type. We then pass the hook payload as an object in the `hooks` array to the `setHooksV3` function.
+In the example above, we create a hook payload using the `createHookPayload` function and set the `hook_on` field to trigger on the `Invoke` transaction type. We then pass the hook payload as an object in the `hooks` array to the `setHooks` function.
 
-Note that the `setHooksV3` function is an asynchronous function and returns a Promise. You can use `await` to wait for the function to complete.
+Note that the `setHooks` function is an asynchronous function and returns a Promise. You can use `await` to wait for the function to complete.
 
-### Deleting Hooks with clearAllHooksV3
+### Deleting Hooks with clearAllHooks
 
-To delete all hooks on Xahau using the `clearAllHooksV3` function, you need to provide the following parameters:
+To delete all hooks on Xahau using the `clearAllHooks` function, you need to provide the following parameters:
 
 - `client`: Xahau client object.
 - `seed`: The seed of the account that will remove the hook.
 
-Here is an example of deleting all hooks using the `clearAllHooksV3` function:
+Here is an example of deleting all hooks using the `clearAllHooks` function:
 
 ```ts
 import {
-  clearAllHooksV3,
-} from '@transia/hooks-toolkit'
+  clearAllHooks,
+} from '@xahau/hooks-toolkit'
 
-await clearAllHooksV3({
+await clearAllHooks({
   client: testContext.client,
   seed: testContext.hook1.seed,
-} as SetHookParams)
+})
 ```
 
-### Deleting a single hook with setHooksV3
+### Deleting a single hook with setHooks
 
-To delete a single hook and state on Xahau using the `setHooksV3` function, you need to provide the following parameters:
+To delete a single hook and state on Xahau using the `setHooks` function, you need to provide the following parameters:
 
 - `client`: Xahau client object.
 - `seed`: The seed of the account that will delete the hook.
 - `hooks`: An array of hook objects to be deleted.
 
-Here is an example of deleting a single hook for the hook in position 2 using the `setHooksV3` function:
+Here is an example of deleting a single hook for the hook in position 2 using the `setHooks` function:
 
 ```ts
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
-  SetHookFlags
-} from 'xahau'
-import {
-  SetHookParams,
   createHookPayload,
-  setHooksV3,
-} from '@transia/hooks-toolkit'
+  setHooks,
+} from '@xahau/hooks-toolkit'
 
 const clearHook = createHookPayload({
   namespace: 'mynamespace', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride | SetHookFlags.hsfNSDelete, // SetHookFlag
+  flags: HookFlags.hsfOverride | HookFlags.hsfNSDelete, // HookFlags
 })
-await setHooksV3({
+await setHooks({
   client: testContext.client,
   wallet: testContext.hook1,
   hooks: [{Hook: {}}, { Hook: clearHook }],
-} as SetHookParams)
+})
 ```
 
 export const metadata = {
@@ -134,14 +129,14 @@ The `version` parameter is used to set the Hook API version. It is an optional p
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -152,14 +147,14 @@ The `createFile` parameter is used to set the create code for the hook. It is an
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -170,33 +165,32 @@ The `namespace` parameter is used to set the hook namespace. It is an optional p
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 2, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
 })
 ```
 
 ### Hook Flags
 
-The `flags` parameter is used to set the hook flags. It is an optional parameter and can be set to a number. Here is an example of creating a hook payload with the hook flags set to `SetHookFlags.hsfOverride`:
+The `flags` parameter is used to set the hook flags. It is an optional parameter and can be set to a number. Here is an example of creating a hook payload with the hook flags set to `HookFlags.hsfOverride`:
 
 ```ts
 import {
   createHookPayload,
-  SetHookFlags
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
 })
 ```
 
@@ -207,18 +201,42 @@ The `hookOnArray` parameter is used to specify which transaction types a hook sh
 ```ts
 import {
   createHookPayload
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 2, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
+  // or you can use the following fields
+  // hookOnIncomingArray: ['Payment'] // Transaction types to trigger on incoming transactions
+  // hookOnOutgoingArray: ['Invoke']  // Transaction types to trigger on outgoing transactions, needs to be different from hookOnIncomingArray.
 })
 ```
 
 To create a hook that triggers on multiple transaction types, the `hookOnArray` should be set to an array of those types, such as `['Payment', 'EscrowFinish']`.
+
+### Hook Can Emit Transaction Types
+
+The `hookCanEmitArray` parameter is used to specify which transaction types a hook should be allowed to emit. It is an optional parameter and should be passed as an array of strings. Here is an example of creating a hook payload with the `hookCanEmitArray` set to allow the `Payment` transaction type to be emitted from the hook:
+
+```ts
+import {
+  createHookPayload
+} from '@xahau/hooks-toolkit'
+
+const hook = createHookPayload({
+  version: 2, // HookApiVersion
+  createFile: 'hook_on_tt', // filename in /build
+  namespace: 'hook_on_tt', // namespace (ascii)
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
+  hookCanEmitArray: ['Payment'] // Transaction types to allow to be emitted from the hook
+})
+```
+
+To create a hook that allows multiple transaction types to be emitted from the hook, the `hookCanEmitArray` should be set to an array of those types, such as `['Payment', 'EscrowFinish']`.
 
 ### Hook Parameters
 
@@ -230,7 +248,7 @@ import {
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 import { floatToLEXfl } from '@transia/binary-models'
 
 const param1 = new iHookParamEntry(
@@ -242,8 +260,8 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Payment'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
   hookParams: [param1.toXrpl()], // HookParameters
 })
 ```
@@ -258,7 +276,7 @@ import {
   iHookGrantEntry,
   iHookGrantHash,
   iHookGrantAuthorize
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const hook2Grant1 = new iHookGrantEntry(
   new iHookGrantHash(hookHash as string),
@@ -269,9 +287,29 @@ const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
+  flags: HookFlags.hsfOverride, // HookFlags
   hookOnArray: ['Payment'] // HookOn Transactions
   hookGrants: [hook2Grant1.toXrpl()], // HookGrants
+})
+```
+
+### Hook Name
+
+The `hookName` parameter is used to set the hook name. It is an optional parameter and can be set to a string. Here is an example of creating a hook payload with the hook name set to `'hook_on_tt'`:
+
+```ts
+import {
+  createHookPayload
+} from '@xahau/hooks-toolkit'
+
+const hook = createHookPayload({
+  version: 0, // HookApiVersion
+  createFile: 'hook_on_tt', // filename in /build
+  namespace: 'hook_on_tt', // namespace (ascii)
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Payment'] // Transaction types to trigger on
+  hookGrants: [hook2Grant1.toXrpl()], // HookGrants
+  hookName: 'save_name', // HookName
 })
 ```
 
@@ -326,7 +364,7 @@ import {
   setupClient,
   StateUtility,
   hexNamespace,
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -356,7 +394,7 @@ import {
   serverUrl,
   setupClient,
   StateUtility
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -387,7 +425,7 @@ import {
   setupClient,
   StateUtility,
   hexNamespace
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -421,7 +459,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -449,7 +487,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -478,7 +516,7 @@ import {
   serverUrl,
   setupClient,
   ExecutionUtility 
-} from '@transia/hooks-toolkit'
+} from '@xahau/hooks-toolkit'
 
 const testContext = (await setupClient(
   serverUrl
@@ -510,23 +548,24 @@ Here is an example of submitting a transaction using the `Xrpld.submit` function
 import {
   Xrpld,
   createHookPayload,
-  setHooksV3,
-  SetHookFlags
-} from '@transia/hooks-toolkit'
+  setHooks,
+  HookFlags
+} from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
   version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
-  flags: SetHookFlags.hsfOverride, // SetHookFlag
-  hookOnArray: ['Invoke'] // HookOn Transactions
+  flags: HookFlags.hsfOverride, // HookFlags
+  hookOnArray: ['Invoke'] // Transaction types to trigger on
+  hookCanEmitArray: ['Invoke'] // Transaction types to allow to be emitted from the hook
 })
 
-await setHooksV3({
+await setHooks({
   client: testContext.client,
   wallet: testContext.alice,
   hooks: [{ Hook: hook }],
-} as SetHookParams)
+})
 
 const aliceWallet = testContext.alice
 const bobWallet = testContext.bob

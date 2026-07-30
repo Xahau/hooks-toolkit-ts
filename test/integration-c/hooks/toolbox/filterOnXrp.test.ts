@@ -1,6 +1,7 @@
 // xrpl
-import { Payment, SetHookFlags, TransactionMetadata, xahToDrops } from 'xahau'
+import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
 import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
@@ -10,11 +11,10 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
 } from '../../../../src'
 
 // FilterOnXrp: ACCEPT: success
@@ -29,20 +29,20 @@ describe('filterOnXrp', () => {
       version: 0,
       createFile: 'filter_on_xrp',
       namespace: 'filter_on_xrp',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Payment'],
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
@@ -93,7 +93,7 @@ describe('filterOnXrp', () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error.message).toEqual(
-          'e: filter_on_xrp: Ignoring non XAH Transaction'
+          '14: filter_on_xrp: Ignoring non XAH Transaction'
         )
       }
     }

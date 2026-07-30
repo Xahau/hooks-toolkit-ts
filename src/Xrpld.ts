@@ -5,6 +5,7 @@ import {
   Client,
   SubmittableTransaction,
   TransactionMetadata,
+  TxResponse,
   validate,
 } from 'xahau'
 import { ExecutionUtility } from './keylet-utils'
@@ -17,11 +18,11 @@ import { appLogger } from './libs/logger'
 import { addListeners, ISelect, removeListeners } from './libs/debug'
 
 export class Xrpld {
-  // TX V3
+  // TX
   static async submit(
     client: Client,
     params: SmartContractParams
-  ): Promise<any> {
+  ): Promise<TxResponse['result']> {
     if (!params.tx) {
       throw Error('Missing tx parameter')
     }
@@ -53,15 +54,20 @@ export class Xrpld {
         txResponse?.result?.meta as TransactionMetadata
       )
       if (hookExecutions.executions.length === 1) {
+        let returnCode = BigInt(
+          `0x${hookExecutions.executions[0].HookReturnCode}`
+        )
+        if (returnCode & 0x8000000000000000n)
+          returnCode = -(returnCode & ~0x8000000000000000n)
         throw Error(
-          `${hookExecutions.executions[0].HookReturnCode}: ${hookExecutions.executions[0].HookReturnString}`
+          `${returnCode}: ${hookExecutions.executions[0].HookReturnString}`
         )
       }
       throw Error(JSON.stringify(hookExecutions.executions))
     }
     return txResponse?.result
   }
-  // TX V3
+  // TX
   static async submitBatch(
     client: Client,
     batches: SmartContractParams[]

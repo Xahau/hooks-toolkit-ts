@@ -1,5 +1,6 @@
 // xrpl
-import { Invoke, SetHookFlags, TransactionMetadata } from 'xahau'
+import { Invoke, TransactionMetadata } from 'xahau'
+import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import {
   // Testing
   XrplIntegrationTestContext,
@@ -8,11 +9,10 @@ import {
   serverUrl,
   // Main
   Xrpld,
-  SetHookParams,
   ExecutionUtility,
   createHookPayload,
-  setHooksV3,
-  clearAllHooksV3,
+  setHooks,
+  clearAllHooks,
   iHookParamEntry,
   iHookParamName,
   iHookParamValue,
@@ -28,21 +28,21 @@ describe('compareCondition', () => {
       version: 1,
       createFile: 'compareCondition',
       namespace: 'compareCondition',
-      flags: SetHookFlags.hsfOverride,
+      flags: HookFlags.hsfOverride,
       hookOnArray: ['Invoke'],
       fee: '1000000',
     })
-    await setHooksV3({
+    await setHooks({
       client: testContext.client,
       wallet: testContext.hook1,
       hooks: [{ Hook: hook }],
-    } as SetHookParams)
+    })
   })
   afterAll(async () => {
-    await clearAllHooksV3({
+    await clearAllHooks({
       client: testContext.client,
       wallet: testContext.hook1,
-    } as SetHookParams)
+    })
     await teardownClient(testContext)
   })
 
