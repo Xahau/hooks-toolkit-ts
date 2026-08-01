@@ -33,9 +33,9 @@ The full process for cutting a release is as follows:
 
 ## Packaging & Releasing
 
-Update yarn build
+Update pnpm build
 
-`yarn run build`
+`pnpm run build`
 
 Publish
 

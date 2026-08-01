@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
+  "extends": "@tsconfig/node24/tsconfig.json",
   "compilerOptions": {
      "composite": true,
      "module": "commonjs",
@@ -19,7 +19,6 @@
      "esModuleInterop": true,
      "skipLibCheck": true,
      "resolveJsonModule": true,
-     "preserveSymlinks": true,
    },
    "include": [
      "src/**/*.ts",
