@@ -39,10 +39,10 @@
     "xahau": "^4.0.0"
   },
   "devDependencies": {
-    "@tsconfig/node22": "^22.0.5",
+    "@tsconfig/node24": "^24.0.4",
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.0",
-    "@types/node": "^22.19.19",
+    "@types/node": "^24.13.3",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.36.0",
