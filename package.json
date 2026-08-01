@@ -28,7 +28,7 @@
   "dependencies": {
     "@transia/binary-models": "^1.1.0",
     "crypto-js": "^4.1.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.4.2",
     "es-toolkit": "^1.46.1",
     "jshooks-api": "^1.0.5",
     "reconnecting-websocket": "^4.4.0",
