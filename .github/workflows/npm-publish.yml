@@ -30,17 +30,23 @@ jobs:
         with:
           ref: refs/tags/${{ inputs.release_tag }}
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
           registry-url: https://registry.npmjs.org
-          cache: yarn
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build package
-        run: yarn run build
+        run: pnpm run build
 
       - id: package
         name: Read package metadata
@@ -82,7 +88,7 @@ jobs:
           stderr_file="$(mktemp)"
           trap 'rm -f "$stderr_file"' EXIT
 
-          if npm view "$PACKAGE_TAG" version --registry https://registry.npmjs.org 2>"$stderr_file"; then
+          if pnpm view "$PACKAGE_TAG" version --registry https://registry.npmjs.org 2>"$stderr_file"; then
             echo "$PACKAGE_TAG is already published."
             echo "is_published=true" >> "$GITHUB_OUTPUT"
             exit 0
@@ -101,11 +107,11 @@ jobs:
 
       - name: Publish to npm (dry run)
         if: inputs.dry_run
-        run: npm publish --dry-run --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
+        run: pnpm publish --dry-run --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
 
       - name: Publish to npm
         if: ${{ !inputs.dry_run && steps.package-status.outputs.is_published != 'true' }}
-        run: npm publish --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
+        run: pnpm publish --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
 
       - name: Create GitHub Release
         if: ${{ !inputs.dry_run }}
