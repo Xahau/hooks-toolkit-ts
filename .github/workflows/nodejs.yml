@@ -26,10 +26,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: 'Setup jq'
         uses: dcarbone/install-jq-action@v1.0.1
@@ -41,31 +47,11 @@ jobs:
           which jq
           jq --version
       
-      - name: Setup npm version 7
-        run: |
-          npm i -g npm@7 --registry=https://registry.npmjs.org
-
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          # caching node_modules
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-deps-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-${{ matrix.node-version }}-
-            ${{ runner.os }}-deps-
-      
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
-      - run: yarn run format:ci
-      - run: yarn run lint
+      - run: pnpm run format:ci
+      - run: pnpm run lint
 
   download-binary:
     runs-on: ubuntu-latest
@@ -103,10 +89,16 @@ jobs:
         with:
           path: xahaud
           key: ${{ runner.os }}-xahaud-${{ env.XAHAUD_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Login to GHCR # to access ghcr.io/xahau/xrpl-hooks-compiler
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -144,34 +136,14 @@ jobs:
             --env BUILD_RATE_MAX=0 \
             ghcr.io/xahau/xrpl-hooks-compiler:master
 
-      - name: Setup npm version 7
-        run: |
-          npm i -g npm@7 --registry=https://registry.npmjs.org
-
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          # caching node_modules
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-deps-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-${{ matrix.node-version }}-
-            ${{ runner.os }}-deps-
-
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
-      - run: npm i -g @xahau/hooks-cli
-      - run: yarn run build
+      - run: pnpm add --global @xahau/hooks-cli
+      - run: pnpm run build
       - run: hooks-cli compile-c contracts-c/toolbox build --headers contracts-c/utils/hook 
       - run: hooks-cli compile-c contracts-c/txns build --headers contracts-c/utils/hook 
-      - run: yarn run test:integration-c
+      - run: pnpm run test:integration-c
         env:
           XAHAU_ENV: standalone
           

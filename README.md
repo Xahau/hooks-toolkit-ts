@@ -13,10 +13,10 @@ The Hooks-Toolkit is a powerful library that allows developers to interact with 
 
 ## Installation
 
-To use the binary-models repo, you can install the package via npm or yarn:
+To use the binary-models repo, you can install the package via npm or yarn or pnpm:
 
 ```bash
-yarn add @xahau/hooks-toolkit
+pnpm add @xahau/hooks-toolkit
 ```
 
 ## Set Hook

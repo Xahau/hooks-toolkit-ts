@@ -35,16 +35,16 @@ Before you can run the integration tests you must have a standalone rippled serv
 
 Run C Hooks Integration tests
 
-`$ yarn run test:integration-c`
+`$ pnpm run test:integration-c`
 
 Run single C Hooks Integration test
 
-`$ yarn run test:integration-c test/integration-c/toolbox/base.test.ts`
+`$ pnpm run test:integration-c test/integration-c/toolbox/base.test.ts`
 
 Run JS Hooks Integration tests
 
-`$ yarn run test:integration-js`
+`$ pnpm run test:integration-js`
 
 Run single JS Hooks Integration test
 
-`$ yarn run test:integration-js test/integration-js/toolbox/base.test.ts`
+`$ pnpm run test:integration-js test/integration-js/toolbox/base.test.ts`
