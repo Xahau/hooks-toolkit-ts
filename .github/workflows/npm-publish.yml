@@ -1,0 +1,122 @@
+name: Publish npm package and create release
+
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        description: Existing Git tag to publish and use for the GitHub Release (for example, 2.0.0).
+        required: true
+        type: string
+      dry_run:
+        description: Validate the npm package without publishing it or creating a GitHub Release.
+        default: false
+        required: false
+        type: boolean
+
+concurrency:
+  group: npm-publish-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish ${{ inputs.release_tag }}
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: refs/tags/${{ inputs.release_tag }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build package
+        run: yarn run build
+
+      - id: package
+        name: Read package metadata
+        shell: bash
+        run: |
+          name="$(node -p 'require("./package.json").name')"
+          version="$(node -p 'require("./package.json").version')"
+          package_tag="$name@$version"
+
+          if [[ "$version" == *"-"* ]]; then
+            release_tag="${version#*-}"
+            release_tag="${release_tag%%.*}"
+          else
+            release_tag="latest"
+          fi
+
+          {
+            echo "name=$name"
+            echo "version=$version"
+            echo "package_tag=$package_tag"
+            echo "release_tag=$release_tag"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check release tag matches package version
+        shell: bash
+        run: |
+          if [[ "$RELEASE_TAG" != "$PACKAGE_VERSION" ]]; then
+            echo "Release tag $RELEASE_TAG does not match package version $PACKAGE_VERSION." >&2
+            exit 1
+          fi
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+
+      - id: package-status
+        name: Check package publication status
+        shell: bash
+        run: |
+          stderr_file="$(mktemp)"
+          trap 'rm -f "$stderr_file"' EXIT
+
+          if npm view "$PACKAGE_TAG" version --registry https://registry.npmjs.org 2>"$stderr_file"; then
+            echo "$PACKAGE_TAG is already published."
+            echo "is_published=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if grep -Eq "E404|404 Not Found|is not in this registry" "$stderr_file"; then
+            echo "$PACKAGE_TAG is not published yet."
+            echo "is_published=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          cat "$stderr_file" >&2
+          exit 1
+        env:
+          PACKAGE_TAG: ${{ steps.package.outputs.package_tag }}
+
+      - name: Publish to npm (dry run)
+        if: inputs.dry_run
+        run: npm publish --dry-run --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
+
+      - name: Publish to npm
+        if: ${{ !inputs.dry_run && steps.package-status.outputs.is_published != 'true' }}
+        run: npm publish --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
+
+      - name: Create GitHub Release
+        if: ${{ !inputs.dry_run }}
+        shell: bash
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "GitHub Release $RELEASE_TAG already exists."
+            exit 0
+          fi
+
+          gh release create "$RELEASE_TAG" --verify-tag --title "$RELEASE_TAG" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
