@@ -32,6 +32,9 @@ importers:
       xahau:
         specifier: ^4.1.1
         version: 4.1.1
+      xahau-binary-codec:
+        specifier: ^2.2.0
+        version: 2.2.0
     devDependencies:
       '@tsconfig/node24':
         specifier: ^24.0.4
