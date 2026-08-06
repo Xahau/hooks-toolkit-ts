@@ -1,17 +1,21 @@
-name: Publish npm package and create release
+name: Publish to npm
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       release_tag:
-        description: Existing Git tag to publish and use for the GitHub Release (for example, 2.0.0).
+        description: Version to publish (for example, 2.0.0). Must match package.json "version".
         required: true
         type: string
       dry_run:
-        description: Validate the npm package without publishing it or creating a GitHub Release.
-        default: false
-        required: false
+        description: Dry run (does not publish to npm or create a GitHub Release).
+        default: true
+        required: true
         type: boolean
+
+permissions:
+  contents: write
+  id-token: write
 
 concurrency:
   group: npm-publish-${{ inputs.release_tag }}
@@ -21,26 +25,42 @@ jobs:
   publish:
     name: Publish ${{ inputs.release_tag }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: npm
-    permissions:
-      contents: write
-      id-token: write
     steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: refs/tags/${{ inputs.release_tag }}
+      - name: Checkout
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
         with:
           version: 10
 
-      - uses: actions/setup-node@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
           registry-url: https://registry.npmjs.org
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
+
+      - name: Update npm for OIDC trusted publishing
+        run: npm install --global npm@latest
+
+      - name: Verify version matches package.json
+        shell: bash
+        run: |
+          package_version="$(node -p 'require("./package.json").version')"
+
+          if [[ "$RELEASE_TAG" != "$package_version" ]]; then
+            echo "::error::Version mismatch: input version '$RELEASE_TAG' does not match package.json version '$package_version'" >&2
+            exit 1
+          fi
+
+          echo "Version check passed: $package_version"
+          echo "GITHUB_TAG=v$package_version" >> "$GITHUB_ENV"
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -69,17 +89,6 @@ jobs:
             echo "package_tag=$package_tag"
             echo "release_tag=$release_tag"
           } >> "$GITHUB_OUTPUT"
-
-      - name: Check release tag matches package version
-        shell: bash
-        run: |
-          if [[ "$RELEASE_TAG" != "$PACKAGE_VERSION" ]]; then
-            echo "Release tag $RELEASE_TAG does not match package version $PACKAGE_VERSION." >&2
-            exit 1
-          fi
-        env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
 
       - id: package-status
         name: Check package publication status
@@ -113,16 +122,18 @@ jobs:
         if: ${{ !inputs.dry_run && steps.package-status.outputs.is_published != 'true' }}
         run: pnpm publish --registry https://registry.npmjs.org --access public --tag "${{ steps.package.outputs.release_tag }}"
 
-      - name: Create GitHub Release
+      - name: Create Git tag and GitHub Release
         if: ${{ !inputs.dry_run }}
         shell: bash
         run: |
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            echo "GitHub Release $RELEASE_TAG already exists."
+          if gh release view "$GITHUB_TAG" >/dev/null 2>&1; then
+            echo "GitHub Release $GITHUB_TAG already exists."
             exit 0
           fi
 
-          gh release create "$RELEASE_TAG" --verify-tag --title "$RELEASE_TAG" --generate-notes
+          gh release create "$GITHUB_TAG" \
+            --title "$GITHUB_TAG" \
+            --generate-notes \
+            --target "$GITHUB_SHA"
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
