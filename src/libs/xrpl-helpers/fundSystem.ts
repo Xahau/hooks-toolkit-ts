@@ -1,4 +1,9 @@
-import { AccountSetAsfFlags, type Client, type Invoke, type Wallet } from 'xahau'
+import {
+  AccountSetAsfFlags,
+  type Client,
+  type Invoke,
+  type Wallet,
+} from 'xahau'
 import {
   Account,
   ICXAH,

@@ -185,10 +185,7 @@ export async function xrpBalance(
     account: account as string,
   }
   const response = await ctx.request(request)
-  if (
-    'error' in response.result &&
-    response.result.error === 'actNotFound'
-  ) {
+  if ('error' in response.result && response.result.error === 'actNotFound') {
     return 0
   }
   return parseFloat(response.result.account_data.Balance)

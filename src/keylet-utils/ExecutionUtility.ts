@@ -1,10 +1,13 @@
 import type { Client, Transaction, TransactionMetadata, TxRequest } from 'xahau'
 import { iHookExecutions } from '../models/iHookExecutions'
 import { iHookEmittedTxs } from '../models/iHookEmittedTxs'
-import type { CreatedNode, Node } from 'xahau/dist/npm/models/transactions/metadata'
+import type {
+  CreatedNode,
+  Node,
+} from 'xahau/dist/npm/models/transactions/metadata'
 
 function isCreatedNode(node: Node): node is CreatedNode {
-  return  Object.hasOwn(node, `CreatedNode`)
+  return Object.hasOwn(node, `CreatedNode`)
 }
 
 export class ExecutionUtility {
