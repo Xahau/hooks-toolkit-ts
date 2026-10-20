@@ -11,7 +11,6 @@ const amendmentName = [
   // # PermissionedDomains         Supported::no
   // # DynamicNFT                  Supported::no
   // # Credentials                 Supported::no
-  'AMMClawback',
   // # MPTokensV1                  Supported::no
   // # InvariantsV1_1              Supported::no
   'fixNFTokenPageLinks',
@@ -29,7 +28,7 @@ const amendmentName = [
   // # AMM                         Supported::no
   'fixReducedOffersV1',
   'HooksUpdate2',
-  'HookOnV2',
+  'HookOnV2_1',
   'fixHookAPI20251128',
   'fixCronStacking',
   'ExtendedHookState',
