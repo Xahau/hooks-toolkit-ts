@@ -43,3 +43,19 @@
 
 ### Updated:
 - xrpl.js: ^2.7.3-alpha.26 -> ^2.7.3-alpha.28
+
+## [3.0.0] - 2026-10-20
+
+### Added:
+- `validateHook` helper that calls the `hook_validate` RPC and logs the result
+
+### Removed:
+- JS hooks support (`contracts-js`, `test:integration-js`, `jshooks-api`) following hooks-cli 3
+- `HOOKS_COMPILE_HOST` env, hooks-cli 3 compiles C hooks locally
+
+### Updated:
+- hooks-cli: 2.x -> 3.0.0
+- xahau.js: ^4.1.1 -> ^4.2.0, xahau-binary-codec: ^2.2.0 -> ^2.3.0
+- ESLint/Prettier -> Biome, lint and format now cover `src` and `test`
+- CI runs against xahaud 2026.10.13-release+4119
+- npm publish and GitHub Release are created by the `workflow_dispatch` publish workflow
