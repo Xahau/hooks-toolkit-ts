@@ -1,11 +1,11 @@
 // xrpl
-import { Invoke, Payment, xahToDrops } from 'xahau'
+import { type Invoke, type Payment, xahToDrops } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

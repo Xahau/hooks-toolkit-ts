@@ -1,12 +1,12 @@
 // xrpl
-import { Payment, TransactionMetadata, xahToDrops } from 'xahau'
+import { type Payment, type TransactionMetadata, xahToDrops } from 'xahau'
 import { AccountID, Amount } from 'xahau-binary-codec/dist/types'
-import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import type { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

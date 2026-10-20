@@ -1,4 +1,4 @@
-import { iHookGrantEntry } from './iHookGrantEntry'
+import type { iHookGrantEntry } from './iHookGrantEntry'
 
 export class iHookGrantEntries {
   grants: iHookGrantEntry[]

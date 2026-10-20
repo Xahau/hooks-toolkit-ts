@@ -1,11 +1,11 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { SHA256 } from 'crypto-js'
 import { TRANSACTION_TYPES, TRANSACTION_TYPE_MAP } from 'xahau-binary-codec'
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 
 export function readHookBinaryHexFromNS(filename: string, ext: string): string {
-  const buildPath = process.cwd() + '/' + 'build'
+  const buildPath = `${process.cwd()}/build`
   return wasmToHex(path.resolve(__dirname, `${buildPath}/${filename}.${ext}`))
 }
 

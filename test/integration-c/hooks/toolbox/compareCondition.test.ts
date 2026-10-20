@@ -1,8 +1,8 @@
 // xrpl
-import { Invoke, TransactionMetadata } from 'xahau'
+import type { Invoke, TransactionMetadata } from 'xahau'
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

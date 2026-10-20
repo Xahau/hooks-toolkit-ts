@@ -1,6 +1,6 @@
 import {
   serverUrl,
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   hasGovernance,

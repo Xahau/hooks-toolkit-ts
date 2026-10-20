@@ -1,22 +1,22 @@
 import {
-  Client,
+  type Client,
   Wallet,
-  Payment,
-  TrustSet,
-  AccountSet,
-  AccountSetAsfFlags,
+  type Payment,
+  type TrustSet,
+  type AccountSet,
+  type AccountSetAsfFlags,
   xahToDrops,
-  LedgerEntryRequest,
-  AccountInfoRequest,
+  type LedgerEntryRequest,
+  type AccountInfoRequest,
   convertStringToHex,
-  OfferCreate,
+  type OfferCreate,
   OfferCreateFlags,
-  RandomRequest,
-  SubmittableTransaction,
+  type RandomRequest,
+  type SubmittableTransaction,
   ECDSA,
 } from 'xahau'
-import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
-import { RippleState } from 'xahau/dist/npm/models/ledger'
+import type { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import type { RippleState } from 'xahau/dist/npm/models/ledger'
 import { appTransaction } from './transaction'
 import { appLogger } from '../logger'
 import {
@@ -170,7 +170,7 @@ export async function accountSeq(
   try {
     const response = await ctx.request(request)
     return response.result.account_data.Sequence
-  } catch (error: any) {
+  } catch (_error: any) {
     // appLogger.debug(error.message)
     return 0
   }
@@ -187,7 +187,7 @@ export async function xrpBalance(
   const response = await ctx.request(request)
   if (
     'error' in response.result &&
-    response.result['error'] === 'actNotFound'
+    response.result.error === 'actNotFound'
   ) {
     return 0
   }

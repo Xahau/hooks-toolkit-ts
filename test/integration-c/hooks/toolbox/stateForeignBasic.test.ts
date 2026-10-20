@@ -1,12 +1,12 @@
 // xrpl
-import { Invoke, LedgerEntryRequest, TransactionMetadata } from 'xahau'
+import type { Invoke, LedgerEntryRequest, TransactionMetadata } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
-import { Hook as LeHook } from 'xahau/dist/npm/models/ledger'
+import type { Hook as LeHook } from 'xahau/dist/npm/models/ledger'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

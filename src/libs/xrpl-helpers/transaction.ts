@@ -1,19 +1,19 @@
 import 'dotenv/config'
-import { BaseResponse } from 'xahau/dist/npm/models/methods/baseMethod'
+import type { BaseResponse } from 'xahau/dist/npm/models/methods/baseMethod'
 // import { assert } from 'chai'
 import { omit, throttle } from 'es-toolkit'
 import {
-  Client,
-  Wallet,
-  Transaction,
+  type Client,
+  type Wallet,
+  type Transaction,
   type SubmitResponse,
   TimeoutError,
   NotConnectedError,
   unixTimeToRippleTime,
-  TxResponse,
-  TransactionMetadata,
-  SubmittableTransaction,
-  ServerStateRequest,
+  type TxResponse,
+  type TransactionMetadata,
+  type SubmittableTransaction,
+  type ServerStateRequest,
 } from 'xahau'
 import { hashSignedTx } from 'xahau/dist/npm/utils/hashes'
 import { appLogger } from '../logger'
@@ -119,7 +119,7 @@ export function calculateWaitTimeForTransaction(
   minimumWaitTimeMs = 5000,
   maximumWaitTimeMs = 20000
 ): number {
-  const currentTimeUnixMs = Math.floor(new Date().getTime())
+  const currentTimeUnixMs = Math.floor(Date.now())
   const currentTimeRippleSeconds = unixTimeToRippleTime(currentTimeUnixMs)
   const closeTimeCurrentTimeDiffSeconds = currentTimeRippleSeconds - targetTime
   const closeTimeCurrentTimeDiffMs = closeTimeCurrentTimeDiffSeconds * 1000

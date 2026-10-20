@@ -1,5 +1,5 @@
-import ReconnectingWebSocket, { CloseEvent } from 'reconnecting-websocket'
-import fs from 'fs'
+import ReconnectingWebSocket, { type CloseEvent } from 'reconnecting-websocket'
+import fs from 'node:fs'
 
 export interface ISelect<T = string> {
   label: string

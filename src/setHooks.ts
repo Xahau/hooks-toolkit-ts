@@ -2,13 +2,13 @@ import {
   calculateHookOn,
   convertStringToHex,
   hexHookParameters,
-  SetHook,
+  type SetHook,
 } from 'xahau'
-import { ClearHookParams, SetHookParams, iHook } from './types'
+import type { ClearHookParams, SetHookParams, iHook } from './types'
 import {
   HookFlags,
-  HookGrant,
-  HookParameter,
+  type HookGrant,
+  type HookParameter,
 } from 'xahau/dist/npm/models/common/xahau'
 import { readHookBinaryHexFromNS, hexNamespace } from './utils'
 import { appTransaction } from './libs/xrpl-helpers/transaction'

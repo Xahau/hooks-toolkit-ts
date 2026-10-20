@@ -1,10 +1,10 @@
 // xrpl
-import { Invoke } from 'xahau'
+import type { Invoke } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,
@@ -24,9 +24,9 @@ import {
 import {
   BaseModel,
   decodeModel,
-  Metadata,
-  UInt64,
-  VarString,
+  type Metadata,
+  type UInt64,
+  type VarString,
   xrpAddressToHex,
 } from '@transia/binary-models'
 

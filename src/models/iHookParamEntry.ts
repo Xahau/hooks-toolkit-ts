@@ -1,6 +1,6 @@
 import { iHookParamName } from './iHookParamName'
 import { iHookParamValue } from './iHookParamValue'
-import { HookParameter } from 'xahau/dist/npm/models/common/xahau'
+import type { HookParameter } from 'xahau/dist/npm/models/common/xahau'
 
 export interface iHookParameter {
   HookParameterName: string

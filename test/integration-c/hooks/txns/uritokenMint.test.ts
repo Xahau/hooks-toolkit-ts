@@ -1,9 +1,9 @@
 // xrpl
-import { Invoke, TransactionMetadata, convertStringToHex } from 'xahau'
+import { type Invoke, type TransactionMetadata, convertStringToHex } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 // xrpl-helpers
 import {
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,
