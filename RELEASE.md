@@ -25,18 +25,4 @@ The full process for cutting a release is as follows:
 6. Delete `main` branch (Optional):
    `git branch -d v1.0.2`
 
-7. Make a new Git tag that matches the new version (make sure it is associated with the right commit SHA): FIXUP
-   `git tag -a v1.0.2 -m "cut v1.0.2"`
-
-8. Push up the tag from `main`:
-   `git push origin v1.0.2`
-
-## Packaging & Releasing
-
-Update pnpm build
-
-`pnpm run build`
-
-Publish
-
-`npm publish --access public`
+7. Run the "Publish npm package and create release" workflow (Actions tab, `main` branch) with `version` set to the new version (e.g. `v1.0.2`). Run it once with `dry_run` checked, then again unchecked. It publishes to npm (pre-release versions go to the `next` dist-tag) and creates the `v1.0.2` tag and GitHub Release.
