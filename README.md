@@ -1,5 +1,7 @@
 # The Hooks Toolkit (Typescript)
 
+[![NPM](https://nodei.co/npm/@xahau/hooks-toolkit.png)](https://www.npmjs.com/package/@xahau/hooks-toolkit)
+
 The Hooks-Toolkit is a powerful library that allows developers to interact with smart contracts on the Xahau.
 
 ## Table of Contents
