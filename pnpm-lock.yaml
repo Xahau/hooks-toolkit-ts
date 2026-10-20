@@ -27,11 +27,11 @@ importers:
         specifier: ^3.10.0
         version: 3.10.0
       xahau:
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^4.2.0
+        version: 4.2.0
       xahau-binary-codec:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^2.3.0
+        version: 2.3.0
     devDependencies:
       '@tsconfig/node24':
         specifier: ^24.0.4
@@ -1912,16 +1912,16 @@ packages:
     resolution: {integrity: sha512-z1K0fQXCDdkPynBKNx3HsShd1B9HXbjn4lBTLpEnUD09zyY62kepqg4KJOrt1Pfc38PuBlqYTRz328ucejXiZg==}
     engines: {node: '>= 18'}
 
-  xahau-binary-codec@2.2.0:
-    resolution: {integrity: sha512-5t0qpn5ydkeMlqVc4PFBy10l/oJNC0F6w5soXCohU4d7Dpoa8a8kS5ML45H/QcGDXDVa7/iMsxGX5KH+KP2/Ig==}
+  xahau-binary-codec@2.3.0:
+    resolution: {integrity: sha512-Q5D5CrZhvOUQduGWKjJO217KBMqTnRVg8r0xShtq2g7m9G0nzJkh6OrVLlrvyaNCYu5z2St58FEM+k84BeQ+hQ==}
     engines: {node: '>= 18'}
 
   xahau-keypairs@2.0.0:
     resolution: {integrity: sha512-8Gjv6pjCqH4nP/QnKzJk2beqyOPj1jfkCcSQrbPz0G/1G8Eby0Bp7SCxgEDboI5nEE6FSOVbRe+KfzCMO9Ft3Q==}
     engines: {node: '>= 18'}
 
-  xahau@4.1.1:
-    resolution: {integrity: sha512-5DyY9vVFMaOMcJFXs4beoRqMZFuG2/DFL0A8TdE9QfZyWp+NMy5H16QGMP8FYUwFX+8/Aw9Nd9jGTROAoLIVyA==}
+  xahau@4.2.0:
+    resolution: {integrity: sha512-Qglc8/gbbX0TDgBpi1xTRQZGbmoyShIjaRJkTOhO79LSdn2Z8Wca/b1tYspUOn0E11dylbFKD/mpKG+v9sS5kg==}
     engines: {node: '>=18.0.0'}
 
   y18n@5.0.8:
@@ -4080,7 +4080,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  xahau-binary-codec@2.2.0:
+  xahau-binary-codec@2.3.0:
     dependencies:
       '@xrplf/isomorphic': 1.0.1
       bignumber.js: 9.1.1
@@ -4098,7 +4098,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  xahau@4.1.1:
+  xahau@4.2.0:
     dependencies:
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
@@ -4107,7 +4107,7 @@ snapshots:
       bignumber.js: 9.1.1
       eventemitter3: 5.0.1
       xahau-address-codec: 5.0.0
-      xahau-binary-codec: 2.2.0
+      xahau-binary-codec: 2.3.0
       xahau-keypairs: 2.0.0
     transitivePeerDependencies:
       - bufferutil

@@ -31,8 +31,8 @@
     "es-toolkit": "^1.46.1",
     "reconnecting-websocket": "^4.4.0",
     "winston": "^3.10.0",
-    "xahau": "^4.1.1",
-    "xahau-binary-codec": "^2.2.0"
+    "xahau": "^4.2.0",
+    "xahau-binary-codec": "^2.3.0"
   },
   "peerDependencies": {
     "xahau": "^4.0.0"
