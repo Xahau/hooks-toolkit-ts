@@ -40,11 +40,3 @@ Update pnpm build
 Publish
 
 `npm publish --access public`
-
-## Publishing New Docker Images
-
-1. `xrpld-netgen up:standalone --version=2024.7.17-jshooks+933`
-
-2. `docker tag xahau-2024717-jshooks933-xahau transia/xahaudjs`
-
-3. `docker push transia/xahaudjs`

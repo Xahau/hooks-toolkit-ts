@@ -2,24 +2,20 @@
 
 ## Global Prerequsits
 
-`$ npm i -g @transia/hooks-cli`
+`$ npm i -g @xahau/hooks-cli@3.0.0-alpha.1`
+
+Compilation runs locally (no compile server needed) and requires Node >= 20.12.
 
 ## Compile C Hooks
 
 Run this command to locally compile an XAHL Hook source file (inside ./contracts) from .c to .wasm code:
 
-`$ hooks-cli compile-c contracts-c/toolbox build`
-`$ hooks-cli compile-c contracts-c/txns build`
+`$ hooks-cli compile-c contracts-c/toolbox build --headers contracts-c/utils/hook`
+`$ hooks-cli compile-c contracts-c/txns build --headers contracts-c/utils/hook`
 
 You can also build a single hook with;
 
-`$ hooks-cli compile-c contracts-c/toolbox/base.c build`
-
-## Compile JS Hooks
-
-You can ONLY build a single js hook at a time;
-
-`$ hooks-cli compile-js contracts-js/toolbox/base.ts build`
+`$ hooks-cli compile-c contracts-c/toolbox/base.c build --headers contracts-c/utils/hook`
 
 ## Test the Hook Library
 
@@ -40,11 +36,3 @@ Run C Hooks Integration tests
 Run single C Hooks Integration test
 
 `$ pnpm run test:integration-c test/integration-c/toolbox/base.test.ts`
-
-Run JS Hooks Integration tests
-
-`$ pnpm run test:integration-js`
-
-Run single JS Hooks Integration test
-
-`$ pnpm run test:integration-js test/integration-js/toolbox/base.test.ts`

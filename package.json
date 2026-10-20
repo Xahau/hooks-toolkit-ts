@@ -11,7 +11,6 @@
     "build": "tsc",
     "test:unit": "jest --config=jest.config.unit.js",
     "test:integration-c": "LOG_LEVEL=error jest --config=jest.config.integration-c.js --runInBand",
-    "test:integration-js": "LOG_LEVEL=error jest --config=jest.config.integration-js.js --runInBand",
     "lint": "eslint ./src/**/* --ext .ts",
     "format": "npx prettier --write ./src",
     "format:ci": "npx prettier --check ./src"
@@ -30,7 +29,6 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.4.5",
     "es-toolkit": "^1.46.1",
-    "jshooks-api": "^1.0.5",
     "reconnecting-websocket": "^4.4.0",
     "winston": "^3.10.0",
     "xahau": "^4.1.1",
