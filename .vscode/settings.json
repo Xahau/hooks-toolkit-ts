@@ -1,6 +1,9 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "cmake.configureOnOpen": false,
   "cmake.sourceDirectory": "/Users/dustedfloor/projects/xrpl-labs/the-hooks-library/binaryen/test/lit",
   "C_Cpp.errorSquiggles": "disabled"
