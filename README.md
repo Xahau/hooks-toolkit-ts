@@ -10,6 +10,7 @@ The Hooks-Toolkit is a powerful library that allows developers to interact with 
 - [State Utility](#state-utility)
 - [Execution Utility](#execution-utility)
 - [Submit Tx](#submit-tx)
+- [Validate Hook](#validate-hook)
 
 ## Installation
 
@@ -579,4 +580,16 @@ const result = Xrpld.submit(testContext.client, {
   wallet: bobWallet,
   tx: builtTx,
 } as SubmitTxParams)
+```
+
+## Validate Hook
+
+The `validateHook` function calls the `hook_validate` RPC to check a hook's WASM against the node's guard and gas rules without installing it. It takes the `client` and either `createFile` (filename in /build) or `code` (WASM as hex). The result contains `valid`, the instruction counts, `vm_error` when present, and the validator `log` lines, all of which are also logged. The RPC is enabled by default only on standalone nodes; on other nodes it returns `notSupported` unless `[hook_validate_rpc]` is set in xahaud.cfg.
+
+```ts
+import { validateHook } from '@xahau/hooks-toolkit'
+
+const result = await validateHook({ client, createFile: 'hook_on_tt' })
+console.log(result.valid)
+console.log(result.log)
 ```
