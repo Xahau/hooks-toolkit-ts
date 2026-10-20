@@ -28,6 +28,7 @@ import {
   Hook as LeHook,
 } from 'xahau/dist/npm/models/ledger'
 import { flipHex } from '@transia/binary-models'
+import { generateHash } from '../../../src/utils'
 
 // TEST WITH DELTA/DEFAULT PARAMS - HookHash
 // The hook parameters on the hook definition are not always the hook parameters.
@@ -67,7 +68,7 @@ describe('SetHook - End to End', () => {
     const leHook = hookRes.result.node as LeHook
     expect(leHook.Hooks.length).toBe(1)
     expect(leHook.Hooks[0].Hook.HookHash).toEqual(
-      '3AE6B612A6BF4308E3F1DA08C596E8CF48A7AD551A3AD71202D69EBD06F903DF'
+      generateHash(Buffer.from(hook.CreateCode, 'hex'))
     )
     const hookDefRequest: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -332,7 +333,7 @@ describe('SetHook - (noop|create|install', () => {
     const leHook = hookRes.result.node as LeHook
     expect(leHook.Hooks.length).toBe(1)
     expect(leHook.Hooks[0].Hook.HookHash).toEqual(
-      '0DFC58B6B0B850693CCFCFE36655DAD79E0E0E4C17DA68940109FFDCF289046F'
+      generateHash(Buffer.from(hook.CreateCode, 'hex'))
     )
     const hookDefRequest: LedgerEntryRequest = {
       command: 'ledger_entry',
@@ -374,7 +375,7 @@ describe('SetHook - (noop|create|install', () => {
     const leHook1 = hook1Res.result.node as LeHook
     expect(leHook1.Hooks.length).toBe(1)
     expect(leHook1.Hooks[0].Hook.HookHash).toEqual(
-      '0DFC58B6B0B850693CCFCFE36655DAD79E0E0E4C17DA68940109FFDCF289046F'
+      generateHash(Buffer.from(hook1.CreateCode, 'hex'))
     )
 
     const hook2 = {

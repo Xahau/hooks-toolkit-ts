@@ -168,7 +168,7 @@ import {
 } from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
-  version: 2, // HookApiVersion
+  version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: HookFlags.hsfOverride, // HookFlags
@@ -204,7 +204,7 @@ import {
 } from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
-  version: 2, // HookApiVersion
+  version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: HookFlags.hsfOverride, // HookFlags
@@ -227,7 +227,7 @@ import {
 } from '@xahau/hooks-toolkit'
 
 const hook = createHookPayload({
-  version: 2, // HookApiVersion
+  version: 0, // HookApiVersion
   createFile: 'hook_on_tt', // filename in /build
   namespace: 'hook_on_tt', // namespace (ascii)
   flags: HookFlags.hsfOverride, // HookFlags

@@ -59,18 +59,7 @@ export function createHookPayload(payload: SetHookPayload): iHook {
     hook.HookHash = payload.hookHash
   }
   if (payload.createFile && typeof payload.createFile === 'string') {
-    switch (payload.version) {
-      case 0:
-        hook.CreateCode = readHookBinaryHexFromNS(payload.createFile, 'wasm')
-        break
-      case 1:
-        hook.CreateCode = readHookBinaryHexFromNS(payload.createFile, 'bc')
-        break
-
-      default:
-        hook.CreateCode = readHookBinaryHexFromNS(payload.createFile, 'wasm')
-        break
-    }
+    hook.CreateCode = readHookBinaryHexFromNS(payload.createFile, 'wasm')
   }
   if (payload.namespace) {
     hook.HookNamespace = hexNamespace(payload.namespace)
