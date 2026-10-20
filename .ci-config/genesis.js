@@ -2,6 +2,13 @@ const fs = require('fs')
 const crypto = require('crypto')
 
 const amendmentName = [
+  'RNG',
+  'PWALoader',
+  'fix20261005',
+  'EscrowDestinationCancel',
+  'fix20260929',
+  'HookOnV2_1',
+  'OnChainManifests',
   'fixGuardDepth32',
   'NamedHooks',
   'IOURewardClaim',
@@ -29,7 +36,6 @@ const amendmentName = [
   // # AMM                         Supported::no
   'fixReducedOffersV1',
   'HooksUpdate2',
-  'HookOnV2_1',
   'fixHookAPI20251128',
   'fixCronStacking',
   'ExtendedHookState',
