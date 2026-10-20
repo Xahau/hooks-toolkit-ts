@@ -2,7 +2,7 @@
 
 ## Global Prerequsits
 
-`$ npm i -g @xahau/hooks-cli@3.0.0-alpha.1`
+`$ npm i -g @xahau/hooks-cli@3.0.0`
 
 Compilation runs locally (no compile server needed) and requires Node >= 20.12.
 
