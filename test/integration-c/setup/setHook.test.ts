@@ -292,7 +292,6 @@ describe('SetHook - Fields', () => {
     }
     const hookDefRes = await testContext.client.request(hookDefRequest)
     const hookDefObj = hookDefRes.result.node as LeHookDefinition
-    // @ts-expect-error -- doesn't exist in xahau.js 4.1.1
     expect(hookDefObj.HookCanEmit).toBe(calculateHookOn(['Invoke']))
   })
 })
