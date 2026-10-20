@@ -11,6 +11,7 @@ const amendmentName = [
   // # PermissionedDomains         Supported::no
   // # DynamicNFT                  Supported::no
   // # Credentials                 Supported::no
+  // # AMMClawback                 Supported::no
   // # MPTokensV1                  Supported::no
   // # InvariantsV1_1              Supported::no
   'fixNFTokenPageLinks',
