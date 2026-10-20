@@ -119,7 +119,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm add --global @xahau/hooks-cli@3.0.0-alpha.1
+      - run: pnpm add --global @xahau/hooks-cli@3.0.0
       - run: pnpm run build
       - run: hooks-cli compile-c contracts-c/toolbox build --headers contracts-c/utils/hook 
       - run: hooks-cli compile-c contracts-c/txns build --headers contracts-c/utils/hook 
