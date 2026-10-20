@@ -1,5 +1,5 @@
-import ReconnectingWebSocket, { CloseEvent } from 'reconnecting-websocket'
-import fs from 'fs'
+import ReconnectingWebSocket, { type CloseEvent } from 'reconnecting-websocket'
+import fs from 'node:fs'
 
 export interface ISelect<T = string> {
   label: string
@@ -26,7 +26,6 @@ const onClose = (e: CloseEvent) => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onMessage = (event: any) => {
   // Ping returns just account address, if we get that
   // response we don't need to log anything

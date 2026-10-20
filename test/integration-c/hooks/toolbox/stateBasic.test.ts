@@ -1,11 +1,11 @@
 // xrpl
-import { Invoke } from 'xahau'
+import type { Invoke } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

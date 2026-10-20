@@ -1,22 +1,22 @@
 import {
-  Client,
+  type Client,
   Wallet,
-  Payment,
-  TrustSet,
-  AccountSet,
-  AccountSetAsfFlags,
+  type Payment,
+  type TrustSet,
+  type AccountSet,
+  type AccountSetAsfFlags,
   xahToDrops,
-  LedgerEntryRequest,
-  AccountInfoRequest,
+  type LedgerEntryRequest,
+  type AccountInfoRequest,
   convertStringToHex,
-  OfferCreate,
+  type OfferCreate,
   OfferCreateFlags,
-  RandomRequest,
-  SubmittableTransaction,
+  type RandomRequest,
+  type SubmittableTransaction,
   ECDSA,
 } from 'xahau'
-import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
-import { RippleState } from 'xahau/dist/npm/models/ledger'
+import type { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import type { RippleState } from 'xahau/dist/npm/models/ledger'
 import { appTransaction } from './transaction'
 import { appLogger } from '../logger'
 import {
@@ -170,8 +170,7 @@ export async function accountSeq(
   try {
     const response = await ctx.request(request)
     return response.result.account_data.Sequence
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
+  } catch (_error: any) {
     // appLogger.debug(error.message)
     return 0
   }
@@ -186,10 +185,7 @@ export async function xrpBalance(
     account: account as string,
   }
   const response = await ctx.request(request)
-  if (
-    'error' in response.result &&
-    response.result['error'] === 'actNotFound'
-  ) {
+  if ('error' in response.result && response.result.error === 'actNotFound') {
     return 0
   }
   return parseFloat(response.result.account_data.Balance)
@@ -290,7 +286,6 @@ export async function fund(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error)
       appLogger.debug(error.data?.decoded)
@@ -319,7 +314,6 @@ export async function pay(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error)
       appLogger.debug(error.data?.decoded)
@@ -356,7 +350,6 @@ export async function sell(
       delayMs: 1000,
     })
     appLogger.debug(JSON.stringify(response))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     appLogger.debug(error)
     appLogger.debug(error.data?.decoded)
@@ -391,7 +384,6 @@ export async function buy(
       delayMs: 1000,
     })
     appLogger.debug(JSON.stringify(response))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     appLogger.debug(error)
     appLogger.debug(error.data?.decoded)
@@ -419,7 +411,6 @@ export async function trust(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error.data?.decoded)
       appLogger.debug(error.data?.tx)

@@ -1,4 +1,4 @@
-import { HookState as LeHookState } from 'xahau/dist/npm/models/ledger'
+import type { HookState as LeHookState } from 'xahau/dist/npm/models/ledger'
 import { iHookStateKey } from './iHookStateKey'
 import { iHookStateData } from './iHookStateData'
 

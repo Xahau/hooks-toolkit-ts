@@ -1,12 +1,12 @@
 // xrpl
-import { Invoke, TransactionMetadata } from 'xahau'
+import type { Invoke, TransactionMetadata } from 'xahau'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 import { AccountID } from 'xahau-binary-codec/dist/types'
 import { sign } from 'xahau-keypairs'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,

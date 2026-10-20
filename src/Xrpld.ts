@@ -2,10 +2,10 @@
 Contains the operations that can are performed by the application.
 */
 import {
-  Client,
-  SubmittableTransaction,
-  TransactionMetadata,
-  TxResponse,
+  type Client,
+  type SubmittableTransaction,
+  type TransactionMetadata,
+  type TxResponse,
   validate,
 } from 'xahau'
 import { ExecutionUtility } from './keylet-utils'
@@ -13,9 +13,9 @@ import {
   appBatchTransaction,
   appTransaction,
 } from './libs/xrpl-helpers/transaction'
-import { SmartContractParams } from './types'
+import type { SmartContractParams } from './types'
 import { appLogger } from './libs/logger'
-import { addListeners, ISelect, removeListeners } from './libs/debug'
+import { addListeners, type ISelect, removeListeners } from './libs/debug'
 
 export class Xrpld {
   // TX

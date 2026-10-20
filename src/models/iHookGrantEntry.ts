@@ -1,6 +1,6 @@
 import { iHookGrantHash } from './iHookGrantHash'
 import { iHookGrantAuthorize } from './iHookGrantAuthorize'
-import { HookGrant } from 'xahau/dist/npm/models/common/xahau'
+import type { HookGrant } from 'xahau/dist/npm/models/common/xahau'
 
 export interface iHookGrant {
   HookGrantHookHash: string

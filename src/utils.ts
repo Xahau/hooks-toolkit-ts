@@ -1,11 +1,11 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { SHA256 } from 'crypto-js'
 import { TRANSACTION_TYPES, TRANSACTION_TYPE_MAP } from 'xahau-binary-codec'
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 
 export function readHookBinaryHexFromNS(filename: string, ext: string): string {
-  const buildPath = process.cwd() + '/' + 'build'
+  const buildPath = `${process.cwd()}/build`
   return wasmToHex(path.resolve(__dirname, `${buildPath}/${filename}.${ext}`))
 }
 
@@ -56,13 +56,10 @@ export function calculateHookOff(arr: Array<keyof TTS>): string {
 
     const tts: Record<string, number> = TRANSACTION_TYPE_MAP
     let value = BigInt(hash)
-    // eslint-disable-next-line no-bitwise -- Required
     value ^= BigInt(1) << BigInt(tts[nth])
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- Required
     hash = `0x${value.toString(16)}`
   })
   hash = hash.replace('0x', '')
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- Required
   hash = hash.padStart(64, '0')
   return hash.toUpperCase()
 }

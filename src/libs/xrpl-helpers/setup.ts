@@ -1,4 +1,4 @@
-import { Client, dropsToXah, Wallet } from 'xahau'
+import { Client, dropsToXah, type Wallet } from 'xahau'
 
 import serverUrl from './serverUrl'
 import {
@@ -56,7 +56,7 @@ export interface XrplIntegrationTestContext {
 export async function teardownClient(
   context: XrplIntegrationTestContext
 ): Promise<void> {
-  if (!context || !context.client) {
+  if (!context?.client) {
     return
   }
   context.client.removeAllListeners()

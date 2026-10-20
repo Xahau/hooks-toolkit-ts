@@ -1,5 +1,5 @@
 import { convertHexToString } from 'xahau'
-import { HookExecution } from 'xahau/dist/npm/models/transactions/metadata'
+import type { HookExecution } from 'xahau/dist/npm/models/transactions/metadata'
 
 export interface iHookExecution {
   HookAccount: string

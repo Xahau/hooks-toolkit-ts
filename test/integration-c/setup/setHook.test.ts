@@ -1,7 +1,7 @@
 import {
-  Invoke,
-  LedgerEntryRequest,
-  TransactionMetadata,
+  type Invoke,
+  type LedgerEntryRequest,
+  type TransactionMetadata,
   calculateHookOn,
   convertStringToHex,
 } from 'xahau'
@@ -10,20 +10,20 @@ import { AccountID, UInt64 } from 'xahau-binary-codec/dist/types'
 // src
 import {
   serverUrl,
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   Xrpld,
   setHooks,
   hexNamespace,
-  iHook,
+  type iHook,
   readHookBinaryHexFromNS,
   clearAllHooks,
   StateUtility,
   padHexString,
   createHookPayload,
 } from '../../../src'
-import {
+import type {
   HookDefinition as LeHookDefinition,
   Hook as LeHook,
 } from 'xahau/dist/npm/models/ledger'

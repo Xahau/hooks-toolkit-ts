@@ -1,4 +1,4 @@
-import { Transaction } from 'xahau'
+import type { Transaction } from 'xahau'
 
 export class iHookEmittedTxs {
   txs: Transaction[]

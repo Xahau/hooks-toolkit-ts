@@ -1,9 +1,9 @@
-import {
+import type {
   Hook,
   HookGrant,
   HookParameter,
 } from 'xahau/dist/npm/models/common/xahau'
-import { Client, Transaction, Wallet } from 'xahau'
+import type { Client, Transaction, Wallet } from 'xahau'
 
 interface iHookBase {
   HookHash?: string

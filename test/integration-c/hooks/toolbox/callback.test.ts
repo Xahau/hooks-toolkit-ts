@@ -1,15 +1,15 @@
 // xrpl
 import {
   AccountSetAsfFlags,
-  Invoke,
-  LedgerRequest,
-  Transaction,
-  TransactionMetadata,
+  type Invoke,
+  type LedgerRequest,
+  type Transaction,
+  type TransactionMetadata,
 } from 'xahau'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,
@@ -23,7 +23,7 @@ import {
   clearAllHooks,
   ExecutionUtility,
 } from '../../../../src'
-import { LedgerResponseExpanded } from 'xahau/dist/npm/models/methods/ledger'
+import type { LedgerResponseExpanded } from 'xahau/dist/npm/models/methods/ledger'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('callback', () => {

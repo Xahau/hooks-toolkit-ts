@@ -1,10 +1,10 @@
-import { Client, LedgerEntryRequest } from 'xahau'
-import {
+import type { Client, LedgerEntryRequest } from 'xahau'
+import type {
   Hook as LeHook,
   HookDefinition as LeHookDefinition,
   HookState as LeHookState,
 } from 'xahau/dist/npm/models/ledger'
-import {
+import type {
   AccountNamespaceRequest,
   AccountNamespaceResponse,
 } from 'xahau/dist/npm/models/methods/accountNamespace'

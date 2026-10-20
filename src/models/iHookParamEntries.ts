@@ -1,4 +1,4 @@
-import { iHookParamEntry } from './iHookParamEntry'
+import type { iHookParamEntry } from './iHookParamEntry'
 
 export class iHookParamEntries {
   parameters: iHookParamEntry[]

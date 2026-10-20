@@ -1,15 +1,15 @@
 // xrpl
 import {
-  Invoke,
-  TrustSet,
-  AccountSet,
+  type Invoke,
+  type TrustSet,
+  type AccountSet,
   AccountSetAsfFlags,
-  TransactionMetadata,
+  type TransactionMetadata,
 } from 'xahau'
 // src
 import {
   // Testing
-  XrplIntegrationTestContext,
+  type XrplIntegrationTestContext,
   setupClient,
   teardownClient,
   serverUrl,
@@ -22,7 +22,7 @@ import {
   iHookParamName,
   iHookParamValue,
 } from '../../../../src'
-import { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
+import type { IssuedCurrencyAmount } from 'xahau/dist/npm/models/common'
 import { HookFlags } from 'xahau/dist/npm/models/common/xahau'
 
 describe('tsh', () => {

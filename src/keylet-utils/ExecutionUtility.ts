@@ -1,10 +1,13 @@
-import { Client, Transaction, TransactionMetadata, TxRequest } from 'xahau'
+import type { Client, Transaction, TransactionMetadata, TxRequest } from 'xahau'
 import { iHookExecutions } from '../models/iHookExecutions'
 import { iHookEmittedTxs } from '../models/iHookEmittedTxs'
-import { CreatedNode, Node } from 'xahau/dist/npm/models/transactions/metadata'
+import type {
+  CreatedNode,
+  Node,
+} from 'xahau/dist/npm/models/transactions/metadata'
 
 function isCreatedNode(node: Node): node is CreatedNode {
-  return Object.prototype.hasOwnProperty.call(node, `CreatedNode`)
+  return Object.hasOwn(node, `CreatedNode`)
 }
 
 export class ExecutionUtility {
@@ -66,6 +69,7 @@ export class ExecutionUtility {
       if (isCreatedNode(n)) {
         return n.CreatedNode.LedgerEntryType === 'EmittedTxn'
       }
+      return false
     }) as CreatedNode[]
 
     if (!emittedCreatedNodes || emittedCreatedNodes.length === 0) {
