@@ -170,7 +170,6 @@ export async function accountSeq(
   try {
     const response = await ctx.request(request)
     return response.result.account_data.Sequence
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     // appLogger.debug(error.message)
     return 0
@@ -290,7 +289,6 @@ export async function fund(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error)
       appLogger.debug(error.data?.decoded)
@@ -319,7 +317,6 @@ export async function pay(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error)
       appLogger.debug(error.data?.decoded)
@@ -356,7 +353,6 @@ export async function sell(
       delayMs: 1000,
     })
     appLogger.debug(JSON.stringify(response))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     appLogger.debug(error)
     appLogger.debug(error.data?.decoded)
@@ -391,7 +387,6 @@ export async function buy(
       delayMs: 1000,
     })
     appLogger.debug(JSON.stringify(response))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     appLogger.debug(error)
     appLogger.debug(error.data?.decoded)
@@ -419,7 +414,6 @@ export async function trust(
         delayMs: 1000,
       })
       appLogger.debug(JSON.stringify(response))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       appLogger.debug(error.data?.decoded)
       appLogger.debug(error.data?.tx)

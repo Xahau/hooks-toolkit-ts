@@ -66,6 +66,7 @@ export class ExecutionUtility {
       if (isCreatedNode(n)) {
         return n.CreatedNode.LedgerEntryType === 'EmittedTxn'
       }
+      return false
     }) as CreatedNode[]
 
     if (!emittedCreatedNodes || emittedCreatedNodes.length === 0) {

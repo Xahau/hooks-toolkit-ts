@@ -50,7 +50,7 @@ export async function fundSystem(
   // FUND GW
   const gw = userWallets[0]
   const gwNativeBalance = await balance(client, gw.wallet.classicAddress)
-  if (gwNativeBalance == 0) {
+  if (gwNativeBalance === 0) {
     appLogger.debug(`SETUP GW: ${gwNativeBalance}`)
     await fund(client, wallet, new ICXAH(10000000), gw.wallet.classicAddress)
     await accountSet(client, gw.wallet, AccountSetAsfFlags.asfDefaultRipple)

@@ -60,7 +60,6 @@ async function sendLedgerAccept(client: Client): Promise<unknown> {
  * @param wait - same function as es-toolkit.throttle's wait parameter. Call this function at most this often.
  * @returns a promise which will be resolved/ rejected only if the function is executed, with the result of the underlying call.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Proper
 function asyncThrottle<F extends (...args: any[]) => Promise<unknown>>(
   func: F,
   wait?: number
@@ -165,14 +164,10 @@ export async function submitTransaction({
       ) &&
       retry.count > 0
     ) {
-      // eslint-disable-next-line no-param-reassign -- we want to decrement the count
       retry.count -= 1
-      // eslint-disable-next-line no-await-in-loop, no-promise-executor-return -- We are waiting on retries
       await new Promise((resolve) => setTimeout(resolve, retry.delayMs))
-      // eslint-disable-next-line no-await-in-loop -- We are retrying in a loop on purpose
       response = await client.submit(transaction, { wallet })
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     appLogger.debug(error)
     if (error.data) {
@@ -231,7 +226,6 @@ export async function verifySubmittedTransaction(
   // }
 }
 
-// eslint-disable-next-line max-params -- Test function, many params are needed
 export async function appTransaction(
   client: Client,
   transaction: SubmittableTransaction,
@@ -249,7 +243,6 @@ export async function appTransaction(
   }
 }
 
-// eslint-disable-next-line max-params -- Test function, many params are needed
 export async function appBatchTransaction(
   client: Client,
   batches: any[]
@@ -298,7 +291,6 @@ export async function appBatchTransaction(
  * @param retry.delayMs - How long to wait between retries.
  * @returns The response of the transaction.
  */
-// eslint-disable-next-line max-params -- Test function, many params are needed
 export async function testTransaction(
   client: Client,
   transaction: SubmittableTransaction,
@@ -325,13 +317,10 @@ export async function testTransaction(
   // assert.equal(response.type, 'response')
 
   if (response.result.engine_result !== 'tesSUCCESS') {
-    // eslint-disable-next-line no-console -- See output
     appLogger.error(
       `Transaction was not successful. Expected response.result.engine_result to be tesSUCCESS but got ${response.result.engine_result}`
     )
-    // eslint-disable-next-line no-console -- See output
     appLogger.error('The transaction was: ', transaction)
-    // eslint-disable-next-line no-console -- See output
     appLogger.error('The response was: ', response)
   }
 
@@ -356,7 +345,6 @@ export async function testTransaction(
     signedTx as Transaction
   )
   if (response.result.engine_result !== 'tesSUCCESS') {
-    // eslint-disable-next-line no-console -- See output
     appLogger.error('The response meta was: ', validatedResponse.result.meta)
   }
   return validatedResponse
@@ -386,13 +374,10 @@ export async function prodTransactionAndWait(
   const meta = response.result.meta as TransactionMetadata
   const txResult = meta.TransactionResult
   if (txResult !== 'tesSUCCESS') {
-    // eslint-disable-next-line no-console -- See output
     appLogger.error(
       `Transaction was not successful. Expected response.result.engine_result to be tesSUCCESS but got ${txResult}`
     )
-    // eslint-disable-next-line no-console -- See output
     appLogger.error('The transaction was: ', transaction)
-    // eslint-disable-next-line no-console -- See output
     appLogger.error('The response was: ', JSON.stringify(response))
   }
 

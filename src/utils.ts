@@ -56,13 +56,10 @@ export function calculateHookOff(arr: Array<keyof TTS>): string {
 
     const tts: Record<string, number> = TRANSACTION_TYPE_MAP
     let value = BigInt(hash)
-    // eslint-disable-next-line no-bitwise -- Required
     value ^= BigInt(1) << BigInt(tts[nth])
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- Required
     hash = `0x${value.toString(16)}`
   })
   hash = hash.replace('0x', '')
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers -- Required
   hash = hash.padStart(64, '0')
   return hash.toUpperCase()
 }
