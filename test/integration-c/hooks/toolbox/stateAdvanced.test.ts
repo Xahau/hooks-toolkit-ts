@@ -32,7 +32,7 @@ import {
 
 // StateAdvanced: ACCEPT: success
 
-export class TestModel extends BaseModel {
+class TestModel extends BaseModel {
   updatedTime: UInt64
   updatedBy: VarString
   message: VarString
