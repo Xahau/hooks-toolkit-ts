@@ -38,7 +38,7 @@
     "xahau": "^4.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
+    "@biomejs/biome": "2.6.4",
     "@tsconfig/node24": "^24.0.4",
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.0",
