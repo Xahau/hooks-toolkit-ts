@@ -27,7 +27,7 @@
   "dependencies": {
     "@transia/binary-models": "^1.1.0",
     "crypto-js": "^4.1.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^18.0.9",
     "es-toolkit": "^1.46.1",
     "reconnecting-websocket": "^4.4.0",
     "winston": "^3.10.0",
