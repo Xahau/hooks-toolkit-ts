@@ -63,9 +63,11 @@
 ## [Unreleased]
 
 ### Added:
-- Export testing helpers for a standalone node: `registerExportKeys`, `ledgerAcceptPaced`, `setupExporter`, `closeUntilExportFinal`, `returnExport`, `xpop`, `exportUnavailableReason`, and the test keys `EXPORT_TEST_VL_KEY` / `EXPORT_TEST_KEYS`
-- `xport` and `xport_tickets` declarations in `contracts-c/utils/hook/extern.h`, and the `xport` example hook and test
-- `.ci-config`: the test VL key in `validators.txt` (now loaded: `[validators_file]` is enabled in `xahaud.cfg`), `xahaud-export.cfg` (`xahaud.cfg` plus `[validation_seed]`), and `GENESIS_EXPORT=1` to enable the `Export` amendment in `genesis.js`
+- Export testing helpers for a standalone node: `registerExportKeys`, `setupExporter`, `closeUntilExportFinal`, `returnExport`, `exportUnavailableReason`, and the constants `EXPORT_TEST_VL_KEY` / `EXPORT_TEST_VALIDATION_SEED`
+- `xport` and `xport_tickets` declarations in `contracts-c/utils/hook/extern.h`, and the `xport` example hook and test (opt-in with `XAHAU_EXPORT=1`)
+- `.ci-config`: the test VL key in `validators.txt`, `[validation_seed]` in `xahaud.cfg`, and `XAHAU_EXPORT=1 node genesis.js` to enable the `Export` amendment in genesis
 
 ### Updated:
+- `.ci-config/xahaud.cfg` enables `[validators_file]` (it was commented out, so `validators.txt` was never read)
+- `callback` test finds the emitted Payment by type instead of `transactions[0]`
 - `xahau-keypairs` is now a dependency (was a devDependency)

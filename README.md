@@ -603,22 +603,31 @@ A hook can call `xport()` to have the validators of the UNL multisign a transact
 
 ### Node requirements
 
-- The `Export` amendment is enabled. `.ci-config/genesis.js` enables it when run as `GENESIS_EXPORT=1 node genesis.js` (the default output is unchanged, and the release binary used by CI does not have the amendment).
-- A validator key: `[validation_seed]` in `xahaud.cfg` with a secp256k1 seed (an ed25519 `sEd...` seed is fatal). `.ci-config/xahaud-export.cfg` is `xahaud.cfg` plus the seed `EXPORT_TEST_VALIDATION_SEED`. It is a separate file because a validating node adds an `Entropy` pseudo-transaction to every ledger, which breaks tests that read `transactions[0]` of a closed ledger.
-- The toolkit's test VL key under `[import_vl_keys]` in the validators file (plain hex is network 0, XRPL), which `xahaud.cfg` must point to with `[validators_file]` (the default file name is `validators-xahau.txt`). `EXPORT_TEST_VL_KEY` is that key:
+Run the node from `.ci-config` with the Export amendment enabled in genesis:
+
+```bash
+cd .ci-config && XAHAU_EXPORT=1 node genesis.js
+```
+
+`XAHAU_EXPORT=1` is the one switch: without it `genesis.js` writes the default amendments (the release binary used by CI does not have Export), and the Export integration test is skipped. With it set, run the tests with `XAHAU_EXPORT=1` too: the test then fails with the reason when the node is not usable.
+
+`.ci-config` has what the node needs:
+
+- `[validation_seed]` in `xahaud.cfg`: a secp256k1 seed (an ed25519 `sEd...` seed is fatal), `EXPORT_TEST_VALIDATION_SEED`. The node nominates its export key with it.
+- The toolkit's test VL key under `[import_vl_keys]` in `validators.txt` (plain hex is network 0, XRPL), which `xahaud.cfg` points to with `[validators_file]` (the default file name is `validators-xahau.txt`). `EXPORT_TEST_VL_KEY` is that key:
 
 ```
 [import_vl_keys]
     035F67DD697C7D5B3070E07DF8318B1625E09AB87814B3237C1984ADB4067353E5
 ```
 
-`exportUnavailableReason(client)` returns why a node cannot be used (or `null`), so a test can skip itself.
+`exportUnavailableReason(client)` returns why a node cannot be used (or `null`).
 
 ### Registering the export key
 
 `registerExportKeys(client, funder)` returns at once if the node's export key is on the ledger already. Otherwise it funds the validator's master account (before ledger 512 on older nodes) and closes a few ledgers: a standalone node with the self-registration shortcut puts its own key on the ledger within about 3 ledgers.
 
-Older nodes have no shortcut: the validator nominates its export key in a flag-ledger validation, so the key reaches the ledger at about ledger 520, and `registerExportKeys` falls back to closing ledgers until `export_setup` returns signers. This takes about 6 minutes, once, because closes have to be paced. A validation whose signing time is ~180 seconds ahead of the wall clock is silently dropped by the node, and a standalone node signs each validation at `max(now, previous + 1s)`, so closing faster than one ledger per second for a few minutes makes it drop every validation and the key is never registered. `ledgerAcceptPaced(client)` closes ledgers as fast as possible while keeping that clock at most 150 seconds ahead: about 150 fast closes, then one per second. Use it (not `ledger_accept`) for the closes of an export test.
+Older nodes have no shortcut: the validator nominates its export key in a flag-ledger validation, so the key reaches the ledger at about ledger 520, and `registerExportKeys` falls back to closing ledgers until `export_setup` returns signers. This takes about 6 minutes, once, because those closes are paced. A validation whose signing time is ~180 seconds ahead of the wall clock is silently dropped by the node, and a standalone node signs each validation at `max(now, previous + 1s)`, so closing faster than one ledger per second for a few minutes makes it drop every validation and the key is never registered. The pacing keeps that clock at most 150 seconds ahead: about 150 fast closes, then one per second. Everything else (exports, Imports) works with plain `ledger_accept`.
 
 ### Example
 
@@ -637,7 +646,9 @@ await setupExporter(client, exporterWallet) // forged SignerListSet and TicketCr
 // the hook calls xport() on this Invoke
 await Xrpld.submit(client, { wallet: exporterWallet, tx: invoke })
 
-// close ledgers until the validators signed it (the ledger's own exports are skipped)
+// close ledgers until the validators signed it. Only a hook's export is
+// returned (the ledger's own exports are skipped), and it throws if the
+// export closed below quorum
 const { exported } = await closeUntilExportFinal(client)
 
 // the other network executed it with this result: the hook's cbak runs
@@ -647,4 +658,4 @@ const imported = await returnExport(client, exported, {
 console.log(imported.meta.HookExecutions)
 ```
 
-`contracts-c/toolbox/xport.c` and `test/integration-c/hooks/toolbox/xport.test.ts` are a complete example. The test skips itself when the node lacks the amendment or a validator key.
+`contracts-c/toolbox/xport.c` and `test/integration-c/hooks/toolbox/xport.test.ts` are a complete example.
