@@ -133,8 +133,11 @@ describe('callback', () => {
       transactions: true,
     } as unknown as LedgerRequest)) as LedgerResponseExpanded
     const txns = response.result.ledger.transactions as Transaction[]
+    // the emitted Payment (a validating node adds an Entropy pseudo-transaction
+    // to every ledger, so it is not necessarily the first)
+    const emitted = txns.find((tx) => tx.TransactionType === 'Payment')
     // @ts-expect-error -- has value
-    expect((txns[0].metaData as TransactionMetadata).TransactionResult).toEqual(
+    expect((emitted.metaData as TransactionMetadata).TransactionResult).toEqual(
       'tecDST_TAG_NEEDED'
     )
 

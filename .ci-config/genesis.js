@@ -322,9 +322,9 @@ const json = {
   validated: true,
 }
 
-// Opt-in: `GENESIS_EXPORT=1 node genesis.js` also enables the Export amendment
+// Opt-in: `XAHAU_EXPORT=1 node genesis.js` also enables the Export amendment
 // (needs an xahaud build that has it; the default output is unchanged).
-if (process.env.GENESIS_EXPORT) {
+if (process.env.XAHAU_EXPORT) {
   amendmentName.push('Export')
 }
 
