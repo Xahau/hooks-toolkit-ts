@@ -59,3 +59,13 @@
 - ESLint/Prettier -> Biome, lint and format now cover `src` and `test`
 - CI runs against xahaud 2026.10.13-release+4119
 - npm publish and GitHub Release are created by the `workflow_dispatch` publish workflow
+
+## [Unreleased]
+
+### Added:
+- Export testing helpers for a standalone node: `registerExportKeys`, `ledgerAcceptPaced`, `setupExporter`, `closeUntilExportFinal`, `returnExport`, `xpop`, `exportUnavailableReason`, and the test keys `EXPORT_TEST_VL_KEY` / `EXPORT_TEST_KEYS`
+- `xport` and `xport_tickets` declarations in `contracts-c/utils/hook/extern.h`, and the `xport` example hook and test
+- `.ci-config`: the test VL key in `validators.txt` (now loaded: `[validators_file]` is enabled in `xahaud.cfg`), `[validation_seed]` in `xahaud.cfg`, and `GENESIS_EXPORT=1` to enable the `Export` amendment in `genesis.js`
+
+### Updated:
+- `xahau-keypairs` is now a dependency (was a devDependency)

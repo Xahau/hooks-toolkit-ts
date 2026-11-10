@@ -13,6 +13,7 @@ The Hooks-Toolkit is a powerful library that allows developers to interact with 
 - [Execution Utility](#execution-utility)
 - [Submit Tx](#submit-tx)
 - [Validate Hook](#validate-hook)
+- [Export](#export)
 
 ## Installation
 
@@ -595,3 +596,55 @@ const result = await validateHook({ client, createFile: 'hook_on_tt' })
 console.log(result.valid)
 console.log(result.log)
 ```
+
+## Export
+
+A hook can call `xport()` to have the validators of the UNL multisign a transaction for another network (e.g. XRPL); the result comes back as an `Import` of an XPOP and the hook's `cbak` runs. A standalone node has no other network and no relay, so the toolkit helps in two ways: it gets the node's export key registered on the ledger, and it forges the other network's proofs (XPOPs) with test keys to set an account up as an exporter and to return an export with any result code.
+
+### Node requirements
+
+- The `Export` amendment is enabled. `.ci-config/genesis.js` enables it when run as `GENESIS_EXPORT=1 node genesis.js` (the default output is unchanged, and the release binary used by CI does not have the amendment).
+- A validator key: `[validation_seed]` in `xahaud.cfg` with a secp256k1 seed (`EXPORT_TEST_VALIDATION_SEED` is the one in `.ci-config`; an ed25519 `sEd...` seed is fatal).
+- The toolkit's test VL key under `[import_vl_keys]` in the validators file (plain hex is network 0, XRPL), which `xahaud.cfg` must point to with `[validators_file]` (the default file name is `validators-xahau.txt`). `EXPORT_TEST_VL_KEY` is that key:
+
+```
+[import_vl_keys]
+    035F67DD697C7D5B3070E07DF8318B1625E09AB87814B3237C1984ADB4067353E5
+```
+
+`exportUnavailableReason(client)` returns why a node cannot be used (or `null`), so a test can skip itself.
+
+### Registering the export key
+
+`registerExportKeys(client, funder)` returns at once if the node's export key is on the ledger already. Otherwise it funds the validator's master account (before ledger 512 on older nodes) and closes a few ledgers: a standalone node with the self-registration shortcut puts its own key on the ledger within about 3 ledgers.
+
+Older nodes have no shortcut: the validator nominates its export key in a flag-ledger validation, so the key reaches the ledger at about ledger 520, and `registerExportKeys` falls back to closing ledgers until `export_setup` returns signers. This takes about 6 minutes, once, because closes have to be paced. A validation whose signing time is ~180 seconds ahead of the wall clock is silently dropped by the node, and a standalone node signs each validation at `max(now, previous + 1s)`, so closing faster than one ledger per second for a few minutes makes it drop every validation and the key is never registered. `ledgerAcceptPaced(client)` closes ledgers as fast as possible while keeping that clock at most 150 seconds ahead: about 150 fast closes, then one per second. Use it (not `ledger_accept`) for the closes of an export test.
+
+### Example
+
+```ts
+import {
+  registerExportKeys,
+  setupExporter,
+  closeUntilExportFinal,
+  returnExport,
+  Xrpld,
+} from '@xahau/hooks-toolkit'
+
+await registerExportKeys(client, master) // a few ledgers (~6 minutes on older nodes)
+await setupExporter(client, exporterWallet) // forged SignerListSet and TicketCreate Imports
+
+// the hook calls xport() on this Invoke
+await Xrpld.submit(client, { wallet: exporterWallet, tx: invoke })
+
+// close ledgers until the validators signed it (the ledger's own exports are skipped)
+const { exported } = await closeUntilExportFinal(client)
+
+// the other network executed it with this result: the hook's cbak runs
+const imported = await returnExport(client, exported, {
+  result: 'tecUNFUNDED_PAYMENT',
+})
+console.log(imported.meta.HookExecutions)
+```
+
+`contracts-c/toolbox/xport.c` and `test/integration-c/hooks/toolbox/xport.test.ts` are a complete example. The test skips itself when the node lacks the amendment or a validator key.
