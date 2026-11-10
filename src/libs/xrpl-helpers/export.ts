@@ -75,7 +75,7 @@ function testKey(role: string, algorithm: 'secp256k1' | 'ed25519'): KeyPair {
 }
 
 /** Default keys of the forged "other network": a VL publisher and one validator. */
-export const EXPORT_TEST_KEYS = {
+const EXPORT_TEST_KEYS = {
   vlMaster: testKey('vl master', 'secp256k1'),
   vlSigning: testKey('vl signing', 'secp256k1'),
   validatorMaster: testKey('validator master', 'ed25519'),
@@ -120,6 +120,8 @@ function nodeDefinitions(client: Client): Promise<XrplDefinitions> {
       (r) => new XrplDefinitions(r as never)
     )
     definitions.set(client, d)
+    // do not keep a failed request
+    d.catch(() => definitions.delete(client))
   }
   return d
 }
@@ -145,8 +147,9 @@ const lastSign = new WeakMap<Client, number>()
 /**
  * `ledger_accept`, paced so the node's validation clock never runs more than
  * 150 s ahead of the wall clock: the first ~150 closes are fast, then 1/s.
+ * Only the slow key registration needs it.
  */
-export async function ledgerAcceptPaced(client: Client): Promise<number> {
+async function ledgerAcceptPaced(client: Client): Promise<number> {
   let last = lastSign.get(client)
   if (last === undefined) {
     // a node that was closed fast before: its last close time tells where its clock is
@@ -168,31 +171,49 @@ export async function ledgerAcceptPaced(client: Client): Promise<number> {
   return r.ledger_current_index - 1 // the ledger just closed
 }
 
+// Plain close: the exports and Imports do not depend on validations.
+async function ledgerAccept(client: Client): Promise<number> {
+  const r = await rpc(client, 'ledger_accept')
+  return r.ledger_current_index - 1 // the ledger just closed
+}
+
 // ---------------------------------------------------------------------------
 // node requirements, key registration
 // ---------------------------------------------------------------------------
 
 /**
  * Why Export cannot be tested on this node, or `null` when it can: the
- * amendment must be enabled (see `GENESIS_EXPORT` in `.ci-config/genesis.js`)
+ * amendment must be enabled (see `XAHAU_EXPORT` in `.ci-config/genesis.js`)
  * and the node needs a validator key (`[validation_seed]`).
  */
 export async function exportUnavailableReason(
   client: Client
 ): Promise<string | null> {
+  const unknown = 'this xahaud build does not know the Export amendment'
+  let f: Json
   try {
-    const f = await rpc(client, 'feature', { feature: 'Export' })
-    const entry = Object.values(f).find(
-      (v) => v && typeof v === 'object' && (v as Json).name === 'Export'
-    ) as Json | undefined
-    if (!entry) return 'this xahaud build does not know the Export amendment'
-    if (!entry.enabled) return 'the Export amendment is not enabled'
-  } catch {
-    return 'this xahaud build does not know the Export amendment'
+    f = await rpc(client, 'feature', { feature: 'Export' })
+  } catch (e) {
+    // only the unknown-feature error; connection and other errors propagate
+    if (
+      /badFeature|Feature unknown or invalid/.test(
+        String((e as Error)?.message)
+      )
+    ) {
+      return unknown
+    }
+    throw e
+  }
+  const entry = Object.values(f).find(
+    (v) => v && typeof v === 'object' && (v as Json).name === 'Export'
+  ) as Json | undefined
+  if (!entry) return unknown
+  if (!entry.enabled) {
+    return 'the Export amendment is not enabled (genesis: XAHAU_EXPORT=1 node genesis.js)'
   }
   const info = (await rpc(client, 'server_info')).info
   if (!info.pubkey_validator || info.pubkey_validator === 'none') {
-    return 'the node has no validator key: set [validation_seed] in xahaud.cfg (.ci-config/xahaud-export.cfg)'
+    return 'the node has no validator key: set [validation_seed] in xahaud.cfg'
   }
   return null
 }
@@ -216,18 +237,24 @@ async function exportSetup(
   }
 }
 
+export interface RegisterExportKeysOptions {
+  /** give up after this many paced closes (default 1100) */
+  maxLedgers?: number
+}
+
 /**
  * Get the node's export key onto the ledger. Returns at once when it is
  * registered already. Otherwise: funds the validator's master account from
- * `funder` and closes ledgers (paced) until `export_setup` has signers. A node
- * that registers its own key (standalone shortcut) is done within a few
- * ledgers; older nodes nominate it in a flag-ledger validation, which takes
- * ~520 ledgers, about 6 minutes with pacing.
+ * `funder` and closes ledgers until `export_setup` has signers. A node that
+ * registers its own key (standalone shortcut) is done within a few ledgers;
+ * older nodes nominate it in a flag-ledger validation, which takes ~520
+ * ledgers, about 6 minutes: those closes are paced, because a validation
+ * signed more than ~3 minutes ahead of the wall clock is silently dropped.
  */
 export async function registerExportKeys(
   client: Client,
   funder: Wallet,
-  { maxLedgers = 1100 }: { maxLedgers?: number } = {}
+  { maxLedgers = 1100 }: RegisterExportKeysOptions = {}
 ): Promise<Json> {
   await assertExportAvailable(client)
   const existing = await exportSetup(client)
@@ -250,11 +277,17 @@ export async function registerExportKeys(
       Amount: '1000000000',
     })
   }
+  // newer standalone nodes register their own key within a few ledgers of the
+  // funding
+  for (let i = 0; i < FAST_PATH_LEDGERS; i++) {
+    await ledgerAccept(client)
+    const setup = await exportSetup(client)
+    if (setup) return setup
+  }
+  // older ones nominate it in a flag-ledger validation: ~520 ledgers, paced
   for (let i = 0; i < maxLedgers; i++) {
     await ledgerAcceptPaced(client)
-    // newer standalone nodes register their own key within a few ledgers of the
-    // funding; older ones need the flag ledger, so check less often after that
-    if (i < FAST_PATH_LEDGERS || i % 4 === 3) {
+    if (i % 4 === 3) {
       const setup = await exportSetup(client)
       if (setup) return setup
     }
@@ -283,7 +316,7 @@ async function signTx(
 /** Submit a signed blob, close one ledger, and return the validated tx (with meta). */
 async function submitBlob(client: Client, blob: string, hash: string) {
   const sub = await rpc(client, 'submit', { tx_blob: blob })
-  await ledgerAcceptPaced(client)
+  await ledgerAccept(client)
   try {
     return await rpc(client, 'tx', { transaction: hash })
   } catch {
@@ -323,7 +356,7 @@ async function sendTx(client: Client, wallet: Wallet, tx: Json): Promise<Json> {
 // the forged "other network"
 // ---------------------------------------------------------------------------
 
-export interface XpopOptions {
+interface XpopOptions {
   /** ledger index there (default: a fresh one per call) */
   ledgerSeq?: number
   /** close time there, Ripple epoch (default: now) */
@@ -365,7 +398,7 @@ async function manifest(
  * only transaction of a ledger there, validated by the test validator, whose
  * list is signed by the test VL (`EXPORT_TEST_KEYS`). Returns the XPOP JSON.
  */
-export async function xpop(
+async function xpop(
   client: Client,
   txBlob: string,
   {
@@ -496,12 +529,18 @@ async function submitImport(
       ? { Fee: '1000', Sequence: await nextSequence(client, account) }
       : { Fee: '0', Sequence: 0 }),
   }
-  const { blob, hash } = await signTx(
-    client,
-    tx,
-    signer ?? (RELAY_KEY as unknown as KeyPair)
-  )
-  return submitBlob(client, blob, hash)
+  const { blob, hash } = await signTx(client, tx, signer ?? RELAY_KEY)
+  try {
+    return await submitBlob(client, blob, hash)
+  } catch (e) {
+    // a tel result is not applied, so it only shows up as the submit result
+    if (/telIMPORT_VL_KEY_NOT_RECOGNISED/.test(String((e as Error)?.message))) {
+      throw new Error(
+        `Import: the node does not trust the test VL key ${EXPORT_TEST_VL_KEY}: list it under [import_vl_keys] in the validators file and point [validators_file] to it`
+      )
+    }
+    throw e
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -528,6 +567,11 @@ const accountRootNode = (account: string, sequence: number): Json => ({
   },
 })
 
+export interface SetupExporterOptions {
+  /** TicketCount of the forged TicketCreate (default 50) */
+  tickets?: number
+}
+
 /**
  * Make `wallet` an exporter by forging the XPOPs of the two transactions it
  * would have executed on the other network: a SignerListSet naming the
@@ -538,7 +582,7 @@ const accountRootNode = (account: string, sequence: number): Json => ({
 export async function setupExporter(
   client: Client,
   wallet: Wallet,
-  { tickets = 50 }: { tickets?: number } = {}
+  { tickets = 50 }: SetupExporterOptions = {}
 ): Promise<void> {
   const account = wallet.classicAddress
   const net = await networkId(client)
@@ -606,24 +650,31 @@ export interface ExportFinal {
   final: Json
 }
 
-const isNodeOwn = (t: Json) =>
-  t.TransactionType === 'TicketCreate' || t.TransactionType === 'SignerListSet'
+export interface CloseUntilExportFinalOptions {
+  /** give up after this many closes (default 16) */
+  maxLedgers?: number
+  /**
+   * Which ExportedTxn (the deleted ledger entry's FinalFields) is wanted.
+   * Default: a hook's export, which is the one carrying `EmitHookHash`; the
+   * ledger's own exports (ticket refills, signer lists) have none.
+   */
+  match?: (entry: Json) => boolean
+}
 
 /**
- * Close ledgers (paced) until an ExportFinal shows up and return the signed
- * exported transaction. The ledger also exports on its own (ExportAuto: ticket
- * refills, signer lists); by default those are skipped. `match` overrides which
- * exported transaction is wanted.
+ * Close ledgers until the ExportFinal of a hook's export shows up and return
+ * the signed exported transaction. Throws if the export closed below the
+ * signer quorum (it was not signed: nothing can be returned for it).
  */
 export async function closeUntilExportFinal(
   client: Client,
   {
     maxLedgers = 16,
-    match = (t) => !isNodeOwn(t),
-  }: { maxLedgers?: number; match?: (exported: Json) => boolean } = {}
+    match = (e) => e.EmitHookHash !== undefined,
+  }: CloseUntilExportFinalOptions = {}
 ): Promise<ExportFinal> {
   for (let i = 0; i < maxLedgers; i++) {
-    const closed = await ledgerAcceptPaced(client)
+    const closed = await ledgerAccept(client)
     const led = await rpc(client, 'ledger', {
       ledger_index: closed,
       transactions: true,
@@ -631,14 +682,35 @@ export async function closeUntilExportFinal(
     })
     for (const tx of led.ledger.transactions as Json[]) {
       if (tx.TransactionType !== 'ExportFinal') continue
-      const gone = (tx.metaData?.AffectedNodes as Json[])
+      const entry = (tx.metaData?.AffectedNodes as Json[])
         ?.map((n) => n.DeletedNode)
-        .find((n) => n?.LedgerEntryType === 'ExportedTxn')
-      const exported = gone?.FinalFields?.ExportedTxn
-      if (exported && match(exported)) return { exported, final: tx }
+        .find((n) => n?.LedgerEntryType === 'ExportedTxn')?.FinalFields
+      if (!entry?.ExportedTxn || !match(entry)) continue
+      const signers = new Set<string>(
+        (entry.ExportedTxn.Signers ?? []).map(
+          (s: Json) => s.Signer.Account as string
+        )
+      )
+      let weight = 0
+      for (const e of entry.SignerEntries as Json[]) {
+        if (signers.has(e.SignerEntry.Account)) {
+          weight += e.SignerEntry.SignerWeight
+        }
+      }
+      if (weight < entry.SignerQuorum) {
+        throw new Error(
+          `the export closed below quorum (signer weight ${weight} < ${entry.SignerQuorum}): it was not signed`
+        )
+      }
+      return { exported: entry.ExportedTxn, final: tx }
     }
   }
   throw new Error(`no matching ExportFinal within ${maxLedgers} ledgers`)
+}
+
+export interface ReturnExportOptions {
+  /** TransactionResult the other network had for it (default tesSUCCESS) */
+  result?: string
 }
 
 /**
@@ -650,7 +722,7 @@ export async function closeUntilExportFinal(
 export async function returnExport(
   client: Client,
   exported: Json,
-  { result = 'tesSUCCESS' }: { result?: string } = {}
+  { result = 'tesSUCCESS' }: ReturnExportOptions = {}
 ): Promise<Json> {
   const defs = await nodeDefinitions(client)
   const proof = await xpop(client, encode(exported as never, defs), {
