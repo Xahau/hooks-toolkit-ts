@@ -191,8 +191,8 @@ export async function exportUnavailableReason(
     return 'this xahaud build does not know the Export amendment'
   }
   const info = (await rpc(client, 'server_info')).info
-  if (!info.pubkey_validator) {
-    return 'the node has no validator key: set [validation_seed] in xahaud.cfg'
+  if (!info.pubkey_validator || info.pubkey_validator === 'none') {
+    return 'the node has no validator key: set [validation_seed] in xahaud.cfg (.ci-config/xahaud-export.cfg)'
   }
   return null
 }
