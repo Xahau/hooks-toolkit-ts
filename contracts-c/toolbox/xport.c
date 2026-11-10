@@ -7,15 +7,15 @@
  */
 #include "hookapi.h"
 
+// Only what the hook decides is here. xport() fills in Account, SigningPubKey,
+// Sequence (0), OperationLimit and Fee (from the signer count), and the ledger
+// the TicketSequence, when the export applies.
 // clang-format off
-// Account, SigningPubKey, OperationLimit and TicketSequence are filled in by the ledger
-uint8_t txn[48] =
+uint8_t txn[34] =
 {
 /*  3,  0 */ 0x12U, 0x00U, 0x00U,                                           /* tt = Payment */
-/*  5,  3 */ 0x24U, 0x00U, 0x00U, 0x00U, 0x00U,                             /* sequence = 0 */
-/*  9,  8 */ 0x61U, 0x40U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x01U, /* amount = 1 drop */
-/*  9, 17 */ 0x68U, 0x40U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x03U, 0xE8U, /* fee = 1000 drops */
-/* 22, 26 */ 0x83U, 0x14U,                                                  /* destination */
+/*  9,  3 */ 0x61U, 0x40U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x01U, /* amount = 1 drop */
+/* 22, 12 */ 0x83U, 0x14U,                                                  /* destination */
              0x01U, 0x02U, 0x03U, 0x04U, 0x05U, 0x06U, 0x07U, 0x08U, 0x09U, 0x0AU,
              0x0BU, 0x0CU, 0x0DU, 0x0EU, 0x0FU, 0x10U, 0x11U, 0x12U, 0x13U, 0x14U
 };

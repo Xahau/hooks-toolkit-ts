@@ -28,22 +28,26 @@ import {
   ExecutionUtility,
 } from '../../../../src'
 
-// Needs a node with the Export amendment enabled and a validator key
-// ([validation_seed]); skipped otherwise. Registering the node's export key
-// takes ~6 minutes the first time (see the README).
-describe('xport', () => {
+// Opt-in with XAHAU_EXPORT=1 (which also enables the amendment in genesis.js):
+// needs a node with the Export amendment enabled and a validator key
+// ([validation_seed]), and fails with the reason when the node is not usable.
+// Registering the node's export key takes a few ledgers, ~6 minutes on nodes
+// without the standalone shortcut (see the README).
+const describeExport = process.env.XAHAU_EXPORT ? describe : describe.skip
+
+describeExport('xport', () => {
   let testContext: XrplIntegrationTestContext
   let exporter: Wallet
   let exportKey: string
-  let skipReason: string | null
 
   beforeAll(
     async () => {
       testContext = await setupClient(serverUrl)
-      skipReason = await exportUnavailableReason(testContext.client)
-      if (skipReason) {
-        console.warn(`xport tests skipped: ${skipReason}`)
-        return
+      const reason = await exportUnavailableReason(testContext.client)
+      if (reason) {
+        throw new Error(
+          `XAHAU_EXPORT is set but the node is not usable: ${reason}`
+        )
       }
       const setup = await registerExportKeys(
         testContext.client,
@@ -59,6 +63,7 @@ describe('xport', () => {
         new ICXAH(1000),
         exporter.classicAddress
       )
+      await setupExporter(testContext.client, exporter)
       await setHooks({
         client: testContext.client,
         wallet: exporter,
@@ -116,8 +121,6 @@ describe('xport', () => {
   }
 
   it('sets up the exporter', async () => {
-    if (skipReason) return
-    await setupExporter(testContext.client, exporter)
     const objects = await testContext.client.request({
       command: 'account_objects',
       account: exporter.classicAddress,
@@ -133,7 +136,6 @@ describe('xport', () => {
   }, 180000)
 
   it('exports a transaction signed by the node and gets it back: tesSUCCESS', async () => {
-    if (skipReason) return
     const { exported } = await invokeAndExport()
     expect(exported.TransactionType).toEqual('Payment')
     expect(exported.Account).toEqual(exporter.classicAddress)
@@ -147,7 +149,6 @@ describe('xport', () => {
   }, 180000)
 
   it('gets it back with a tec result', async () => {
-    if (skipReason) return
     const { exported } = await invokeAndExport()
     const hook = await returnedHook(exported, 'tecUNFUNDED_PAYMENT')
     expect(hook.HookReturnString).toEqual('xport.c: export returned.')
