@@ -604,7 +604,7 @@ A hook can call `xport()` to have the validators of the UNL multisign a transact
 ### Node requirements
 
 - The `Export` amendment is enabled. `.ci-config/genesis.js` enables it when run as `GENESIS_EXPORT=1 node genesis.js` (the default output is unchanged, and the release binary used by CI does not have the amendment).
-- A validator key: `[validation_seed]` in `xahaud.cfg` with a secp256k1 seed (`EXPORT_TEST_VALIDATION_SEED` is the one in `.ci-config`; an ed25519 `sEd...` seed is fatal).
+- A validator key: `[validation_seed]` in `xahaud.cfg` with a secp256k1 seed (an ed25519 `sEd...` seed is fatal). `.ci-config/xahaud-export.cfg` is `xahaud.cfg` plus the seed `EXPORT_TEST_VALIDATION_SEED`. It is a separate file because a validating node adds an `Entropy` pseudo-transaction to every ledger, which breaks tests that read `transactions[0]` of a closed ledger.
 - The toolkit's test VL key under `[import_vl_keys]` in the validators file (plain hex is network 0, XRPL), which `xahaud.cfg` must point to with `[validators_file]` (the default file name is `validators-xahau.txt`). `EXPORT_TEST_VL_KEY` is that key:
 
 ```
