@@ -350,5 +350,15 @@ meta_slot(uint32_t slot_no);
 
 extern int64_t xpop_slot(uint32_t, uint32_t);
 
+// featureExport
+
+extern int64_t xport(
+    uint32_t write_ptr,
+    uint32_t write_len,
+    uint32_t read_ptr,
+    uint32_t read_len);
+
+extern int64_t xport_tickets(uint32_t network_id);
+
 #define HOOK_EXTERN
 #endif  // HOOK_EXTERN

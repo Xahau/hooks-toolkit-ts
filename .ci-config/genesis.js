@@ -322,6 +322,12 @@ const json = {
   validated: true,
 }
 
+// Opt-in: `XAHAU_EXPORT=1 node genesis.js` also enables the Export amendment
+// (needs an xahaud build that has it; the default output is unchanged).
+if (process.env.XAHAU_EXPORT) {
+  amendmentName.push('Export')
+}
+
 // add hashed AmendmentName to  Amendments LedgerEntry
 for (const amendment of amendmentName) {
   const amendmentHash = crypto
